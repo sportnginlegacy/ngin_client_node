@@ -7,7 +7,6 @@ var _ = require('underscore')
 var Model = require('../modelbase')
 
 var config = {}
-var urlFragment = '/oauth/authorize'
 
 /**
  * The entry point for the User api
@@ -34,7 +33,7 @@ var User = Model.extend({
 
   urlRoot: Url.resolve(config.urlBase, '/users'),
 
-  initialize: function() {
+  initialize: function(attr, options) {
 
   }
 
