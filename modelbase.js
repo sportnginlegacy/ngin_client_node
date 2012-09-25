@@ -3,7 +3,10 @@ var _ = require('underscore')
 var extendable = require('extendable')
 var sync = require('./sync')
 
+var noop = function(){}
+
 var Model = function(attributes, options) {
+  _.extend(this, attributes)
   this.initialize.apply(this, arguments)
 }
 
@@ -53,8 +56,18 @@ _.extend(Model.prototype, {
     })
   },
 
+  url: function() {
+    var base = _.result(this, 'urlRoot')
+    if (!this.id) return base
+    return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
+  },
+
   parse: function(attributes) {
     return attributes
+  },
+
+  sync: function(method, options, callback) {
+    sync(method, this, options, callback)
   }
 
 })
@@ -67,20 +80,58 @@ _.extend(Model, {
   create: function(attributes, options, callback) {
     var Class = this
     var defaults = Class.defaults
+    options || (options = {})
     attributes || (attributes = {})
     if (defaults = _.result(Class, 'defaults')) {
       attributes = _.extend({}, defaults, attributes)
     }
 
+    console.log(attributes)
     var inst = new Class(attributes, options)
 
-    if (!inst.id) return callback(null, inst)
+    if (!inst.id || options.fetched === true) {
+      console.log('Already here')
+      callback && callback(null, inst)
+    }
+    else {
+      console.log('Fetching model from API')
+      inst.fetch(options, function(err, data, resp) {
+        callback && callback(err, inst)
+      })
+    }
 
-    inst.fetch(options, function(err, data, resp) {
-      callback(err, inst)
+    return inst
+  },
+
+  list: function(options, callback) {
+    var self = this
+    options || (options = {})
+
+    if (!options.url) options.url = _.result(this.prototype, 'url')
+
+    sync('read', null, options, function(err, data, resp) {
+      if (err) return callback(err)
+      data = self.parseList(data, resp)
+      var list = []
+      for (var i = 0; i < data.length; i++) {
+        // this should run snychronously since we've already fetched the data
+        // TODO: could be converted to use the `async` module later
+        self.create(data[i], {fetched:true}, function(err, inst) {
+          list.push(inst)
+        })
+      }
+      callback(err, list)
     })
   },
 
+  parseList: function(data, resp) {
+    return data
+  },
+
+  sync: sync,
+
   extend: extendable
 
-}
+})
+
+module.exports = Model
