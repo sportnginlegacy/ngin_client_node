@@ -31,7 +31,9 @@ function init(conf) {
 
 var Team = Model.extend({
 
-  urlRoot: Url.resolve(config.urlBase, '/teams'),
+  urlRoot: function() {
+    return Url.resolve(config.urls.sports, '/teams')
+  },
 
   initialize: function(attr, options) {
 

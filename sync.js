@@ -10,24 +10,24 @@ var methodMap = {
   'update': 'PUT',
   'delete': 'DELETE',
   'read':   'GET'
-};
+}
 
 // Override this function to change the manner in which Nokomis persists
 // models to the server. You will be passed the type of request, and the
 // model in question. By default, makes a RESTful HTTP request
 // to the model's `url()`.
 var sync = module.exports = function(method, model, options, callback) {
-  var type = methodMap[method];
+  var type = methodMap[method]
 
   // Default options, unless specified.
-  options || (options = {});
+  options || (options = {})
 
   // Default JSON-request options.
-  var params = { method: type, dataType: 'json', headers: {} };
+  var params = { method: type, headers: {} }
 
   // Ensure that we have a URL.
   if (!options.url) {
-    params.url = _.result(model, 'url') || urlError();
+    params.url = _.result(model, 'url') || urlError()
   }
 
   if (typeof params.url == 'string') {
@@ -41,13 +41,13 @@ var sync = module.exports = function(method, model, options, callback) {
 
   // Ensure that we have the appropriate request data.
   if (!options.data && model && (method === 'create' || method === 'update')) {
-    params.contentType = 'application/json';
-    params.data = JSON.stringify(model);
+    params.contentType = 'application/json'
+    params.data = JSON.stringify(model)
   }
 
   // Don't process data on a non-GET request.
   if (params.type !== 'GET') {
-    params.processData = false;
+    params.processData = false
   }
 
   console.log('\nREQUEST')
@@ -67,5 +67,5 @@ var sync = module.exports = function(method, model, options, callback) {
     }
 
     callback(err, body, resp)
-  });
+  })
 }
