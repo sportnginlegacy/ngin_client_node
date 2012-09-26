@@ -7,7 +7,6 @@ var _ = require('underscore')
 var Model = require('../modelbase')
 
 var config = {}
-var urlFragment = '/oauth/authorize'
 
 /**
  * The entry point for the User api
@@ -18,7 +17,7 @@ var urlFragment = '/oauth/authorize'
  */
 
 function init(conf) {
-  config = conf
+  _.extend(config, conf)
   return User
 }
 
@@ -32,20 +31,22 @@ function init(conf) {
 
 var User = Model.extend({
 
-  urlRoot: Url.resolve(config.urlBase, '/users'),
+  urlRoot: function() {
+    return Url.resolve(config.urls.user, '/users')
+  },
 
-  initialize: function() {
+  initialize: function(attr, options) {
 
   }
 
 }, {
   authenticate: function(options, callback) {
-    var url = Url.resolve(config.urlBase, '/oauth/token')
+    var url = Url.resolve(config.urls.user, '/oauth/token')
     request.post({
       uri: url,
       form: {
-        client_id: options.clientID,
-        client_secret: options.clientSecret,
+        client_id: options.clientID || config.clientID,
+        client_secret: options.clientSecret || config.clientSecret,
         grant_type: 'password',
         username: options.username,
         password: options.password
@@ -59,7 +60,7 @@ var User = Model.extend({
 
   me: function(options, callback) {
     options || (options = {})
-    options.url = Url.resolve(config.urlBase, '/oauth/me')
+    options.url = Url.resolve(config.urls.user, '/oauth/me')
     User.create({id:'me'}, options, callback)
   }
 })

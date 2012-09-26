@@ -21,8 +21,9 @@ function ApiClient(conf) {
   setupHeaders(conf)
 
   // add each model to the ApiClient
-  models.forEach(function(modelName) {
-    self[modelName.substring(modelName.indexOf('/')+1)] = require('./'+modelName.toLowerCase())(conf)
+  models.forEach(function(modelPath) {
+    modelName = modelPath.substring(modelPath.indexOf('/')+1)
+    self[modelName] = require('./'+modelPath.toLowerCase())(conf)
   })
 
 }
