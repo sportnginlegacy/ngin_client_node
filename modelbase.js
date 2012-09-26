@@ -78,6 +78,11 @@ _.extend(Model.prototype, {
 _.extend(Model, {
 
   create: function(attributes, options, callback) {
+    if (typeof options === 'function') {
+      callback = options
+      options = null
+    }
+
     var Class = this
     var defaults = Class.defaults
     options || (options = {})
@@ -86,15 +91,14 @@ _.extend(Model, {
       attributes = _.extend({}, defaults, attributes)
     }
 
-    console.log(attributes)
     var inst = new Class(attributes, options)
 
     if (!inst.id || options.fetched === true) {
-      console.log('Already here')
+      // Don't go fetch the model's data
       callback && callback(null, inst)
     }
     else {
-      console.log('Fetching model from API')
+      // Fetch the model from API
       inst.fetch(options, function(err, data, resp) {
         callback && callback(err, inst)
       })

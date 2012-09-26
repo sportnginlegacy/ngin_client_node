@@ -50,9 +50,6 @@ var sync = module.exports = function(method, model, options, callback) {
     params.processData = false
   }
 
-  console.log('\nREQUEST')
-  console.log(_.extend({}, params, options))
-
   // Make the request, allowing the user to override any options.
   return request(_.extend(params, options), function(err, resp, body) {
     if (err) return callback(err)
