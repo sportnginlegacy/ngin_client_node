@@ -32,7 +32,8 @@ function init(conf) {
 var User = Model.extend({
 
   urlRoot: function() {
-    return Url.resolve(config.urls.user, '/users')
+    var base = config.urls && config.urls.users || config.url
+    return Url.resolve(base, '/users')
   },
 
   initialize: function(attr, options) {
@@ -41,7 +42,7 @@ var User = Model.extend({
 
 }, {
   authenticate: function(options, callback) {
-    var url = Url.resolve(config.urls.user, '/oauth/token')
+    var url = Url.resolve(config.urls.users, '/oauth/token')
     request.post({
       uri: url,
       form: {
