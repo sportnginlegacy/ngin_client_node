@@ -4,7 +4,12 @@ module.exports = ApiClient
 var _ = require('underscore')
 
 
-var models = ['sports/Team', 'users/Member', 'users/User']
+var models = [
+  'sports/Team',
+  'users/Member',
+  'users/User',
+  'messages/Message'
+]
 
 /**
  * Common entry point for all API models
