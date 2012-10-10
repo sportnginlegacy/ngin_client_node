@@ -45,6 +45,11 @@ var sync = module.exports = function(method, model, options, callback) {
     params.data = JSON.stringify(model)
   }
 
+  // translate from query to qs for request
+  if (options.query) {
+    params.qs = options.query
+  }
+
   // Don't process data on a non-GET request.
   if (params.type !== 'GET') {
     params.processData = false
@@ -52,7 +57,10 @@ var sync = module.exports = function(method, model, options, callback) {
 
   // Make the request, allowing the user to override any options.
   return request(_.extend(params, options), function(err, resp, body) {
-    if (err) return callback(err)
+    if (err) return callback(err, body, resp)
+
+    if (resp.statusCode != 200)
+      return callback('Error: ' + resp.statusCode, body, resp)
 
     var contentType = resp.headers['content-type']
     if (~contentType.indexOf('json')) {

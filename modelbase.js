@@ -118,8 +118,10 @@ _.extend(Model, {
       data = self.parseList(data, resp)
       var list = []
       for (var i = 0; i < data.length; i++) {
-        // this should run snychronously since we've already fetched the data
-        // TODO: could be converted to use the `async` module later
+        // TODO: The create method should run snychronously since we've already
+        // fetched the data. Might want to convert this code to use the `async`
+        // module so that we don't have to make assumptions about how the
+        // create method runs
         self.create(data[i], {fetched:true}, function(err, inst) {
           list.push(inst)
         })

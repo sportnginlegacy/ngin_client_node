@@ -9,7 +9,7 @@ var Model = require('../modelbase')
 var config = {}
 
 /**
- * The entry point for the Team api
+ * The entry point for the Message api
  *
  * @param {Object} conf
  * @returns {Object}
@@ -18,22 +18,22 @@ var config = {}
 
 function init(conf) {
   config = conf
-  return Team
+  return Message
 }
 
 /**
- * Team Class
+ * Message Class
  *
  * @param {Object} attr
  * @param {Object} options
  * @api public
  */
 
-var Team = Model.extend({
+var Message = Model.extend({
 
   urlRoot: function() {
-    var base = config.urls && config.urls.sports || config.url
-    return Url.resolve(base, '/teams')
+    var base = config.urls && config.urls.messages || config.url
+    return Url.resolve(base, '/messages')
   },
 
   initialize: function(attr, options) {
