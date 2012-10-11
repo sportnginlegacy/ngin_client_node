@@ -61,7 +61,7 @@ var User = Model.extend({
 
   me: function(options, callback) {
     options || (options = {})
-    options.url = Url.resolve(config.urls.user, '/oauth/me')
+    options.url = Url.resolve(config.urls.users, '/oauth/me')
     User.create({id:'me'}, options, callback)
   }
 })
