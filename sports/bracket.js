@@ -8,7 +8,7 @@ var Model = require('../modelbase')
 var config = {}
 
 /**
- * The entry point for the League api
+ * The entry point for the Bracket api
  *
  * @param {Object} conf
  * @returns {Object}
@@ -17,21 +17,21 @@ var config = {}
 
 function init(conf) {
   _.extend(config, conf)
-  return League
+  return Bracket
 }
 
 /**
- * League Class
+ * Bracket Class
  *
  * @param {Object} attr
  * @param {Object} options
  * @api public
  */
 
-var League = Model.extend({
+var Bracket = Model.extend({
 
   urlRoot: function() {
-    return Url.resolve(config.urls.sports, '/leagues')
+    return Url.resolve(config.urls.sports, '/brackets')
   },
 
   initialize: function(attr, options) {
