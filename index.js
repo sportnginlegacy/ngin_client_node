@@ -41,6 +41,7 @@ function ApiClient(conf) {
 function setupHeaders(conf) {
   conf.headers = _.defaults({}, conf.headers, {
     'NGIN-API-VERSION': conf.version,
-    'NGIN-API-TOKEN': conf.apiToken
+    'STAT-NGIN-API-TOKEN': conf.apiToken,
+    'Accept': 'application/json'
   })
 }

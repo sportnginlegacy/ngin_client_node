@@ -44,8 +44,8 @@ var sync = module.exports = function(method, model, options, callback) {
 
   // Ensure that we have the appropriate request data.
   if (!options.data && model && (method === 'create' || method === 'update')) {
-    params.contentType = 'application/json'
-    params.data = JSON.stringify(model)
+    params.headers['Content-Type'] = 'application/json'
+    params.body = JSON.stringify(model)
   }
 
   // translate from query to qs for request
@@ -59,11 +59,12 @@ var sync = module.exports = function(method, model, options, callback) {
   }
 
   // Make the request, allowing the user to override any options.
-  return request(_.extend(params, options), function(err, resp, body) {
+  var req
+  return req = request(_.extend(params, options), function(err, resp, body) {
     if (err) return callback(err, body, resp)
 
-    if (resp.statusCode != 200)
-      return callback('Error: ' + resp.statusCode, body, resp)
+    if (resp.statusCode >= 300)
+      return callback('Error: ' + resp.statusCode + ' ' + body, body, resp)
 
     var contentType = resp.headers['content-type']
     if (~contentType.indexOf('json')) {
