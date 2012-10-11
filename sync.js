@@ -23,7 +23,10 @@ var sync = module.exports = function(method, model, options, callback) {
   options || (options = {})
 
   // Default JSON-request options.
-  var params = { method: type, headers: {} }
+  var params = {
+    method: type,
+    headers: _.extend({}, sync.config.headers, options.headers)
+  }
 
   // Ensure that we have a URL.
   if (!options.url) {
@@ -36,7 +39,7 @@ var sync = module.exports = function(method, model, options, callback) {
 
   // add oauth bearer token header
   if (options.access_token) {
-    _.extend(params.headers, { Authorization: 'Bearer: ' + options.access_token})
+    params.headers = _.extend(params.headers, { Authorization: 'Bearer: ' + options.access_token})
   }
 
   // Ensure that we have the appropriate request data.
@@ -74,3 +77,6 @@ var sync = module.exports = function(method, model, options, callback) {
     callback(err, body, resp)
   })
 }
+
+// default config
+sync.config = {}

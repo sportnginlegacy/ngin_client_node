@@ -18,7 +18,7 @@ var config = {}
 
 function init(conf) {
   _.extend(config, conf)
-  return Team
+  return League
 }
 
 /**

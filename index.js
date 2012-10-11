@@ -6,6 +6,7 @@ var _ = require('underscore')
 
 var models = [
   'sports/Team',
+  'sports/League',
   'users/Member',
   'users/User',
   'messages/Message'
@@ -22,6 +23,10 @@ function ApiClient(conf) {
   var self = this
   this.conf = conf
 
+  // add the config to sync
+  var sync = require('./sync')
+  sync.config = conf
+
   // setup header defaults
   setupHeaders(conf)
 
@@ -35,6 +40,7 @@ function ApiClient(conf) {
 
 function setupHeaders(conf) {
   conf.headers = _.defaults({}, conf.headers, {
-    'API-NGIN-VERSION': conf.version
+    'NGIN-API-VERSION': conf.version,
+    'NGIN-API-TOKEN': conf.apiToken
   })
 }
