@@ -2,9 +2,9 @@
 module.exports = init
 
 var Url = require('url')
-var request = require('request')
 var _ = require('underscore')
 var Model = require('../modelbase')
+var sync = require('../sync')
 
 var config = {}
 

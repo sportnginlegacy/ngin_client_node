@@ -2,7 +2,6 @@
 module.exports = init
 
 var Url = require('url')
-var request = require('request')
 var _ = require('underscore')
 var Model = require('../modelbase')
 
@@ -17,7 +16,7 @@ var config = {}
  */
 
 function init(conf) {
-  config = conf
+  _.extend(config, conf)
   return Message
 }
 
