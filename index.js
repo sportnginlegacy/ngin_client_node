@@ -5,8 +5,19 @@ var _ = require('underscore')
 
 
 var models = [
-  'sports/Team',
+  'sports/Bracket',
+  'sports/Division',
+  'sports/Flight',
+  'sports/FlightStage',
+  'sports/Game',
   'sports/League',
+  'sports/Player',
+  'sports/Pool',
+  'sports/Program',
+  'sports/Season',
+  'sports/Subseason',
+  'sports/Team',
+  'sports/Tournament',
   'users/Member',
   'users/User',
   'messages/Message'
