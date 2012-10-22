@@ -63,8 +63,13 @@ var sync = module.exports = function(method, model, options, callback) {
   return req = request(_.extend(params, options), function(err, resp, body) {
     if (err) return callback(err, body, resp)
 
-    if (resp.statusCode >= 300)
-      return callback('Error: ' + resp.statusCode + ' ' + body, body, resp)
+    if (resp.statusCode >= 300) {
+      var ct = resp.headers['content-type'] || resp.headers['Content-Type'] || ""
+      if (ct.match('application/json')) {
+        return callback({ statusCode: resp.statusCode, message: JSON.parse(body) })
+      }
+      return callback({ statusCode:resp.statusCode, message:body }, body, resp)
+    }
 
     var contentType = resp.headers['content-type']
     if (~contentType.indexOf('json')) {
