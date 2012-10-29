@@ -17,6 +17,7 @@ var models = [
   'sports/Season',
   'sports/Subseason',
   'sports/Team',
+  'sports/TeamInstance',
   'sports/Tournament',
   'users/Member',
   'users/User',
