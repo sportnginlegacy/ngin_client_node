@@ -32,7 +32,8 @@ var TeamInstance = Model.extend({
 
   urlRoot: function() {
     var base = config.urls && config.urls.sports || config.url
-    return Url.resolve(base, '/teamInstances')
+    // once stat ngin is updated, this will need to support subseason_ids...
+    return Url.resolve(base, '/seasons/'+config.season_id+'/teams')
   },
 
   initialize: function(attr, options) {
