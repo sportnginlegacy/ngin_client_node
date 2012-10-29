@@ -111,7 +111,9 @@ _.extend(Model, {
     var self = this
     options || (options = {})
 
-    if (!options.url) options.url = _.result(this.prototype, 'url')
+    if (!options.url) {
+      options.url = _.isFunction(this.prototype.url) ? this.prototype.url(options) : this.prototype.url
+    }
 
     sync('read', null, options, function(err, data, resp) {
       if (err) return callback(err)
