@@ -30,13 +30,21 @@ function init(conf) {
 
 var TeamInstance = Model.extend({
 
+  url: function(options){
+    // TODO: throw an error if no season_id?
+    var base = config.urls && config.urls.sports || config.url
+    base = Url.resolve(base, '/seasons/' + options.season_id + '/teams' )
+    if (!this.id) return base
+    return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
+  },
+
   urlRoot: function() {
     var base = config.urls && config.urls.sports || config.url
-    return Url.resolve(base, '/team_instances')
+    return Url.resolve(base, '/seasons')
   },
 
   initialize: function(attr, options) {
-
+    console.log('TeamInstance#initialize', attr, options)
   }
 
 })
