@@ -71,7 +71,7 @@ var sync = module.exports = function(method, model, options, callback) {
       return callback({ statusCode:resp.statusCode, message:body }, body, resp)
     }
 
-    var contentType = resp.headers['content-type']
+    var contentType = resp.headers['content-type'] || ''
     if (~contentType.indexOf('json')) {
       try {
         body = JSON.parse(body)
