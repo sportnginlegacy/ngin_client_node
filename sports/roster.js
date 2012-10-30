@@ -8,7 +8,7 @@ var Model = require('../modelbase')
 var config = {}
 
 /**
- * The entry point for the Team api
+ * The entry point for the Roster api
  *
  * @param {Object} conf
  * @returns {Object}
