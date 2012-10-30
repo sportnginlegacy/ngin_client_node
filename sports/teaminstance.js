@@ -8,7 +8,7 @@ var Model = require('../modelbase')
 var config = {}
 
 /**
- * The entry point for the Team api
+ * The entry point for the Team Instance api
  *
  * @param {Object} conf
  * @returns {Object}
@@ -21,7 +21,7 @@ function init(conf) {
 }
 
 /**
- * Team Class
+ * Team Instance Class
  *
  * @param {Object} attr
  * @param {Object} options
