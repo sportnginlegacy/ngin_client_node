@@ -51,7 +51,7 @@ _.extend(Model.prototype, {
 
   destroy: function(options, callback) {
     if (!this.id) callback(null, true)
-    sync('destroy', this, options, function(err, data, resp) {
+    sync('delete', this, options, function(err, data, resp) {
       return callback(err, data, resp)
     })
   },

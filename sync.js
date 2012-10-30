@@ -66,7 +66,7 @@ var sync = module.exports = function(method, model, options, callback) {
     if (resp.statusCode >= 300)
       return callback('Error: ' + resp.statusCode + ' ' + body, body, resp)
 
-    var contentType = resp.headers['content-type']
+    var contentType = resp.headers['content-type'] || ''
     if (~contentType.indexOf('json')) {
       try {
         body = JSON.parse(body)
