@@ -21,7 +21,7 @@ function init(conf) {
 }
 
 /**
- * Team Class
+ * Roster Class
  *
  * @param {Object} attr
  * @param {Object} options
