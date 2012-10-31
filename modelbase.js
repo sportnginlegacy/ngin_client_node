@@ -56,10 +56,18 @@ _.extend(Model.prototype, {
     })
   },
 
-  url: function() {
-    var base = _.result(this, 'urlRoot')
-    if (!this.id) return base
-    return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
+  url: function(options){
+    // Get base url
+    var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
+    // Append id if set
+    if (this.id) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
+    // Add options as query parameters
+    var separator = "?"
+    _.each(options, function(val, key){
+      url += separator + encodeURIComponent(key) + "=" + encodeURIComponent(val)
+      separator = "&"
+    })
+    return url
   },
 
   parse: function(attributes) {
