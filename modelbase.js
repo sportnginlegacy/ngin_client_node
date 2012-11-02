@@ -23,6 +23,10 @@ _.extend(Model.prototype, {
 
   fetch: function(options, callback) {
     var self = this
+    if (typeof options == 'function') {
+      callback = options
+      options = {}
+    }
     sync('read', this, options, function(err, data, resp) {
       if (err) return callback(err)
       data = self.parse(data, resp)
@@ -50,6 +54,10 @@ _.extend(Model.prototype, {
   },
 
   destroy: function(options, callback) {
+    if (typeof options == 'function') {
+      callback = options
+      options = {}
+    }
     if (!this.id) callback(null, true)
     sync('delete', this, options, function(err, data, resp) {
       return callback(err, data, resp)
@@ -117,7 +125,10 @@ _.extend(Model, {
 
   list: function(options, callback) {
     var self = this
-    options || (options = {})
+    if (typeof options == 'function') {
+      callback = options
+      options = {}
+    }
 
     if (!options.url) {
       options.url = _.isFunction(this.prototype.url) ? this.prototype.url(options) : this.prototype.url
