@@ -43,15 +43,25 @@ var User = Model.extend({
 }, {
   authenticate: function(options, callback) {
     var url = Url.resolve(config.urls.users, '/oauth/token')
+    var payload = {
+      client_id: options.clientID || config.clientID,
+      client_secret: options.clientSecret || config.clientSecret,
+      redirect_uri: options.redirectURI || config.redirectURI || undefined
+    }
+
+    if (options.code) {
+      payload.grant_type = 'bearer'
+      payload.code = options.code
+    }
+    else if (options.username && options.password) {
+      payload.grant_type = 'password'
+      payload.username = options.username
+      payload.password = options.password
+    }
+
     request.post({
       uri: url,
-      form: {
-        client_id: options.clientID || config.clientID,
-        client_secret: options.clientSecret || config.clientSecret,
-        grant_type: 'password',
-        username: options.username,
-        password: options.password
-      }
+      form: payload
     },
     function(err, res, body) {
       if (err) return callback(err)
