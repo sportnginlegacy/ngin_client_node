@@ -50,7 +50,7 @@ var User = Model.extend({
     }
 
     if (options.code) {
-      payload.grant_type = 'bearer'
+      payload.grant_type = 'authorization_code'
       payload.code = options.code
     }
     else if (options.username && options.password) {
