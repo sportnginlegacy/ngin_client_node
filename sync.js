@@ -80,7 +80,7 @@ var sync = module.exports = function(method, model, options, callback) {
       return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
     }
 
-    callback(err, parsedBody, resp)
+    callback(err, body, resp)
   })
 }
 
