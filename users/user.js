@@ -65,7 +65,14 @@ var User = Model.extend({
     },
     function(err, res, body) {
       if (err) return callback(err)
-      callback(err, JSON.parse(body))
+      var data
+      try {
+        data = JSON.parse(body)
+      } catch (ex) {
+        console.log('Response from /oauth/token not parsable JSON:', body)
+        err = ex
+      }
+      callback(err, data)
     })
   },
 
