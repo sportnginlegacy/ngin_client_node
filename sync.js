@@ -68,7 +68,7 @@ var sync = module.exports = function(method, model, options, callback) {
     var parsedBody = body
     if (contentType.match(/json/)) {
       try {
-        body = JSON.parse(parsedBody)
+        parsedBody = JSON.parse(parsedBody)
       } catch (e) {
         console.error('API response not parsable JSON:', body)
       }
@@ -80,7 +80,7 @@ var sync = module.exports = function(method, model, options, callback) {
       return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
     }
 
-    callback(err, body, resp)
+    callback(err, parsedBody, resp)
   })
 }
 
