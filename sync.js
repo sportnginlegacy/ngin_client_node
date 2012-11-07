@@ -63,24 +63,24 @@ var sync = module.exports = function(method, model, options, callback) {
   return req = request(_.extend(params, options), function(err, resp, body) {
     if (err) return callback(err, body, resp)
 
-    if (resp.statusCode >= 300) {
-      var ct = resp.headers['content-type'] || resp.headers['Content-Type'] || ""
-      if (ct.match(/json/)) {
-        return callback({ statusCode: resp.statusCode, message: JSON.parse(body) }, body, resp)
-      }
-      return callback({ statusCode:resp.statusCode, message:body }, body, resp)
-    }
+    var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
-    var contentType = resp.headers['content-type'] || ''
-    if (~contentType.indexOf('json')) {
+    var parsedBody = body
+    if (contentType.match(/json/)) {
       try {
-        body = JSON.parse(body)
-      } catch (ex) {
-        console.warn('Response body not parsable JSON')
+        parsedBody = JSON.parse(parsedBody)
+      } catch (e) {
+        console.error('API response not parsable JSON:', body)
       }
     }
 
-    callback(err, body, resp)
+    // if the response wasn't in the 2XX status
+    // code block then we treat it as an error
+    if (resp.statusCode >= 300) {
+      return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
+    }
+
+    callback(err, parsedBody, resp)
   })
 }
 
