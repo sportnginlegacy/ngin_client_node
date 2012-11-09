@@ -52,7 +52,9 @@ function ApiClient(conf) {
 
 function setupHeaders(conf) {
   conf.headers = _.defaults({}, conf.headers, {
-    //'STAT-NGIN-API-TOKEN': conf.apiToken,
     'Accept': 'application/vnd.stat-ngin.v2'
   })
+  if (conf.auth && conf.auth.access_token) {
+    conf.headers.Authorization = 'Bearer ' + conf.auth.access_token
+  }
 }
