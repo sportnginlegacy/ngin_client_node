@@ -23,34 +23,31 @@ var sync = module.exports = function(method, model, options, callback) {
   options || (options = {})
 
   // Default JSON-request options.
-  var params = {
-    method: type,
+  var params = _.extend({}, options, {
+    jar: false, // don't remember cookies
+    method: options.method || type,
     headers: _.extend({}, sync.config.headers, options.headers)
-  }
+  })
 
   // Ensure that we have a URL.
-  if (!options.url) {
+  if (!params.url) {
     params.url = _.result(model, 'url') || urlError()
   }
 
+  // request expects the `url` property to be a parsed Url object
   if (typeof params.url == 'string') {
     params.url = Url.parse(params.url)
   }
 
-  // add oauth bearer token header
-  if (options.access_token) {
-    params.headers = _.extend(params.headers, { Authorization: 'Bearer: ' + options.access_token})
-  }
-
   // Ensure that we have the appropriate request data.
-  if (!options.data && model && (method === 'create' || method === 'update')) {
+  if (!params.data && model && (method === 'create' || method === 'update')) {
     params.headers['Content-Type'] = 'application/json'
     params.body = JSON.stringify(model)
   }
 
   // translate from query to qs for request
-  if (options.query) {
-    params.qs = options.query
+  if (params.query) {
+    params.qs = params.query
   }
 
   // Don't process data on a non-GET request.
@@ -58,9 +55,9 @@ var sync = module.exports = function(method, model, options, callback) {
     params.processData = false
   }
 
-  // Make the request, allowing the user to override any options.
   var req
-  return req = request(_.extend(params, options), function(err, resp, body) {
+  // return req = request(_.extend(params, options), function(err, resp, body) {
+  return req = request(params, function(err, resp, body) {
     if (err) return callback(err, body, resp)
 
     var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
