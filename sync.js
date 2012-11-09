@@ -24,6 +24,7 @@ var sync = module.exports = function(method, model, options, callback) {
 
   // Default JSON-request options.
   var params = _.extend({}, options, {
+    jar: false, // don't remember cookies
     method: options.method || type,
     headers: _.extend({}, sync.config.headers, options.headers)
   })
