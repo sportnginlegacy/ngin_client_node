@@ -27,7 +27,7 @@ _.extend(Model.prototype, {
       callback = options
       options = {}
     }
-    sync('read', this, options, function(err, data, resp) {
+    this.sync('read', options, function(err, data, resp) {
       if (err) return callback(err)
       data = self.parse(data, resp)
       _.extend(self, data)
@@ -45,7 +45,7 @@ _.extend(Model.prototype, {
     if (!this.isValid()) return callback('Model is not in a valid state.')
 
     var method = !!this.id ? 'update' : 'create'
-    sync(method, this, options, function(err, data, resp) {
+    this.sync(method, options, function(err, data, resp) {
       if (err) return callback(err)
       data = self.parse(data, resp)
       _.extend(self, data)
@@ -59,7 +59,7 @@ _.extend(Model.prototype, {
       options = {}
     }
     if (!this.id) callback(null, true)
-    sync('delete', this, options, function(err, data, resp) {
+    this.sync('delete', options, function(err, data, resp) {
       return callback(err, data, resp)
     })
   },
