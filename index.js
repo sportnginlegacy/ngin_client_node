@@ -50,6 +50,11 @@ function ApiClient(conf) {
 
 }
 
+ApiClient.prototype.setAuth(auth) {
+  this.conf.auth = auth
+  setupHeaders(this.conf)
+}
+
 function setupHeaders(conf) {
   conf.headers = _.defaults({}, conf.headers, {
     'STAT-NGIN-API-TOKEN': conf.statNginApiToken,
