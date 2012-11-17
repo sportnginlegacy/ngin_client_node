@@ -79,6 +79,7 @@ _.extend(Model.prototype, {
   },
 
   parse: function(attributes) {
+    if (attributes.result) return attributes.result
     return attributes
   },
 
