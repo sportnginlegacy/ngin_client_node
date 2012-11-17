@@ -50,7 +50,7 @@ function ApiClient(conf) {
 
 }
 
-ApiClient.prototype.setAuth(auth) {
+ApiClient.prototype.setAuth = function(auth) {
   this.conf.auth = auth
   setupHeaders(this.conf)
 }
@@ -58,7 +58,7 @@ ApiClient.prototype.setAuth(auth) {
 function setupHeaders(conf) {
   conf.headers = _.defaults({}, conf.headers, {
     'STAT-NGIN-API-TOKEN': conf.statNginApiToken,
-    'Accept': 'application/vnd.stat-ngin.v2'
+    'Accept': 'application/vnd.stat-ngin.v2,application/json'
   })
   if (conf.auth && conf.auth.access_token) {
     conf.headers.Authorization = 'Bearer ' + conf.auth.access_token
