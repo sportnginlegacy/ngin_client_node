@@ -61,6 +61,10 @@ var User = Model.extend({
       payload.grant_type = 'authorization_code'
       payload.code = options.code
     }
+    else if (options.refresh) {
+      payload.grant_type = 'refresh_token'
+      payload.refresh_token = options.refresh
+    }
     else if (options.username && options.password) {
       payload.grant_type = 'password'
       payload.username = options.username
