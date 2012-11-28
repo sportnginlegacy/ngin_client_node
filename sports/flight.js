@@ -36,6 +36,16 @@ var Flight = Model.extend({
 
   initialize: function(attr, options) {
 
+  },
+
+  addTeam: function(teamID, callback) {
+    var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
+    Flight.sync('update', null, { url:url }, callback)
+  },
+
+  removeTeam: function(teamID, callback) {
+    var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
+    Flight.sync('delete', null, { url:url }, callback)
   }
 
 })

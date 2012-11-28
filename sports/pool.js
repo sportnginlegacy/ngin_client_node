@@ -4,7 +4,6 @@ module.exports = init
 var Url = require('url')
 var _ = require('underscore')
 var Model = require('../modelbase')
-var sync = require('../sync')
 
 var config = {}
 
@@ -41,12 +40,12 @@ var Pool = Model.extend({
 
   addTeam: function(teamId, callback) {
     var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamId
-    sync('update', null, { url:url }, callback)
+    Pool.sync('update', null, { url:url }, callback)
   },
 
   removeTeam: function(teamId, callback) {
     var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamId
-    sync('delete', null, { url:url }, callback)
+    Pool.sync('delete', null, { url:url }, callback)
   }
 
 })
