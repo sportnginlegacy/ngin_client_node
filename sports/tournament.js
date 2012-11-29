@@ -5,7 +5,6 @@ var Url = require('url')
 var _ = require('underscore')
 var Model = require('../modelbase')
 var Team = require('./team')
-var sync = require('../sync')
 
 var config = {}
 
@@ -47,12 +46,12 @@ var Tournament = Model.extend({
 
   addTeam: function(teamID, callback) {
     var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
-    sync('update', null, { url:url }, callback)
+    Tournament.sync('update', null, { url:url }, callback)
   },
 
   removeTeam: function(teamID, callback) {
     var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
-    sync('delete', null, { url:url }, callback)
+    Tournament.sync('delete', null, { url:url }, callback)
   }
 
 })
