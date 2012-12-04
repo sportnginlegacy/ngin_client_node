@@ -32,10 +32,6 @@ var Sport = Model.extend({
 
   urlRoot: function() {
     return Url.resolve(config.urls.sports, '/sports')
-  },
-
-  initialize: function(attr, options) {
-
   }
 
 })
