@@ -15,6 +15,7 @@ var models = [
   'sports/Pool',
   'sports/Program',
   'sports/Season',
+  'sports/Sport',
   'sports/Subseason',
   'sports/Team',
   'sports/TeamInstance',
