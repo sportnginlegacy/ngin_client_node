@@ -1,6 +1,3 @@
-
-module.exports = init
-
 var Url = require('url')
 var request = require('request')
 var _ = require('underscore')
@@ -13,19 +10,6 @@ function isThirdNorth(perm) {
 }
 
 /**
- * The entry point for the User api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return User
-}
-
-/**
  * User Class
  *
  * @param {Object} attr
@@ -33,7 +17,7 @@ function init(conf) {
  * @api public
  */
 
-var User = Model.extend({
+var User = module.exports = Model.extend({
 
   urlRoot: function() {
     var base = config.urls && config.urls.users || config.url
@@ -44,11 +28,21 @@ var User = Model.extend({
     this.isThirdNorth = _.memoize(this.isThirdNorth)
   },
 
+  parse: function(attr) {
+    var attr = User.__super__.parse(attr)
+    return _.extend({}, attr.user, { permissions: attr.permissions })
+  },
+
   isThirdNorth: function() {
     return this.permissions && this.permissions.some(isThirdNorth)
   }
 
 }, {
+
+  init: function(conf) {
+    _.extend(config, conf)
+  },
+
   authenticate: function(options, callback) {
     var url = Url.resolve(config.urls.users, '/oauth/token')
     var payload = {

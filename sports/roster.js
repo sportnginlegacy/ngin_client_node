@@ -1,24 +1,8 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
+var SportsModel = require('./sportsModel')
 
 var config = {}
-
-/**
- * The entry point for the Roster api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  config = conf
-  return Roster
-}
 
 /**
  * Roster Class
@@ -28,7 +12,7 @@ function init(conf) {
  * @api public
  */
 
-var Roster = Model.extend({
+var Roster = module.exports = SportsModel.extend({
 
   url: function(options){
     // TODO: throw an error if no season_id or team_id
@@ -41,10 +25,12 @@ var Roster = Model.extend({
   urlRoot: function() {
     var base = config.urls && config.urls.sports || config.url
     return Url.resolve(base, '/rosters')
-  },
+  }
 
-  initialize: function(attr, options) {
+}, {
 
+  init: function(conf) {
+    _.extend(config, conf)
   }
 
 })

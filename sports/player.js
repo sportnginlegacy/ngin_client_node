@@ -1,24 +1,8 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
+var SportsModel = require('./sportsModel')
 
 var config = {}
-
-/**
- * The entry point for the Player api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return Player
-}
 
 /**
  * Player Class
@@ -28,14 +12,16 @@ function init(conf) {
  * @api public
  */
 
-var Player = Model.extend({
+var Player = module.exports = SportsModel.extend({
 
   urlRoot: function() {
     return Url.resolve(config.urls.sports, '/players')
-  },
+  }
 
-  initialize: function(attr, options) {
+}, {
 
+  init: function(conf) {
+    _.extend(config, conf)
   }
 
 })

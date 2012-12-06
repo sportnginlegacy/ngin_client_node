@@ -1,24 +1,8 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
+var SportsModel = require('./sportsModel')
 
 var config = {}
-
-/**
- * The entry point for the Flight api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return Flight
-}
 
 /**
  * Flight Class
@@ -28,14 +12,10 @@ function init(conf) {
  * @api public
  */
 
-var Flight = Model.extend({
+var Flight = module.exports = SportsModel.extend({
 
   urlRoot: function() {
     return Url.resolve(config.urls.sports, '/flights')
-  },
-
-  initialize: function(attr, options) {
-
   },
 
   addTeam: function(teamID, callback) {
@@ -46,6 +26,12 @@ var Flight = Model.extend({
   removeTeam: function(teamID, callback) {
     var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
     Flight.sync('delete', null, { url:url }, callback)
+  }
+
+}, {
+
+  init: function(conf) {
+    _.extend(config, conf)
   }
 
 })

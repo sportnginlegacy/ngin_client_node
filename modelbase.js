@@ -134,8 +134,9 @@ _.extend(Model, {
     if (!options.url) {
       options.url = _.isFunction(this.prototype.url) ? this.prototype.url(options) : this.prototype.url
     }
+    console.log('OPTIONS', options)
 
-    sync('read', null, options, function(err, data, resp) {
+    this.sync('read', null, options, function(err, data, resp) {
       if (err) return callback(err)
       data = self.parseList(data, resp)
       var list = []

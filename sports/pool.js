@@ -1,24 +1,8 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
+var SportsModel = require('./sportsModel')
 
 var config = {}
-
-/**
- * The entry point for the Pool api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return Pool
-}
 
 /**
  * Pool Class
@@ -28,14 +12,10 @@ function init(conf) {
  * @api public
  */
 
-var Pool = Model.extend({
+var Pool = module.exports = SportsModel.extend({
 
   urlRoot: function() {
     return Url.resolve(config.urls.sports, '/pools')
-  },
-
-  initialize: function(attr, options) {
-
   },
 
   addTeam: function(teamId, callback) {
@@ -46,6 +26,12 @@ var Pool = Model.extend({
   removeTeam: function(teamId, callback) {
     var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamId
     Pool.sync('delete', null, { url:url }, callback)
+  }
+
+}, {
+
+  init: function(conf) {
+    _.extend(config, conf)
   }
 
 })

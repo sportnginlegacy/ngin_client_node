@@ -1,25 +1,9 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
-var Team = require('./team')
+var SportsModel = require('./sportsModel')
 
 var config = {}
-
-/**
- * The entry point for the Tournament api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return Tournament
-}
+var client = {}
 
 /**
  * Tournament Class
@@ -29,19 +13,15 @@ function init(conf) {
  * @api public
  */
 
-var Tournament = Model.extend({
+var Tournament = module.exports = SportsModel.extend({
 
   urlRoot: function() {
     return Url.resolve(config.urls.sports, '/tournaments')
   },
 
-  initialize: function(attr, options) {
-
-  },
-
   teams: function(options, callback) {
     var url = Url.resolve(config.urls.sports, '/tournaments/'+options.id+'/teams')
-    return (new Team()).list({url: url}, callback)
+    return client.Team.list({url: url}, callback)
   },
 
   addTeam: function(teamID, callback) {
@@ -52,6 +32,13 @@ var Tournament = Model.extend({
   removeTeam: function(teamID, callback) {
     var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
     Tournament.sync('delete', null, { url:url }, callback)
+  }
+
+}, {
+
+  init: function(conf) {
+    _.extend(config, conf)
+    client = conf.client
   }
 
 })

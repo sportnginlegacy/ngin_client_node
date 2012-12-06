@@ -4,6 +4,7 @@
   "description" : "Node client for interacting with the NGIN API services",
   "main" : "./index.js",
   "dependencies" : {
+    "glob" : "*",
     "request" : "*",
     "underscore" : "*",
     "extendable" : "*"

@@ -55,10 +55,17 @@ var sync = module.exports = function(method, model, options, callback) {
     params.processData = false
   }
 
+  // setup authorization
+  if (options.access_token) {
+    params.headers.Authorization = 'Bearer ' + options.access_token
+  }
+
   var req
   // return req = request(_.extend(params, options), function(err, resp, body) {
   return req = request(params, function(err, resp, body) {
     if (err) return callback(err, body, resp)
+
+    console.log('HEADERS', req.headers)
 
     var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
@@ -79,6 +86,16 @@ var sync = module.exports = function(method, model, options, callback) {
 
     callback(err, parsedBody, resp)
   })
+}
+
+sync.scope = function(auth) {
+  return function(method, model, options, callback) {
+    options || (options = {})
+    options.headers = _.extend({}, options.headers, {
+      Authorization: 'Bearer ' + auth.access_token
+    })
+    return sync(method, model, options, callback)
+  }
 }
 
 // default config

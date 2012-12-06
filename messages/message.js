@@ -1,24 +1,8 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
 var Model = require('../modelbase')
 
 var config = {}
-
-/**
- * The entry point for the Message api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
-
-function init(conf) {
-  _.extend(config, conf)
-  return Message
-}
 
 /**
  * Message Class
@@ -28,15 +12,17 @@ function init(conf) {
  * @api public
  */
 
-var Message = Model.extend({
+var Message = module.exports = Model.extend({
 
   urlRoot: function() {
     var base = config.urls && config.urls.messages || config.url
     return Url.resolve(base, '/messages')
-  },
+  }
 
-  initialize: function(attr, options) {
+}, {
 
+  init: function(conf) {
+    _.extend(config, conf)
   }
 
 })
