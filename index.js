@@ -45,7 +45,6 @@ function ApiClient(config) {
 
   // add each model to the ApiClient
   Object.keys(models).forEach(function(modelName) {
-    // models[modelName].init(config)
     self.__defineGetter__(modelName, function(){
       return models[modelName](self)
     })
