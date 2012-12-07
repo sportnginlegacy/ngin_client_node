@@ -30,7 +30,7 @@ module.exports = function(ngin) {
     var params = _.extend({}, options, {
       jar: false, // don't remember cookies
       method: options.method || type,
-      headers: _.extend({}, config.headers, options.headers)
+      headers: _.extend({Accept:'application/json'}, config.headers, options.headers)
     })
 
     // Ensure that we have a URL.
@@ -65,11 +65,11 @@ module.exports = function(ngin) {
     }
 
     var req
-    // return req = request(_.extend(params, options), function(err, resp, body) {
     return req = request(params, function(err, resp, body) {
-      if (err) return callback(err, body, resp)
-
-      console.log('HEADERS', req.headers)
+      if (err) {
+        console.error('Request to ' + params.url + ' resulted in an error:', err)
+        return callback(err, body, resp)
+      }
 
       var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
@@ -85,21 +85,16 @@ module.exports = function(ngin) {
       // if the response wasn't in the 2XX status
       // code block then we treat it as an error
       if (resp.statusCode >= 300) {
-        return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
+        var err = new Error('Request failed')
+        err.url = params.url
+        err.statusCode = resp.statusCode
+        err.body = parsedBody
+        console.error(err)
+        return callback(err, body, resp)
       }
 
       callback(err, parsedBody, resp)
     })
   }
-
-  // sync.scope = function(auth) {
-  //   return function(method, model, options, callback) {
-  //     options || (options = {})
-  //     options.headers = _.extend({}, options.headers, {
-  //       Authorization: 'Bearer ' + auth.access_token
-  //     })
-  //     return sync(method, model, options, callback)
-  //   }
-  // }
 
 }
