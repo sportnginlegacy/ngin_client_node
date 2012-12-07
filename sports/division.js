@@ -1,27 +1,26 @@
 var Url = require('url')
 var _ = require('underscore')
-var SportsModel = require('./sportsModel')
 
-var config = {}
+module.exports = function(ngin) {
+  var SportsModel = ngin.SportsModel
+  var config = ngin.config
 
-/**
- * Division Class
- *
- * @param {Object} attr
- * @param {Object} options
- * @api public
- */
+  /**
+   * Division Class
+   *
+   * @param {Object} attr
+   * @param {Object} options
+   * @api public
+   */
 
-var Division = module.exports = SportsModel.extend({
+  var Division = SportsModel.extend({
 
-  urlRoot: function() {
-    return Url.resolve(config.urls.sports, '/divisions')
-  }
+    urlRoot: function() {
+      return Url.resolve(config.urls.sports, '/divisions')
+    }
 
-}, {
+  })
 
-  init: function(conf) {
-    _.extend(config, conf)
-  }
+  return Division
 
-})
+}

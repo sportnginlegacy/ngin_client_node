@@ -12,91 +12,94 @@ var methodMap = {
   'read':   'GET'
 }
 
-// Override this function to change the manner in which Nokomis persists
-// models to the server. You will be passed the type of request, and the
-// model in question. By default, makes a RESTful HTTP request
-// to the model's `url()`.
-var sync = module.exports = function(method, model, options, callback) {
-  var type = methodMap[method]
+module.exports = function(ngin) {
+  var config = ngin.config
+  var auth = ngin.auth
 
-  // Default options, unless specified.
-  options || (options = {})
-
-  // Default JSON-request options.
-  var params = _.extend({}, options, {
-    jar: false, // don't remember cookies
-    method: options.method || type,
-    headers: _.extend({}, sync.config.headers, options.headers)
-  })
-
-  // Ensure that we have a URL.
-  if (!params.url) {
-    params.url = _.result(model, 'url') || urlError()
-  }
-
-  // request expects the `url` property to be a parsed Url object
-  if (typeof params.url == 'string') {
-    params.url = Url.parse(params.url)
-  }
-
-  // Ensure that we have the appropriate request data.
-  if (!params.data && model && (method === 'create' || method === 'update')) {
-    params.headers['Content-Type'] = 'application/json'
-    params.body = JSON.stringify(model)
-  }
-
-  // translate from query to qs for request
-  if (params.query) {
-    params.qs = params.query
-  }
-
-  // Don't process data on a non-GET request.
-  if (params.type !== 'GET') {
-    params.processData = false
-  }
-
-  // setup authorization
-  if (options.access_token) {
-    params.headers.Authorization = 'Bearer ' + options.access_token
-  }
-
-  var req
-  // return req = request(_.extend(params, options), function(err, resp, body) {
-  return req = request(params, function(err, resp, body) {
-    if (err) return callback(err, body, resp)
-
-    console.log('HEADERS', req.headers)
-
-    var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
-
-    var parsedBody = body
-    if (contentType.match(/json/)) {
-      try {
-        parsedBody = JSON.parse(parsedBody)
-      } catch (e) {
-        console.error('API response not parsable JSON:', body)
-      }
-    }
-
-    // if the response wasn't in the 2XX status
-    // code block then we treat it as an error
-    if (resp.statusCode >= 300) {
-      return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
-    }
-
-    callback(err, parsedBody, resp)
-  })
-}
-
-sync.scope = function(auth) {
+  // Override this function to change the manner in which Nokomis persists
+  // models to the server. You will be passed the type of request, and the
+  // model in question. By default, makes a RESTful HTTP request
+  // to the model's `url()`.
   return function(method, model, options, callback) {
-    options || (options = {})
-    options.headers = _.extend({}, options.headers, {
-      Authorization: 'Bearer ' + auth.access_token
-    })
-    return sync(method, model, options, callback)
-  }
-}
+    var type = methodMap[method]
 
-// default config
-sync.config = {}
+    // Default options, unless specified.
+    options || (options = {})
+
+    // Default JSON-request options.
+    var params = _.extend({}, options, {
+      jar: false, // don't remember cookies
+      method: options.method || type,
+      headers: _.extend({}, config.headers, options.headers)
+    })
+
+    // Ensure that we have a URL.
+    if (!params.url) {
+      params.url = _.result(model, 'url') || urlError()
+    }
+
+    // request expects the `url` property to be a parsed Url object
+    if (typeof params.url == 'string') {
+      params.url = Url.parse(params.url)
+    }
+
+    // Ensure that we have the appropriate request data.
+    if (!params.data && model && (method === 'create' || method === 'update')) {
+      params.headers['Content-Type'] = 'application/json'
+      params.body = JSON.stringify(model)
+    }
+
+    // translate from query to qs for request
+    if (params.query) {
+      params.qs = params.query
+    }
+
+    // Don't process data on a non-GET request.
+    if (params.type !== 'GET') {
+      params.processData = false
+    }
+
+    // setup authorization
+    if (auth && auth.access_token) {
+      params.headers.Authorization = 'Bearer ' + auth.access_token
+    }
+
+    var req
+    // return req = request(_.extend(params, options), function(err, resp, body) {
+    return req = request(params, function(err, resp, body) {
+      if (err) return callback(err, body, resp)
+
+      console.log('HEADERS', req.headers)
+
+      var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
+
+      var parsedBody = body
+      if (contentType.match(/json/)) {
+        try {
+          parsedBody = JSON.parse(parsedBody)
+        } catch (e) {
+          console.error('API response not parsable JSON:', body)
+        }
+      }
+
+      // if the response wasn't in the 2XX status
+      // code block then we treat it as an error
+      if (resp.statusCode >= 300) {
+        return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
+      }
+
+      callback(err, parsedBody, resp)
+    })
+  }
+
+  // sync.scope = function(auth) {
+  //   return function(method, model, options, callback) {
+  //     options || (options = {})
+  //     options.headers = _.extend({}, options.headers, {
+  //       Authorization: 'Bearer ' + auth.access_token
+  //     })
+  //     return sync(method, model, options, callback)
+  //   }
+  // }
+
+}

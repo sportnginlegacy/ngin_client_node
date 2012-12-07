@@ -11,6 +11,10 @@ var searchPaths = [
   'messages/*.js'
 ]
 
+function hasher(ngin) {
+  return ngin && ngin.auth && ngin.auth.access_token || ''
+}
+
 // Find all the individual models
 searchPaths.forEach(function(path) {
   var files = glob.sync(path, {cwd:__dirname})
@@ -18,28 +22,41 @@ searchPaths.forEach(function(path) {
     modelName = modelPath.substring(modelPath.indexOf('/')+1).replace('.js','')
     modelName = modelName.charAt(0).toUpperCase() + modelName.substring(1)
     var Model = require('./'+modelPath)
-    models[modelName] = Model
+    models[modelName] = _.memoize(Model, hasher)
   })
 })
 
 /**
  * Common entry point for all API models
  *
- * @param {Object} conf
+ * @param {Object} config
  * @api public
  */
 
-function ApiClient(conf) {
-  this.conf = _.extend({}, conf, {client:this})
-  conf.headers = _.extend({}, conf.headers, { Accept: 'application/json' })
+function ApiClient(config) {
+  var self = this
+  this.config = _.extend({}, config, {client:this})
+  config.headers = _.extend({}, config.headers, { Accept: 'application/json' })
 
-  // add the config to sync
-  var sync = this.sync = require('./sync')
-  sync.config = conf
+  this.auth = config.auth
+
+  models.sync = require('./sync')
+  models.Model = require('./modelbase')
 
   // add each model to the ApiClient
-  for (var modelName in models) {
-    models[modelName].init(conf)
-  }
+  Object.keys(models).forEach(function(modelName) {
+    // models[modelName].init(config)
+    self.__defineGetter__(modelName, function(){
+      return models[modelName](self)
+    })
+  })
   _.extend(this, models)
 }
+
+_.extend(ApiClient.prototype, {
+
+  setAuth: function(auth) {
+    this.auth = auth
+  }
+
+})
