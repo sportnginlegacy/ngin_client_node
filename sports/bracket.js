@@ -1,41 +1,26 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
 
-var config = {}
+module.exports = function(ngin) {
+  var SportsModel = ngin.SportsModel
+  var config = ngin.config
 
-/**
- * The entry point for the Bracket api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
+  /**
+   * Bracket Class
+   *
+   * @param {Object} attr
+   * @param {Object} options
+   * @api public
+   */
 
-function init(conf) {
-  _.extend(config, conf)
+  var Bracket = SportsModel.extend({
+
+    urlRoot: function() {
+      return Url.resolve(config.urls.sports, '/brackets')
+    }
+
+  })
+
   return Bracket
+
 }
-
-/**
- * Bracket Class
- *
- * @param {Object} attr
- * @param {Object} options
- * @api public
- */
-
-var Bracket = Model.extend({
-
-  urlRoot: function() {
-    return Url.resolve(config.urls.sports, '/brackets')
-  },
-
-  initialize: function(attr, options) {
-
-  }
-
-})

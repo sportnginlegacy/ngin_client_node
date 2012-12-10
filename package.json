@@ -1,9 +1,10 @@
 {
   "name" : "ngin_client",
-  "version" : "0.0.7",
+  "version" : "0.1.0",
   "description" : "Node client for interacting with the NGIN API services",
   "main" : "./index.js",
   "dependencies" : {
+    "glob" : "*",
     "request" : "*",
     "underscore" : "*",
     "extendable" : "*"

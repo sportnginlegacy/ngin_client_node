@@ -1,41 +1,26 @@
-
-module.exports = init
-
 var Url = require('url')
 var _ = require('underscore')
-var Model = require('../modelbase')
 
-var config = {}
+module.exports = function(ngin) {
+  var SportsModel = ngin.SportsModel
+  var config = ngin.config
 
-/**
- * The entry point for the League api
- *
- * @param {Object} conf
- * @returns {Object}
- * @api public
- */
+  /**
+   * League Class
+   *
+   * @param {Object} attr
+   * @param {Object} options
+   * @api public
+   */
 
-function init(conf) {
-  _.extend(config, conf)
+  var League = SportsModel.extend({
+
+    urlRoot: function() {
+      return Url.resolve(config.urls.sports, '/leagues')
+    }
+
+  })
+
   return League
+
 }
-
-/**
- * League Class
- *
- * @param {Object} attr
- * @param {Object} options
- * @api public
- */
-
-var League = Model.extend({
-
-  urlRoot: function() {
-    return Url.resolve(config.urls.sports, '/leagues')
-  },
-
-  initialize: function(attr, options) {
-
-  }
-
-})
