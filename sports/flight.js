@@ -29,6 +29,16 @@ module.exports = function(ngin) {
       Flight.sync('delete', null, { url:url }, callback)
     }
 
+    addToWaitlist: function(teamID, callback) {
+      var url = this.urlRoot() + '/', this.id + '/add_to_waitlist/' + teamID
+      Flight.sync('update', null, { url:url }, callback)
+    }
+
+    removeFromWaitlist: function(teamID, callback) {
+      var url = this.urlRoot() + '/', this.id + '/remove_from_waitlist/' + teamID
+      Flight.sync('update', null, { url:url }, callback)
+    }
+
   })
 
   return Flight
