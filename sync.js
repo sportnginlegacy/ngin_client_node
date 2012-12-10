@@ -12,74 +12,89 @@ var methodMap = {
   'read':   'GET'
 }
 
-// Override this function to change the manner in which Nokomis persists
-// models to the server. You will be passed the type of request, and the
-// model in question. By default, makes a RESTful HTTP request
-// to the model's `url()`.
-var sync = module.exports = function(method, model, options, callback) {
-  var type = methodMap[method]
+module.exports = function(ngin) {
+  var config = ngin.config
+  var auth = ngin.auth
 
-  // Default options, unless specified.
-  options || (options = {})
+  // Override this function to change the manner in which Nokomis persists
+  // models to the server. You will be passed the type of request, and the
+  // model in question. By default, makes a RESTful HTTP request
+  // to the model's `url()`.
+  return function(method, model, options, callback) {
+    var type = methodMap[method]
 
-  // Default JSON-request options.
-  var params = _.extend({}, options, {
-    jar: false, // don't remember cookies
-    method: options.method || type,
-    headers: _.extend({}, sync.config.headers, options.headers)
-  })
+    // Default options, unless specified.
+    options || (options = {})
 
-  // Ensure that we have a URL.
-  if (!params.url) {
-    params.url = _.result(model, 'url') || urlError()
-  }
+    // Default JSON-request options.
+    var params = _.extend({}, options, {
+      jar: false, // don't remember cookies
+      method: options.method || type,
+      headers: _.extend({Accept:'application/json'}, config.headers, options.headers)
+    })
 
-  // request expects the `url` property to be a parsed Url object
-  if (typeof params.url == 'string') {
-    params.url = Url.parse(params.url)
-  }
+    // Ensure that we have a URL.
+    if (!params.url) {
+      params.url = _.result(model, 'url') || urlError()
+    }
 
-  // Ensure that we have the appropriate request data.
-  if (!params.data && model && (method === 'create' || method === 'update')) {
-    params.headers['Content-Type'] = 'application/json'
-    params.body = JSON.stringify(model)
-  }
+    // request expects the `url` property to be a parsed Url object
+    if (typeof params.url == 'string') {
+      params.url = Url.parse(params.url)
+    }
 
-  // translate from query to qs for request
-  if (params.query) {
-    params.qs = params.query
-  }
+    // Ensure that we have the appropriate request data.
+    if (!params.data && model && (method === 'create' || method === 'update')) {
+      params.headers['Content-Type'] = 'application/json'
+      params.body = JSON.stringify(model)
+    }
 
-  // Don't process data on a non-GET request.
-  if (params.type !== 'GET') {
-    params.processData = false
-  }
+    // translate from query to qs for request
+    if (params.query) {
+      params.qs = params.query
+    }
 
-  var req
-  // return req = request(_.extend(params, options), function(err, resp, body) {
-  return req = request(params, function(err, resp, body) {
-    if (err) return callback(err, body, resp)
+    // Don't process data on a non-GET request.
+    if (params.type !== 'GET') {
+      params.processData = false
+    }
 
-    var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
+    // setup authorization
+    if (auth && auth.access_token) {
+      params.headers.Authorization = 'Bearer ' + auth.access_token
+    }
 
-    var parsedBody = body
-    if (contentType.match(/json/)) {
-      try {
-        parsedBody = JSON.parse(parsedBody)
-      } catch (e) {
-        console.error('API response not parsable JSON:', body)
+    var req
+    return req = request(params, function(err, resp, body) {
+      if (err) {
+        console.error('Request to ' + params.url + ' resulted in an error:', err)
+        return callback(err, body, resp)
       }
-    }
 
-    // if the response wasn't in the 2XX status
-    // code block then we treat it as an error
-    if (resp.statusCode >= 300) {
-      return callback({ statusCode:resp.statusCode, message:parsedBody }, body, resp)
-    }
+      var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
-    callback(err, parsedBody, resp)
-  })
+      var parsedBody = body
+      if (contentType.match(/json/)) {
+        try {
+          parsedBody = JSON.parse(parsedBody)
+        } catch (e) {
+          console.error('API response not parsable JSON:', body)
+        }
+      }
+
+      // if the response wasn't in the 2XX status
+      // code block then we treat it as an error
+      if (resp.statusCode >= 300) {
+        var err = new Error('Request failed')
+        err.url = params.url
+        err.statusCode = resp.statusCode
+        err.body = parsedBody
+        console.error(err)
+        return callback(err, body, resp)
+      }
+
+      callback(err, parsedBody, resp)
+    })
+  }
+
 }
-
-// default config
-sync.config = {}

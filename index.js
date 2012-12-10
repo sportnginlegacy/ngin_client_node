@@ -2,65 +2,60 @@
 module.exports = ApiClient
 
 var _ = require('underscore')
+var glob = require('glob')
 
-
-var models = [
-  'sports/Bracket',
-  'sports/Division',
-  'sports/Flight',
-  'sports/FlightStage',
-  'sports/Game',
-  'sports/League',
-  'sports/Player',
-  'sports/Pool',
-  'sports/Program',
-  'sports/Season',
-  'sports/Subseason',
-  'sports/Team',
-  'sports/TeamInstance',
-  'sports/Tournament',
-  'users/Member',
-  'users/User',
-  'messages/Message'
+var models = {}
+var searchPaths = [
+  'sports/*.js',
+  'users/*.js',
+  'messages/*.js'
 ]
+
+function hasher(ngin) {
+  return ngin && ngin.auth && ngin.auth.access_token || ''
+}
+
+// Find all the individual models
+searchPaths.forEach(function(path) {
+  var files = glob.sync(path, {cwd:__dirname})
+  files.forEach(function(modelPath) {
+    modelName = modelPath.substring(modelPath.indexOf('/')+1).replace('.js','')
+    modelName = modelName.charAt(0).toUpperCase() + modelName.substring(1)
+    var Model = require('./'+modelPath)
+    models[modelName] = _.memoize(Model, hasher)
+  })
+})
 
 /**
  * Common entry point for all API models
  *
- * @param {Object} conf
+ * @param {Object} config
  * @api public
  */
 
-function ApiClient(conf) {
+function ApiClient(config) {
   var self = this
-  this.conf = conf
+  this.config = _.extend({}, config, {client:this})
+  config.headers = _.extend({}, config.headers, { Accept: 'application/json' })
 
-  // add the config to sync
-  var sync = require('./sync')
-  sync.config = conf
+  this.auth = config.auth
 
-  // setup header defaults
-  setupHeaders(conf)
+  models.sync = require('./sync')
+  models.Model = require('./modelbase')
 
   // add each model to the ApiClient
-  models.forEach(function(modelPath) {
-    modelName = modelPath.substring(modelPath.indexOf('/')+1)
-    self[modelName] = require('./'+modelPath.toLowerCase())(conf)
+  Object.keys(models).forEach(function(modelName) {
+    self.__defineGetter__(modelName, function(){
+      return models[modelName](self)
+    })
   })
-
+  _.extend(this, models)
 }
 
-ApiClient.prototype.setAuth = function(auth) {
-  this.conf.auth = auth
-  setupHeaders(this.conf)
-}
+_.extend(ApiClient.prototype, {
 
-function setupHeaders(conf) {
-  conf.headers = _.defaults({}, conf.headers, {
-    'STAT-NGIN-API-TOKEN': conf.statNginApiToken,
-    'Accept': 'application/vnd.stat-ngin.v2,application/json'
-  })
-  if (conf.auth && conf.auth.access_token) {
-    conf.headers.Authorization = 'Bearer ' + conf.auth.access_token
+  setAuth: function(auth) {
+    this.auth = auth
   }
-}
+
+})
