@@ -31,7 +31,7 @@ function init(conf) {
 var FlightStage = Model.extend({
 
   urlRoot: function() {
-    return Url.resolve(config.urls.sports, '/flight_stages')
+    return Url.resolve(config.urls.sports, '/flights/'+this.flight_id+'/flight_stages')
   },
 
   initialize: function(attr, options) {
