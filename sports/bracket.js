@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var Bracket = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/brackets')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/brackets')
     }
 
   })

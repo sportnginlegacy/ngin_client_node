@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var Subseason = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/subseasons')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/subseasons')
     },
 
     addTeam: function(teamId, callback) {
