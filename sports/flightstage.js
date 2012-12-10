@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var FlightStage = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/flight_stages')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/flight_stages')
     },
 
     validate: function() {
