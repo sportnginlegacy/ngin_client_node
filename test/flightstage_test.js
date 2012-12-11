@@ -16,7 +16,6 @@ describe('Flight Stage Model', function() {
     server = Server()
     ngin.Flightstage.create({id:1, flightID:1}, function(err, flightstage) {
       testFlightstage = flightstage
-      console.log(testFlightstage)
       done()
     })
   })
