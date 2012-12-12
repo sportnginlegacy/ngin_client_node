@@ -18,11 +18,12 @@ module.exports = function(ngin) {
     urlRoot: function() {
       var base = config.urls && config.urls.boss || config.url
       return Url.resolve(base, '/organizations')
-    },
-
-    mine: function(userID, callback) {
-      var url = this.urlRoot() + '/mine/' + userID
-      Organization.sync('read', null, { url:url }, callback)
+    }
+  },{
+    mine: function(callback) {
+      var base = config.urls && config.urls.boss || config.url
+      var url = Url.resolve(base, '/organizations/mine')
+      return Organization.sync('read', null, { url:url }, callback)
     }
   })
 
