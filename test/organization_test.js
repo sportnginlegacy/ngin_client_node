@@ -23,12 +23,13 @@ describe('Organization Model', function() {
   afterEach(function(done) {
     server.close(done)
   })
+
   describe('Organization Instance', function(){
-    it('should make requests on mine with userID', function(done) {
-      testOrg.mine(1, function(err, org, opts){
+    it('should make requests on mine', function(done) {
+      ngin.Organization.mine(function(err, org) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/organizations/mine/1')
+        assert(!!org)
+        assert.equal(org.metadata.url, '/organizations/mine')
         done()
       })
     })

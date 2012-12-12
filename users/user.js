@@ -36,6 +36,10 @@ module.exports = function(ngin) {
 
     isThirdNorth: function() {
       return this.permissions && this.permissions.some(isThirdNorth)
+    },
+
+    organizations: function(callback) {
+      return ngin.Organizations.mine(callback)
     }
 
   }, {

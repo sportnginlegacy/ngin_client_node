@@ -14,7 +14,7 @@ describe('Flight Stage Model', function() {
 
   beforeEach(function(done) {
     server = Server()
-    ngin.Flightstage.create({id:1, flightID:1}, function(err, flightstage) {
+    ngin.Flightstage.create({id:1, flight_id:1}, function(err, flightstage) {
       testFlightstage = flightstage
       done()
     })
