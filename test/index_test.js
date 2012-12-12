@@ -3,7 +3,7 @@ var assert = require('assert')
 var sinon = require('sinon')
 
 var NginClient = require('../index')
-var ngin = new NginClient({})
+var ngin = new NginClient({auth:{access_token:'qwerty'}})
 
 describe('NginClient', function() {
 

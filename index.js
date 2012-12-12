@@ -8,7 +8,8 @@ var models = {}
 var searchPaths = [
   'sports/*.js',
   'users/*.js',
-  'messages/*.js'
+  'messages/*.js',
+  'boss/*.js'
 ]
 
 function hasher(ngin) {
