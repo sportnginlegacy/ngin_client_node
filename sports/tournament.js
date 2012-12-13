@@ -23,7 +23,7 @@ module.exports = function(ngin) {
 
     teams: function(options, callback) {
       var url = this.urlRoot() + '/' + this.id + '/teams'
-      Tournament.sync('update', null, { url:url }, callback)
+      return ngin.Team.list({url: url}, callback)
     },
 
     addTeam: function(teamID, callback) {
