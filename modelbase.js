@@ -136,7 +136,6 @@ module.exports = function(ngin) {
       if (!options.url) {
         options.url = _.isFunction(this.prototype.url) ? this.prototype.url(options) : this.prototype.url
       }
-      console.log('OPTIONS', options)
 
       this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err)
@@ -151,7 +150,7 @@ module.exports = function(ngin) {
             list.push(inst)
           })
         }
-        callback(err, list)
+        callback(err, list, resp)
       })
     },
 

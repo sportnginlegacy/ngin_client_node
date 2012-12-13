@@ -11,6 +11,7 @@ var server
 var testFlight
 
 describe('Flight Model', function() {
+  parseList = ngin.FlightStage.parseList
 
   beforeEach(function(done) {
     server = Server()
@@ -57,6 +58,15 @@ describe('Flight Model', function() {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/flights/1/remove_from_waitlist/1')
+        done()
+      })
+    })
+
+    it('should make requests on stage', function(done) {
+      testFlight.stages(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/flights/1/flight_stages')
         done()
       })
     })
