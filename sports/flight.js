@@ -41,7 +41,7 @@ module.exports = function(ngin) {
     },
 
     stages: function(callback){
-      return ngin.Flightstage.list({flight_id: this.id}, callback)
+      ngin.FlightStage.list({flight_id: this.id}, callback)
     }
 
   })

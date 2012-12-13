@@ -18,22 +18,19 @@ module.exports = function(ngin) {
     urlRoot: function(options) {
       options = options || {}
       var tournamentID = options.tournament_id || this.tournament_id
+      delete options.tournament_id
       var base = config.urls && config.urls.sports || config.url
-      console.log("+++++++++++++++++\n", tournamentID, base)
-      return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_stage_defaults')
+      return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
     }
 
-  },{
-    list: function(options, callback) {
-      // if (!options.flight_id) return callback('Error: flight_id is required')
-      SportsModel.list(options, callback)
-    },
-
-    parseList: function(data, resp) {
-      // if (!options.flight_id) return callback('Error: flight_id is required')
-      SportsModel.parseList(data, resp)
-    }
   })
+
+  // wrap the inheirited list function with arg checking
+  FlightDefault.list = _.wrap(FlightDefault.list, function(list, options, callback) {
+    if (!options.tournament_id) return callback(new Error('tournament_id is required'))
+    list.call(FlightDefault, options, callback)
+  })
+
 
   return FlightDefault
 
