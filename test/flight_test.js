@@ -60,6 +60,15 @@ describe('Flight Model', function() {
         done()
       })
     })
+
+    it('should make requests on removeFromWaitlist with ID and teamID', function(done) {
+      testFlight.stages(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/flights/1/remove_from_waitlist/1')
+        done()
+      })
+    })
   })
 
 })

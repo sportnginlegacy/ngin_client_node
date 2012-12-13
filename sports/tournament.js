@@ -22,8 +22,8 @@ module.exports = function(ngin) {
     },
 
     teams: function(options, callback) {
-      var url = Url.resolve(config.urls.sports, '/tournaments/'+options.id+'/teams')
-      return ngin.Team.list({url: url}, callback)
+      var url = this.urlRoot() + '/' + this.id + '/teams'
+      Tournament.sync('update', null, { url:url }, callback)
     },
 
     addTeam: function(teamID, callback) {
@@ -34,6 +34,10 @@ module.exports = function(ngin) {
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
       Tournament.sync('delete', null, { url:url }, callback)
+    },
+
+    flightDefaults: function(callback) {
+      return ngin.FlightDefault.list({tournament_id: this.id}, callback)
     }
 
   })

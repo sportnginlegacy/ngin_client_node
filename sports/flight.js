@@ -38,6 +38,10 @@ module.exports = function(ngin) {
     removeFromWaitlist: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_from_waitlist/' + teamID
       Flight.sync('update', null, { url:url }, callback)
+    },
+
+    stages: function(callback){
+      return ngin.Flightstage.list({flight_id: this.id}, callback)
     }
 
   })
