@@ -8,14 +8,14 @@ var ngin = new NginClient({
 })
 
 var server
-var testFlightstage
+var testFlightStage
 
 describe('Flight Stage Model', function() {
 
   beforeEach(function(done) {
     server = Server()
-    ngin.Flightstage.create({id:1, flight_id:1}, function(err, flightstage) {
-      testFlightstage = flightstage
+    ngin.FlightStage.create({id:1, flight_id:1}, function(err, flightstage) {
+      testFlightStage = flightstage
       done()
     })
   })
@@ -26,7 +26,7 @@ describe('Flight Stage Model', function() {
 
   describe('Flight Stage Instance', function() {
     it('should make requests on addTeam with ID and teamID', function(done) {
-      testFlightstage.addTeam(1, function(err, flightstage, opts) {
+      testFlightStage.addTeam(1, function(err, flightstage, opts) {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/flights/1/flight_stages/1/add_team/1')
@@ -35,7 +35,7 @@ describe('Flight Stage Model', function() {
     })
 
     it('should make requests on removeTeam with ID and teamID', function(done) {
-      testFlightstage.removeTeam(1, function(err, flightstage, opts) {
+      testFlightStage.removeTeam(1, function(err, flightstage, opts) {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/flights/1/flight_stages/1/remove_team/1')
