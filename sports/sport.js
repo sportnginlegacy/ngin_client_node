@@ -19,7 +19,7 @@ module.exports = function(ngin) {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/sports')
     }
-
+    
   })
 
   return Sport

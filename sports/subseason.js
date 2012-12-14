@@ -38,6 +38,24 @@ module.exports = function(ngin) {
     removeDivision: function(divisionId, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_division/' + divisionId
       Subseason.sync('delete', null, { url:url }, callback)
+    },
+
+    standings: function(callback) {
+      ngin.Standings.list({subseason_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
+    },
+
+    standingsPreference: function(callback) {
+      ngin.StandingsPreference.list({subseason_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
     }
 
   })
