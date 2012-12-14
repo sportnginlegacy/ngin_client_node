@@ -31,6 +31,7 @@ module.exports = function(ngin) {
         delete options.division_id
       }
 
+      var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'subseason/' + subseasonID + scope + '/standings_preference')
     }
 
