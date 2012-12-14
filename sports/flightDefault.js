@@ -23,6 +23,10 @@ module.exports = function(ngin) {
       return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
     }
 
+  },{
+    parseList: function(data,resp) {
+      return [data]
+    }
   })
 
   // wrap the inheirited list function with arg checking
