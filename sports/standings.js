@@ -47,6 +47,18 @@ module.exports = function(ngin) {
     list.call(Standings, options, callback)
   })
 
+  Standings.create = _.wrap(Standings.create, function(create, options, callback) {
+    return callback(new Error('Create is not available for Standings'))
+  })
+
+  Standings.save = _.wrap(Standings.save, function(save, options, callback) {
+    return callback(new Error('Save is not available for Standings'))
+  })
+
+  Standings.destroy = _.wrap(Standings.destroy, function(destroy, options, callback) {
+    return callback(new Error('Destroy is not available for Standings'))
+  })
+
 
   return Standings
 
