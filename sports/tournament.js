@@ -37,7 +37,12 @@ module.exports = function(ngin) {
     },
 
     flightDefaults: function(callback) {
-      return ngin.FlightDefault.list({tournament_id: this.id}, callback)
+      return ngin.FlightDefault.list({tournament_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
     }
 
   })
