@@ -21,11 +21,11 @@ module.exports = function(ngin) {
       delete options.subseason_id
 
       var scope = ''
-      if(options.pool_id || this.pool_id){
+      if (options.pool_id || this.pool_id) {
         var poolID = options.pool_id || this.pool_id
         scope = '/pool/' + poolID
         delete options.pool_id
-      }else if (options.division_id || this.division_id){
+      } else if (options.division_id || this.division_id) {
         var divisionID = options.division_id || this.division_id
         scope = '/division/' + divisionID
         delete options.division_id
