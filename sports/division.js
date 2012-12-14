@@ -18,14 +18,6 @@ module.exports = function(ngin) {
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/divisions')
-    },
-    
-    standings: function(callback) {
-
-    },
-
-    standingsPreference: function(callback) {
-      
     }
 
   })

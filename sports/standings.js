@@ -6,14 +6,14 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * StandingsPreference Class
+   * Standings Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var StandingsPreference = SportsModel.extend({
+  var Standings = SportsModel.extend({
 
     urlRoot: function(options) {
       options = options || {}
@@ -31,7 +31,7 @@ module.exports = function(ngin) {
         delete options.division_id
       }
 
-      return Url.resolve(base, 'subseason/' + subseasonID + scope + '/standings_preference')
+      return Url.resolve(base, 'subseason/' + subseasonID + scope + '/standings')
     }
 
   },{
@@ -42,12 +42,12 @@ module.exports = function(ngin) {
   })
 
   // wrap the inheirited list function with arg checking
-  StandingsPreference.list = _.wrap(StandingsPreference.list, function(list, options, callback) {
+  Standings.list = _.wrap(Standings.list, function(list, options, callback) {
     if (!options.subseason_id) return callback(new Error('subseason_id is required'))
-    list.call(StandingsPreference, options, callback)
+    list.call(Standings, options, callback)
   })
 
 
-  return StandingsPreference
+  return Standings
 
 }
