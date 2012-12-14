@@ -155,6 +155,7 @@ module.exports = function(ngin) {
     },
 
     parseList: function(data, resp) {
+      if (data.result) data = data.result
       return data
     },
 
