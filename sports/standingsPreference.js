@@ -32,7 +32,7 @@ module.exports = function(ngin) {
       }
 
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'subseason/' + subseasonID + scope + '/standings_preference')
+      return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
     }
 
   },{

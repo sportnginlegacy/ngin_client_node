@@ -62,19 +62,20 @@ describe('Subseason Model', function() {
       })
     })
 
-    it('should make requests on flightDefaults with subseasonID', function(done) {
+    it('should make requests on standings with subseasonID', function(done) {
       testSubseason.standings(function(err, subseason, opts) {
         assert.equal(opts.req.path, '/subseasons/1/standings')
         done()
       })
     })
 
-    it('should make requests on flightDefaults with subseasonID', function(done) {
+    it('should make requests on standingsPreference with subseasonID', function(done) {
       testSubseason.standingsPreference(function(err, subseason, opts) {
-        assert.equal(opts.req.path, '/subseasons/1/standing_preference')
+        assert.equal(opts.req.path, '/subseasons/1/standings_preference')
         done()
       })
     })
+
   })
 
 })

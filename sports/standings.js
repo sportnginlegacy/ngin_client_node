@@ -32,7 +32,7 @@ module.exports = function(ngin) {
       }
       
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'subseason/' + subseasonID + scope + '/standings')
+      return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings')
     }
 
   },{
@@ -47,19 +47,6 @@ module.exports = function(ngin) {
     if (!options.subseason_id) return callback(new Error('subseason_id is required'))
     list.call(Standings, options, callback)
   })
-
-  Standings.create = _.wrap(Standings.create, function(create, options, callback) {
-    return callback(new Error('Create is not available for Standings'))
-  })
-
-  Standings.save = _.wrap(Standings.save, function(save, options, callback) {
-    return callback(new Error('Save is not available for Standings'))
-  })
-
-  Standings.destroy = _.wrap(Standings.destroy, function(destroy, options, callback) {
-    return callback(new Error('Destroy is not available for Standings'))
-  })
-
 
   return Standings
 
