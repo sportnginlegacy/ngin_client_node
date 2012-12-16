@@ -33,7 +33,9 @@ module.exports = function(ngin) {
 
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
-    }
+    },
+
+    createOverride: true
 
   },{
     parseList: function(data, resp) {
