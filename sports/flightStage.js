@@ -15,9 +15,12 @@ module.exports = function(ngin) {
 
   var FlightStage = SportsModel.extend({
 
-    urlRoot: function() {
+    urlRoot: function(options) {
+      options = options || {}
+      var flightID = options.flight_id || this.flight_id
+      delete options.flight_id
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'flights/' + this.flight_id + '/flight_stages')
+      return Url.resolve(base, 'flights/' + flightID + '/flight_stages')
     },
 
     validate: function() {
@@ -34,6 +37,12 @@ module.exports = function(ngin) {
       FlightStage.sync('delete', null, { url:url }, callback)
     }
 
+  })
+
+  // wrap the inheirited list function with arg checking
+  FlightStage.list = _.wrap(FlightStage.list, function(list, options, callback) {
+    if (!options.flight_id) return callback(new Error('flight_id is required'))
+    list.call(FlightStage, options, callback)
   })
 
   return FlightStage
