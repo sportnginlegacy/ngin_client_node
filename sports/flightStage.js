@@ -35,7 +35,7 @@ module.exports = function(ngin) {
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
       FlightStage.sync('delete', null, { url:url }, callback)
-    },
+    }
 
   })
 
