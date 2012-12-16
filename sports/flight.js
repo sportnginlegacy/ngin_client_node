@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var Flight = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/flights')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/flights')
     },
 
     addTeam: function(teamID, callback) {
@@ -27,6 +28,20 @@ module.exports = function(ngin) {
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
       Flight.sync('delete', null, { url:url }, callback)
+    },
+
+    addToWaitlist: function(teamID, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/add_to_waitlist/' + teamID
+      Flight.sync('update', null, { url:url }, callback)
+    },
+
+    removeFromWaitlist: function(teamID, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/remove_from_waitlist/' + teamID
+      Flight.sync('update', null, { url:url }, callback)
+    },
+
+    stages: function(callback){
+      ngin.FlightStage.list({flight_id: this.id}, callback)
     }
 
   })

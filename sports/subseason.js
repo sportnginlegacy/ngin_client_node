@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var Subseason = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/subseasons')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/subseasons')
     },
 
     addTeam: function(teamId, callback) {
@@ -37,6 +38,24 @@ module.exports = function(ngin) {
     removeDivision: function(divisionId, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_division/' + divisionId
       Subseason.sync('delete', null, { url:url }, callback)
+    },
+
+    standings: function(callback) {
+      ngin.Standings.list({subseason_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
+    },
+
+    standingsPreference: function(callback) {
+      ngin.StandingsPreference.list({subseason_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
     }
 
   })

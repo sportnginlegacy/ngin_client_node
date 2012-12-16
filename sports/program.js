@@ -16,7 +16,8 @@ module.exports = function(ngin) {
   var Program = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/programs')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/programs')
     }
 
   })

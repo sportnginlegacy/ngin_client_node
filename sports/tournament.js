@@ -17,11 +17,12 @@ module.exports = function(ngin) {
   var Tournament = SportsModel.extend({
 
     urlRoot: function() {
-      return Url.resolve(config.urls.sports, '/tournaments')
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/tournaments')
     },
 
     teams: function(options, callback) {
-      var url = Url.resolve(config.urls.sports, '/tournaments/'+options.id+'/teams')
+      var url = this.urlRoot() + '/' + this.id + '/teams'
       return ngin.Team.list({url: url}, callback)
     },
 
@@ -33,6 +34,15 @@ module.exports = function(ngin) {
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
       Tournament.sync('delete', null, { url:url }, callback)
+    },
+
+    flightDefaults: function(callback) {
+      return ngin.FlightDefault.list({tournament_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
     }
 
   })
