@@ -70,7 +70,7 @@ module.exports = function(ngin) {
       // Get base url
       var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
       // Append id if set
-      if (this.id) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
+      if (this.id && !this.createOverride) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
       // Add options as query parameters
       var separator = "?"
       _.each(options, function(val, key){
