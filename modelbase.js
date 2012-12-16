@@ -46,12 +46,12 @@ module.exports = function(ngin) {
 
       if (!this.isValid()) return callback('Model is not in a valid state.')
 
-      var method = !!this.id ? 'update' : 'create'
+      var method = (!!this.id || this.createOverride) ? 'update' : 'create'
       this.sync(method, options, function(err, data, resp) {
         if (err) return callback(err)
         data = self.parse(data, resp)
         _.extend(self, data)
-        callback(err, data)
+        callback(err, data, method)
       })
     },
 
