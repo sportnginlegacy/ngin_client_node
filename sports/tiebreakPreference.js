@@ -43,7 +43,7 @@ module.exports = function(ngin) {
         options = {}
       }
 
-      options.method = options.method || 'PUT'
+      options.type = options.method || 'PUT'
       TiebreakPreference.__super__.save.call(this, options, callback)
     }
 
