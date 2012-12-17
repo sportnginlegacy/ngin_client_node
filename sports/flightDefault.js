@@ -23,7 +23,15 @@ module.exports = function(ngin) {
       return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
     },
 
-    createOverride: true
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      options.method = options.method || 'update'
+      FlightDefault.__super__.save.call(this, options, callback)
+    }
 
   },{
     parseList: function(data,resp) {
