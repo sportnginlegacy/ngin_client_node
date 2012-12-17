@@ -23,10 +23,12 @@ module.exports = function(ngin) {
       var scope = ''
       if (options.pool_id || this.pool_id) {
         var poolID = options.pool_id || this.pool_id
+        this.pool_id = poolID
         scope = '/pool/' + poolID
         delete options.pool_id
       } else if (options.division_id || this.division_id) {
         var divisionID = options.division_id || this.division_id
+        this.division_id = divisionID
         scope = '/division/' + divisionID
         delete options.division_id
       }

@@ -20,11 +20,14 @@ module.exports = function(ngin) {
       var scope = ''
       if (options.tournament_id || this.tournament_id) {
         var tournamentID = options.tournament_id || this.tournament_id
+        this.tournament_id = tournamentID
         scope = 'tournaments/' + tournamentID
         delete options.tournament_id
       } else if ((options.flight_id || this.flight_id) && (options.flight_stage_id || this.flight_stage_id)) {
         var flightID = options.flight_id || this.flight_id
         var flightStageID = options.flight_stage_id || this.flight_stage_id
+        this.flight_id = flightID
+        this.flight_stage_id = flightStageID
         scope = 'flights/' + flightID + '/flight_stages/' + flightStageID
         delete options.flight_id
         delete options.flight_stage_id
