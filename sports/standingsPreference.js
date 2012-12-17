@@ -35,7 +35,15 @@ module.exports = function(ngin) {
       return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
     },
 
-    createOverride: true
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      options.method = options.method || 'update'
+      StandingsPreference.__super__.save.call(this, options, callback)
+    }
 
   },{
     parseList: function(data, resp) {
