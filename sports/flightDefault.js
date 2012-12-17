@@ -21,6 +21,16 @@ module.exports = function(ngin) {
       delete options.tournament_id
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
+    },
+
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      options.method = options.method || 'update'
+      FlightDefault.__super__.save.call(this, options, callback)
     }
 
   },{

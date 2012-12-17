@@ -33,6 +33,16 @@ module.exports = function(ngin) {
 
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
+    },
+
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      options.method = options.method || 'update'
+      StandingsPreference.__super__.save.call(this, options, callback)
     }
 
   },{
