@@ -53,8 +53,15 @@ describe('Tournament Model', function() {
     })
 
     it('should make requests on flightDefaults with tournamentID', function(done) {
-      testTournament.flightDefaults(function(err, tournament, opts) {
+      testTournament.flightDefaults(function(err, flightDefaults, opts) {
         assert.equal(opts.req.path, '/tournaments/1/flight_defaults')
+        done()
+      })
+    })
+
+    it('should make requests on tieBreakPreference with tournamentID', function(done) {
+      testTournament.tiebreakPreference(function(err, tiebreakPreference, opts) {
+        assert.equal(opts.req.path, '/tournaments/1/tiebreak_preference')
         done()
       })
     })
