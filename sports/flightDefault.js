@@ -21,7 +21,9 @@ module.exports = function(ngin) {
       delete options.tournament_id
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
-    }
+    },
+
+    createOverride: true
 
   },{
     parseList: function(data,resp) {

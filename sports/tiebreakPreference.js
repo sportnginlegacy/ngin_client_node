@@ -32,6 +32,16 @@ module.exports = function(ngin) {
 
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, scope + '/tiebreak_preferences')
+    },
+
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      options.method = options.method || 'update'
+      FlightDefault.__super__.save.call(this, options, callback)
     }
 
   },{
