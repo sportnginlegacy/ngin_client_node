@@ -40,7 +40,7 @@ module.exports = function(ngin) {
         callback = options
         options = {}
       }
-      options.method = options.method || 'update'
+      options.method = options.method || 'PUT'
       StandingsPreference.__super__.save.call(this, options, callback)
     }
 

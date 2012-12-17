@@ -40,8 +40,8 @@ module.exports = function(ngin) {
         options = {}
       }
 
-      options.method = options.method || 'update'
-      FlightDefault.__super__.save.call(this, options, callback)
+      options.method = options.method || 'PUT'
+      TiebreakPreference.__super__.save.call(this, options, callback)
     }
 
   },{

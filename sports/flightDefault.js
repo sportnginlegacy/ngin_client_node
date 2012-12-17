@@ -29,7 +29,7 @@ module.exports = function(ngin) {
         options = {}
       }
 
-      options.method = options.method || 'update'
+      options.method = options.method || 'PUT'
       FlightDefault.__super__.save.call(this, options, callback)
     }
 
