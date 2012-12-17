@@ -35,6 +35,15 @@ module.exports = function(ngin) {
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
       FlightStage.sync('delete', null, { url:url }, callback)
+    },
+
+    tiebreakPreference: function(callback){
+      return ngin.TiebreakPreference.list({flight_id: this.flight_id, flight_stage_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err ) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
     }
 
   })
