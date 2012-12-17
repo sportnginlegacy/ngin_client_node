@@ -31,7 +31,7 @@ module.exports = function(ngin) {
       }
 
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, scope + '/tiebreak_preferences')
+      return Url.resolve(base, scope + '/tiebreak_preference')
     },
 
     save: function(options, callback) {

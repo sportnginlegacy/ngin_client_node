@@ -61,7 +61,7 @@ describe('Tournament Model', function() {
 
     it('should make requests on tieBreakPreference with tournamentID', function(done) {
       testTournament.tiebreakPreference(function(err, tiebreakPreference, opts) {
-        assert.equal(opts.req.path, '/tournaments/1/tiebreak_preferences')
+        assert.equal(opts.req.path, '/tournaments/1/tiebreak_preference')
         done()
       })
     })
