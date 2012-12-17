@@ -18,6 +18,7 @@ module.exports = function(ngin) {
     urlRoot: function(options) {
       options = options || {}
       var tournamentID = options.tournament_id || this.tournament_id
+      this.tournament_id = tournamentID
       delete options.tournament_id
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
@@ -29,8 +30,20 @@ module.exports = function(ngin) {
         options = {}
       }
 
-      options.method = options.method || 'update'
+      options.method = options.method || 'PUT'
       FlightDefault.__super__.save.call(this, options, callback)
+    },
+
+    url: function(options){
+      // Get base url
+      var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
+      // Add options as query parameters
+      var separator = "?"
+      _.each(options, function(val, key){
+        url += separator + encodeURIComponent(key) + "=" + encodeURIComponent(val)
+        separator = "&"
+      })
+      return url
     }
 
   },{

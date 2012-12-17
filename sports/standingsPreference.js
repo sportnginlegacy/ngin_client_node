@@ -23,10 +23,12 @@ module.exports = function(ngin) {
       var scope = ''
       if (options.pool_id || this.pool_id) {
         var poolID = options.pool_id || this.pool_id
+        this.pool_id = poolID
         scope = '/pool/' + poolID
         delete options.pool_id
       } else if (options.division_id || this.division_id) {
         var divisionID = options.division_id || this.division_id
+        this.division_id = divisionID
         scope = '/division/' + divisionID
         delete options.division_id
       }
@@ -34,14 +36,13 @@ module.exports = function(ngin) {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
     },
-
+    
     save: function(options, callback) {
       if (typeof options == 'function') {
         callback = options
         options = {}
       }
-
-      options.method = options.method || 'update'
+      options.method = options.method || 'PUT'
       StandingsPreference.__super__.save.call(this, options, callback)
     }
 
