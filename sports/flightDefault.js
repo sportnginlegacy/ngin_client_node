@@ -44,7 +44,7 @@ module.exports = function(ngin) {
         separator = "&"
       })
       return url
-    },
+    }
 
   },{
     parseList: function(data,resp) {
