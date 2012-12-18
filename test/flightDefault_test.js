@@ -32,4 +32,12 @@ describe('FlightDefault Model', function() {
       done()
     })
   })
+
+  it('should make requests on save', function(done) {       
+    testFlightDefault.save({}, function(err, flightDefault, opts) {
+      assert(!err)
+      assert(!!flightDefault)
+      done()
+    })
+  })
 })
