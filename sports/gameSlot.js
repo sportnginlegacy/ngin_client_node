@@ -30,6 +30,12 @@ module.exports = function(ngin) {
 
   })
 
+  // wrap the inheirited list function with arg checking
+  GameSlot.list = _.wrap(GameSlot.list, function(list, options, callback) {
+    if (!options.flight_id && !options.flight_stage_id) return callback(new Error('flight_id is required'))
+    list.call(GameSlot, options, callback)
+  })
+
   return GameSlot
 
 }
