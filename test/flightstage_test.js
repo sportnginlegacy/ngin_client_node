@@ -51,6 +51,15 @@ describe('Flight Stage Model', function() {
         done()
       })
     })
+
+    it('should make requests on schedule with flight_stage_id', function(done) {
+      testFlightStage.schedule(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/tournament_schedules?flight_stage_id=1')
+        done()
+      })
+    })
   })
 
 })

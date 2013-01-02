@@ -24,10 +24,6 @@ module.exports = function(ngin) {
 
   }, {
 
-    list:function(options, callback) {
-      callback(new Error('Not implemented'))
-    },
-
     create:function(options, callback) {
       callback(new Error('Not implemented'))
     }

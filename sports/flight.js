@@ -20,6 +20,11 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/flights')
     },
 
+    tournamentUrlRoot: function(options) {
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/tournament_schedules')
+    },
+
     addTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
       Flight.sync('update', null, { url:url }, callback)
@@ -45,15 +50,17 @@ module.exports = function(ngin) {
     },
 
     createSchedule: function(callback) {
-      // tournament schedules create
+      var url = this.tournamentUrlRoot() + '/' + this.id
+      Flight.sync('create', null, { url:url }, callback)
     },
 
     schedule: function(callback) {
-      // tournament schedules index
+      ngin.GameSlot.list({flight_id: this.id}, callback)
     },
 
     publish: function(callback) {
-      // tournament schedules publish
+      var url = this.tournamentUrlRoot() + '/' + this.id + '/publish'
+      ngin.GameSlot.sync('update', null, { url:url }, callback)
     }
 
   })
