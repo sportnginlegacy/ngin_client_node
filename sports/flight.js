@@ -42,6 +42,18 @@ module.exports = function(ngin) {
 
     stages: function(callback){
       ngin.FlightStage.list({flight_id: this.id}, callback)
+    },
+
+    createSchedule: function(callback) {
+      // tournament schedules create
+    },
+
+    schedule: function(callback) {
+      // tournament schedules index
+    },
+
+    publish: function(callback) {
+      // tournament schedules publish
     }
 
   })

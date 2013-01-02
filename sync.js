@@ -35,7 +35,8 @@ module.exports = function(ngin) {
 
     // Ensure that we have a URL.
     if (!params.url) {
-      params.url = _.result(model, 'url') || urlError()
+      params.url = typeof model.url == 'function' ? model.url(options) : model.url
+      params.url || urlError()
     }
 
     // request expects the `url` property to be a parsed Url object

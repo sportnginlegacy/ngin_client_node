@@ -45,6 +45,10 @@ module.exports = function(ngin) {
         }
         callback(err, null, opts)
       })
+    },
+
+    schedule: function(callback) {
+      // returns game slot list
     }
 
   })
