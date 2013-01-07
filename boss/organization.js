@@ -19,12 +19,15 @@ module.exports = function(ngin) {
       var base = config.urls && config.urls.boss || config.url
       return Url.resolve(base, '/organizations')
     }
+
   },{
+
     mine: function(callback) {
       var base = config.urls && config.urls.boss || config.url
       var url = Url.resolve(base, '/organizations/mine')
-      return Organization.sync('read', null, { url:url }, callback)
+      var org = Organization.list({url:url}, callback)
     }
+
   })
 
   return Organization
