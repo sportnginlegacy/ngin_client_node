@@ -43,15 +43,6 @@ describe('Flight Stage Model', function() {
       })
     })
 
-    it('should make requests on tieBreakPreference with flightID and flightStageID', function(done) {
-      testFlightStage.tiebreakPreference(function(err, tiebreakPreference, opts) {
-        assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/flights/1/flight_stages/1/tiebreak_preference')
-        done()
-      })
-    })
-
     it('should make requests on schedule with flight_stage_id', function(done) {
       testFlightStage.schedule(function(err, f, opts) {
         assert(!err)

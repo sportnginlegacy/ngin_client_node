@@ -59,9 +59,18 @@ module.exports = function(ngin) {
     },
 
     publish: function(callback) {
-      var url = this.tournamentUrlRoot() + '/' + this.id + '/publish'
+      var url = this.tournamentUrlRoot() + '/publish?flight_id=' + this.id
       ngin.GameSlot.sync('update', null, { url:url }, callback)
-    }
+    },
+
+    tiebreakPreference: function(callback){
+      return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err ) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
+    },
 
   })
 
