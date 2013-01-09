@@ -84,7 +84,7 @@ describe('Flight Model', function() {
       testFlight.createSchedule(function(err, f, opts) {
         assert(!err)
         assert(!!opts)
-        assert.equal(opts.req.path, '/tournament_schedules/1')
+        assert.equal(opts.req.path, '/tournament_schedules?flight_id=1')
         done()
       })
     })

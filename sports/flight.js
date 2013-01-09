@@ -50,7 +50,7 @@ module.exports = function(ngin) {
     },
 
     createSchedule: function(callback) {
-      var url = this.tournamentUrlRoot() + '/?flight_id=' + this.id
+      var url = this.tournamentUrlRoot() + '?flight_id=' + this.id
       Flight.sync('create', null, { url:url }, callback)
     },
 
