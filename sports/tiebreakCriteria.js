@@ -17,7 +17,7 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, scope + '/tiebreak_criteria')
+      return Url.resolve(base, '/tiebreak_criteria')
     }
 
   })
