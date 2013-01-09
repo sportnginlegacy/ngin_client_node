@@ -20,6 +20,11 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/flights')
     },
 
+    tournamentUrlRoot: function(options) {
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/tournament_schedules')
+    },
+
     addTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
       Flight.sync('update', null, { url:url }, callback)
@@ -42,7 +47,30 @@ module.exports = function(ngin) {
 
     stages: function(callback){
       ngin.FlightStage.list({flight_id: this.id}, callback)
-    }
+    },
+
+    createSchedule: function(callback) {
+      var url = this.tournamentUrlRoot() + '?flight_id=' + this.id
+      Flight.sync('create', null, { url:url }, callback)
+    },
+
+    schedule: function(callback) {
+      ngin.GameSlot.list({flight_id: this.id}, callback)
+    },
+
+    publish: function(callback) {
+      var url = this.tournamentUrlRoot() + '/publish?flight_id=' + this.id
+      ngin.GameSlot.sync('update', null, { url:url }, callback)
+    },
+
+    tiebreakPreference: function(callback){
+      return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, opts) {
+        if (Array.isArray(list) && !err ) {
+          return callback(err, list[0], opts)
+        }
+        callback(err, null, opts)
+      })
+    },
 
   })
 
