@@ -38,13 +38,8 @@ module.exports = function(ngin) {
       FlightStage.sync('delete', null, { url:url }, callback)
     },
 
-    tiebreakPreference: function(callback){
-      return ngin.TiebreakPreference.list({flight_id: this.flight_id, flight_stage_id: this.id}, function(err, list, opts) {
-        if (Array.isArray(list) && !err ) {
-          return callback(err, list[0], opts)
-        }
-        callback(err, null, opts)
-      })
+    schedule: function(callback) {
+      ngin.GameSlot.list({flight_stage_id: this.id}, callback)
     }
 
   })
