@@ -8,14 +8,14 @@ var ngin = new NginClient({
 })
 
 var server
-var testOrg
+var testTeam
 
-describe('Organization Model', function() {
+describe('Team Model', function() {
 
   beforeEach(function(done) {
     server = Server()
-    ngin.Organization.create({id:1}, function(err, org) {
-      testOrg = org
+    ngin.Team.create({id:1}, function(err, team) {
+      testTeam = team
       done()
     })
   })
@@ -24,12 +24,12 @@ describe('Organization Model', function() {
     server.close(done)
   })
 
-  describe('Organization Instance', function(){
-    it('should make requests on mine', function(done) {
-      ngin.Organization.mine(function(err, org, resp) {
+  describe('Team Instance', function() {
+    it("should make a request for standings with ID and subseasonID ", function(done){
+      testTeam.standings(1, function(err, team, opts) {
         assert(!err)
-        assert(!!org)
-        assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/mine')
+        assert(!!opts)
+        assert.equal(opts.req.path, '/subseasons/1/teams/1/standings')
         done()
       })
     })
