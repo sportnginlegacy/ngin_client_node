@@ -22,12 +22,6 @@ module.exports = function(ngin) {
       return Url.resolve(base, 'tournament_schedules')
     }
 
-  }, {
-
-    create:function(options, callback) {
-      callback(new Error('Not implemented'))
-    }
-
   })
 
   // wrap the inheirited list function with arg checking
