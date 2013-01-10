@@ -25,7 +25,7 @@ describe('Division Model', function() {
   })
 
   describe('Division Instance', function() {
-    it("should make a request for standings with ID and subseasonID ", function(){
+    it("should make a request for standings with ID and subseasonID ", function(done){
       testDivision.standings(1, function(err, division, opts) {
         assert(!err)
         assert(!!opts)

@@ -21,13 +21,13 @@ module.exports = function(ngin) {
       delete options.subseason_id
 
       var scope = ''
-      if (options.pool_id || this.pool_id) {
+      if (options.team_id || this.team_id) {
         var teamID = options.team_id || this.team_id
         scope = '/teams/' + teamID
         delete options.team_id
       } else if (options.division_id || this.division_id) {
         var divisionID = options.division_id || this.division_id
-        scope = '/division/' + divisionID
+        scope = '/divisions/' + divisionID
         delete options.division_id
       }
 

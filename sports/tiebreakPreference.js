@@ -42,18 +42,6 @@ module.exports = function(ngin) {
 
       options.method = options.method || 'PUT'
       TiebreakPreference.__super__.save.call(this, options, callback)
-    },
-
-    url: function(options){
-      // Get base url
-      var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
-      // Add options as query parameters
-      var separator = "?"
-      _.each(options, function(val, key){
-        url += separator + encodeURIComponent(key) + "=" + encodeURIComponent(val)
-        separator = "&"
-      })
-      return url
     }
 
   },{

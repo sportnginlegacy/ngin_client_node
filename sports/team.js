@@ -20,7 +20,7 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/teams')
     },
 
-    standings: function(subseason_id) {
+    standings: function(subseason_id, callback) {
       ngin.Standings.list({subseason_id: subseason_id, team_id: this.id}, function(err, list, opts) {
         if (Array.isArray(list) && !err) {
           return callback(err, list[0], opts)

@@ -10,7 +10,7 @@ var ngin = new NginClient({
 var server
 var testTeam
 
-describe('Division Model', function() {
+describe('Team Model', function() {
 
   beforeEach(function(done) {
     server = Server()
@@ -24,8 +24,8 @@ describe('Division Model', function() {
     server.close(done)
   })
 
-  describe('Division Instance', function() {
-    it("should make a request for standings with ID and subseasonID ", function(){
+  describe('Team Instance', function() {
+    it("should make a request for standings with ID and subseasonID ", function(done){
       testTeam.standings(1, function(err, team, opts) {
         assert(!err)
         assert(!!opts)
