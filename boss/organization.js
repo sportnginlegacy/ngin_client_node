@@ -3,7 +3,7 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var Model = ngin.Model
-  var config = ngin.config
+  var config = ngin.config || {}
 
   /**
    * Organization Class
@@ -25,7 +25,7 @@ module.exports = function(ngin) {
     mine: function(callback) {
       var base = config.urls && config.urls.boss || config.url
       var url = Url.resolve(base, '/organizations/mine')
-      var org = Organization.list({url:url}, callback)
+      Organization.list({url:url}, callback)
     }
 
   })

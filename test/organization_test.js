@@ -26,10 +26,10 @@ describe('Organization Model', function() {
 
   describe('Organization Instance', function(){
     it('should make requests on mine', function(done) {
-      ngin.Organization.mine(function(err, org) {
+      ngin.Organization.mine(function(err, org, resp) {
         assert(!err)
         assert(!!org)
-        assert.equal(org.metadata.url, '/organizations/mine')
+        assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/mine')
         done()
       })
     })
