@@ -17,8 +17,16 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       options = options || {}
-      var subseasonID = options.subseason_id || this.subseason_id
-      delete options.subseason_id
+      var route = ''
+      if (options.subseason_id || this.subseason_id) {
+        var subseasonID = options.subseason_id || this.subseason_id
+        delete options.subseason_id
+        route = 'subseasons/' + subseasonID
+      } else if (options.pool_id || this.pool_id) {
+        var poolID = options.pool_id || this.pool_id
+        delete options.pool_id
+        route = 'pools/' + poolID
+      }
 
       var scope = ''
       if (options.team_id || this.team_id) {
@@ -32,7 +40,7 @@ module.exports = function(ngin) {
       }
 
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings')
+      return Url.resolve(base, route + scope + '/standings')
     }
 
   },{
@@ -44,7 +52,7 @@ module.exports = function(ngin) {
 
   // wrap the inheirited list function with arg checking
   Standings.list = _.wrap(Standings.list, function(list, options, callback) {
-    if (!options.subseason_id) return callback(new Error('subseason_id is required'))
+    if (!options.subseason_id && !options.pool_id) return callback(new Error('subseason_id or pool_id required'))
     list.call(Standings, options, callback)
   })
 
