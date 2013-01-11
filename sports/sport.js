@@ -18,8 +18,12 @@ module.exports = function(ngin) {
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/sports')
-    }
-    
+    },
+
+    standingsModules: function(callback) {
+      ngin.StandingsModule.list({sport_id: this.id}, callback)
+    },
+
   })
 
   return Sport
