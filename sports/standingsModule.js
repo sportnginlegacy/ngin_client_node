@@ -6,14 +6,14 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Division Class
+   * StandingsModule Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var Division = SportsModel.extend({
+  var StandingsModule = SportsModel.extend({
 
     urlRoot: function(options) {
       options = options || {}
@@ -26,6 +26,6 @@ module.exports = function(ngin) {
 
   })
 
-  return Division
+  return StandingsModule
 
 }
