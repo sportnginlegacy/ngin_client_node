@@ -33,7 +33,7 @@ module.exports = function(ngin) {
         if (err) return callback(err)
         data = self.parse(data, resp)
         _.extend(self, data)
-        callback(err, data)
+        callback(err, data, resp)
       })
     },
 

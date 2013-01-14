@@ -32,12 +32,6 @@ module.exports = function(ngin) {
       options.method = options.method || 'PUT'
       StandingsPreference.__super__.save.call(this, options, callback)
     }
-
-  },{
-    parseList: function(data, resp) {
-      if (data.result) data = data.result
-      return [data]
-    }
   })
 
   return StandingsModule
