@@ -24,7 +24,7 @@ describe('Sport Model', function() {
     server.close(done)
   })
 
-  describe('Team Instance', function() {
+  describe('Standings Module', function() {
     it("should make a request for standings modules with id", function(done){
       testSport.standingsModules(function(err, standingsModule, opts) {
         assert(!err)
