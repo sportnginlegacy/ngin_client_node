@@ -6,7 +6,7 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * StandingsPreference Class
+   * TiebreakPreference Class
    *
    * @param {Object} attr
    * @param {Object} options
@@ -56,11 +56,6 @@ module.exports = function(ngin) {
       return url
     }
 
-  },{
-    parseList: function(data, resp) {
-      if (data.result) data = data.result
-      return [data]
-    }
   })
 
 

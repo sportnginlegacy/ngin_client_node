@@ -31,12 +31,7 @@ module.exports = function(ngin) {
     },
 
     standings: function(callback) {
-      ngin.Standings.list({pool_id: this.id}, function(err, list, opts) {
-        if (Array.isArray(list) && !err) {
-          return callback(err, list[0], opts)
-        }
-        callback(err, null, opts)
-      })
+      return ngin.Standings.create({pool_id: this.id}).fetch(callback)
     }
 
   })

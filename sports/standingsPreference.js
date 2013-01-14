@@ -36,7 +36,7 @@ module.exports = function(ngin) {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'subseasons/' + subseasonID + scope + '/standings_preference')
     },
-    
+
     save: function(options, callback) {
       if (typeof options == 'function') {
         callback = options
@@ -46,17 +46,11 @@ module.exports = function(ngin) {
       StandingsPreference.__super__.save.call(this, options, callback)
     }
 
-  },{
-    parseList: function(data, resp) {
-      if (data.result) data = data.result
-      return [data]
-    }
   })
 
   // wrap the inheirited list function with arg checking
   StandingsPreference.list = _.wrap(StandingsPreference.list, function(list, options, callback) {
-    if (!options.subseason_id) return callback(new Error('subseason_id is required'))
-    list.call(StandingsPreference, options, callback)
+    return callback(new Error('Not implemented'))
   })
 
 

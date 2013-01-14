@@ -43,17 +43,11 @@ module.exports = function(ngin) {
       return Url.resolve(base, route + scope + '/standings')
     }
 
-  },{
-    parseList: function(data, resp) {
-      if (data.result) data = data.result
-      return [data]
-    }
   })
 
   // wrap the inheirited list function with arg checking
   Standings.list = _.wrap(Standings.list, function(list, options, callback) {
-    if (!options.subseason_id && !options.pool_id) return callback(new Error('subseason_id or pool_id required'))
-    list.call(Standings, options, callback)
+    return callback(new Error('Not implemented'))
   })
 
   return Standings
