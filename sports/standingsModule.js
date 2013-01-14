@@ -22,6 +22,15 @@ module.exports = function(ngin) {
       delete options.sport_id
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'sports/' + sportID + '/standings_modules')
+    },
+
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+      options.method = options.method || 'PUT'
+      StandingsPreference.__super__.save.call(this, options, callback)
     }
 
   },{
