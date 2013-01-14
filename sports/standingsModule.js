@@ -24,6 +24,11 @@ module.exports = function(ngin) {
       return Url.resolve(base, 'sports/' + sportID + '/standings_modules')
     }
 
+  },{
+    parseList: function(data, resp) {
+      if (data.result) data = data.result
+      return [data]
+    }
   })
 
   return StandingsModule
