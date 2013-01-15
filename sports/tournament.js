@@ -37,30 +37,15 @@ module.exports = function(ngin) {
     },
 
     flightDefaults: function(callback) {
-      return ngin.FlightDefault.list({tournament_id: this.id}, function(err, list, opts) {
-        if (Array.isArray(list) && !err) {
-          return callback(err, list[0], opts)
-        }
-        callback(err, null, opts)
-      })
+      return ngin.FlightDefault.create({tournament_id: this.id}).fetch(callback)
     },
 
     standingsDefaults: function(callback) {
-      return ngin.StandingsDefault.list({tournament_id: this.id}, function(err, list, opts) {
-        if (Array.isArray(list) && !err) {
-          return callback(err, list[0], opts)
-        }
-        callback(err, null, opts)
-      })
+      return ngin.StandingsDefault.create({tournament_id: this.id}).fetch(callback)
     },
 
     tiebreakPreference: function(callback){
-      return ngin.TiebreakPreference.list({tournament_id: this.id}, function(err, list, opts) {
-        if (Array.isArray(list) && !err ) {
-          return callback(err, list[0], opts)
-        }
-        callback(err, null, opts)
-      })
+      return ngin.TiebreakPreference.create({tournament_id: this.id}).fetch(callback)
     }
 
   })

@@ -21,7 +21,7 @@ module.exports = function(ngin) {
     },
 
     standingsModules: function(callback) {
-      ngin.StandingsModule.list({sport_id: this.id}, callback)
+      ngin.StandingsModule.create({sport_id: this.id}).fetch(callback)
     },
 
   })

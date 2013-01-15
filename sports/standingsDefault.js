@@ -6,7 +6,7 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Standings Class
+   * StandingsDefault Class
    *
    * @param {Object} attr
    * @param {Object} options
@@ -46,17 +46,11 @@ module.exports = function(ngin) {
       return url
     }
 
-  },{
-    parseList: function(data,resp) {
-      if (data.result) data = data.result
-      return [data]
-    }
   })
 
   // wrap the inheirited list function with arg checking
   StandingsDefault.list = _.wrap(StandingsDefault.list, function(list, options, callback) {
-    if (!options.tournament_id) return callback(new Error('tournament_id is required'))
-    list.call(StandingsDefault, options, callback)
+    return callback(new Error('Not implemented'))
   })
 
 
