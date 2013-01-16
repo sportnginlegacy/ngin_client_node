@@ -31,7 +31,8 @@ module.exports = function(ngin) {
     },
 
     standings: function(callback) {
-      return ngin.Standings.create({pool_id: this.id}).fetch(callback)
+      var id = this.id || this.pool_id
+      return ngin.Standings.create({pool_id:id}).fetch(callback)
     }
 
   })
