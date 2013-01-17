@@ -60,7 +60,8 @@ module.exports = function(ngin) {
 
     publish: function(callback) {
       var url = this.tournamentUrlRoot() + '/publish?flight_id=' + this.id
-      ngin.GameSlot.sync('update', null, { url:url }, callback)
+      // semantically this is an update (PUT), but must technically be a POST
+      ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, callback)
     },
 
     tiebreakPreference: function(callback){
