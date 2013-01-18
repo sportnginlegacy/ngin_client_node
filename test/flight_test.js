@@ -93,6 +93,7 @@ describe('Flight Model', function() {
       testFlight.publish(function(err, f, opts) {
         assert(!err)
         assert(!!opts)
+        assert.equal(opts.req.method, 'POST')
         assert.equal(opts.req.path, '/tournament_schedules/publish?flight_id=1')
         done()
       })
