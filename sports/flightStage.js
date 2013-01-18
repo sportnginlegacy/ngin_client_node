@@ -40,6 +40,16 @@ module.exports = function(ngin) {
 
     schedule: function(callback) {
       ngin.GameSlot.list({flight_stage_id: this.id}, callback)
+    },
+
+    teams_advancing: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
+      FlightStage.sync('fetch', null, { url:url }, callback)
+    },
+
+    advance_teams: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
+      FlightStage.sync('update', null, { url:url }, callback)
     }
 
   })
