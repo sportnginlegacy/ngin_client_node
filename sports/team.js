@@ -26,6 +26,11 @@ module.exports = function(ngin) {
 
     roster: function(season_id, callback) {
       ngin.Roster.create({team_id:this.id, season_id:season_id}).fetch(callback)
+    },
+
+    instances: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/team_instances'
+      ngin.TeamInstance.list({url:url}, callback)
     }
 
   })
