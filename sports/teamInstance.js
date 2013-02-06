@@ -16,19 +16,20 @@ module.exports = function(ngin) {
   var TeamInstance = SportsModel.extend({
 
     urlRoot: function(options) {
-      options = options || {}
-      var subseasonID = options.subseason_id || this.subseason_id
-      this.subseason_id = subseasonID
-      delete options.subseason_id
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'subseasons/' + subseasonID + '/teams')
+      if (this.team_id && this.subseason_id)
+        return Url.resolve(base, 'subseasons/' + this.subseason_id + '/teams/' + this.team_id)
+      if (this.subseason_id)
+        return Url.resolve(base, 'subseasons/' + this.subseason_id + '/teams')
+      if (this.team_id)
+        return Url.resolve(base, 'teams/' + this.team_id + '/team_instances')
     }
 
   })
 
   // wrap the inheirited list function with arg checking
   TeamInstance.list = _.wrap(TeamInstance.list, function(list, options, callback) {
-    if (!options.subseason_id) return callback(new Error('subseason_id is required'))
+    if (!options.subseason_id && !options.team_id) return callback(new Error('subseason_id or team_id is required'))
     list.call(TeamInstance, options, callback)
   })
 
