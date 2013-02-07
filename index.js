@@ -46,8 +46,10 @@ function ApiClient(config) {
 
   // add each model to the ApiClient
   Object.keys(models).forEach(function(modelName) {
-    self.__defineGetter__(modelName, function(){
-      return models[modelName](self)
+    Object.defineProperty(self, modelName, {
+      get: function() { return models[modelName](self) },
+      enumerable:true,
+      configurable:true
     })
   })
   _.extend(this, models)

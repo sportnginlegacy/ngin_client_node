@@ -46,6 +46,11 @@ module.exports = function(ngin) {
 
     standingsPreference: function(callback) {
       return ngin.StandingsPreference.create({subseason_id: this.id}).fetch(callback)
+    },
+
+    teams: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/teams'
+      return ngin.TeamInstance.list({url:url}, callback)
     }
 
   })
