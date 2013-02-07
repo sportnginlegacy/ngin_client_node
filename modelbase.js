@@ -71,11 +71,14 @@ module.exports = function(ngin) {
       // Append id if set
       if (this.id) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
       // Add options as query parameters
-      var separator = "?"
-      _.each(options, function(val, key){
-        url += separator + encodeURIComponent(key) + "=" + encodeURIComponent(val)
-        separator = "&"
-      })
+      if (options) {
+        var separator = '?'
+        Object.keys(options, function(key) {
+          if (options[key] == null) return
+          url += separator + encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
+          separator = '&'
+        })
+      }
       return url
     },
 
