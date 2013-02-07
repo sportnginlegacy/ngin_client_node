@@ -1,6 +1,5 @@
 
 var _ = require('underscore')
-var qs = require('querystring')
 var extendable = require('extendable')
 
 var noop = function(){}
@@ -72,7 +71,12 @@ module.exports = function(ngin) {
       // Append id if set
       if (this.id) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
       // Add options as query parameters
-      if (options && Object.keys(options).length > 0) url += '?' + qs.stringify(options)
+      var separator = '?'
+      Object.keys(options, function(key) {
+        if (options[key] == null) return
+        url += separator + encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
+        separator = '&'
+      })
       return url
     },
 
