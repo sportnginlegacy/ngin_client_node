@@ -1,26 +1,26 @@
 {
-  "name" : "ngin_client",
-  "version" : "0.1.18",
-  "description" : "Node client for interacting with the NGIN API services",
-  "main" : "./index.js",
-  "dependencies" : {
-    "glob" : "*",
-    "request" : "*",
-    "underscore" : "*",
-    "extendable" : "*"
+  "name": "ngin_client",
+  "version": "0.1.19",
+  "description": "Node client for interacting with the NGIN API services",
+  "main": "./index.js",
+  "dependencies": {
+    "glob": "*",
+    "request": "*",
+    "underscore": "*",
+    "extendable": "*"
   },
-  "devDependencies" : {
-    "mocha" : "*",
-    "sinon" : "*"
+  "devDependencies": {
+    "mocha": "*",
+    "sinon": "*"
   },
-  "engines" : {
-    "node" : ">=0.8.0"
+  "engines": {
+    "node": ">=0.8.0"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "git://github.com/tstmedia/ngin_api_client"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tstmedia/ngin_api_client"
   },
-  "scripts" : {
-    "test" : "mocha --recursive -R spec"
+  "scripts": {
+    "test": "mocha --recursive -R spec"
   }
 }
