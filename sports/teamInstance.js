@@ -17,12 +17,14 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       var base = config.urls && config.urls.sports || config.url
-      if (this.team_id && this.subseason_id)
-        return Url.resolve(base, 'subseasons/' + this.subseason_id + '/teams/' + this.team_id)
-      if (this.subseason_id)
-        return Url.resolve(base, 'subseasons/' + this.subseason_id + '/teams')
-      if (this.team_id)
-        return Url.resolve(base, 'teams/' + this.team_id + '/team_instances')
+      var team_id = options.team_id || this.team_id
+      var subseason_id = options.subseason_id || this.subseason_id
+      if (team_id && subseason_id)
+        return Url.resolve(base, 'subseasons/' + subseason_id + '/teams/' + team_id)
+      if (subseason_id)
+        return Url.resolve(base, 'subseasons/' + subseason_id + '/teams')
+      if (team_id)
+        return Url.resolve(base, 'teams/' + team_id + '/team_instances')
     }
 
   })
