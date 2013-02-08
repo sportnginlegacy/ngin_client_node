@@ -73,7 +73,7 @@ module.exports = function(ngin) {
       // Add options as query parameters
       if (options) {
         var separator = '?'
-        Object.keys(options, function(key) {
+        _.each(options, function(value, key) {
           if (options[key] == null) return
           url += separator + encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
           separator = '&'

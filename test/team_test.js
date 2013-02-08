@@ -33,6 +33,24 @@ describe('Team Model', function() {
         done()
       })
     })
+
+    it("should make a request for rosters with ID and subseasonID ", function(done){
+      testTeam.roster(1, function(err, team, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/subseasons/1/teams/1/rosters')
+        done()
+      })
+    })
+
+    it("should make a request for instances with ID", function(done){
+      testTeam.instances(function(err, team, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/teams/1/team_instances')
+        done()
+      })
+    })
   })
 
 })

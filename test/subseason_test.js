@@ -76,6 +76,13 @@ describe('Subseason Model', function() {
       })
     })
 
+    it('should make requests on teams with subseasonID', function(done) {
+      testSubseason.teams(function(err, subseason, opts) {
+        assert.equal(opts.req.path, '/subseasons/1/teams')
+        done()
+      })
+    })
+
   })
 
 })
