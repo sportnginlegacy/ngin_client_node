@@ -33,7 +33,7 @@ module.exports = function(ngin) {
   // wrap the inheirited list function with arg checking
   TeamInstance.list = _.wrap(TeamInstance.list, function(list, options, callback) {
     if (!options.url && !options.subseason_id && !options.team_id)
-      return callback(new Error('subseason_id or team_id are required'))
+      return callback(new Error('subseason_id and team_id is required'))
     list.call(TeamInstance, options, callback)
   })
 
