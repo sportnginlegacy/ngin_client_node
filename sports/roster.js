@@ -16,7 +16,6 @@ module.exports = function(ngin) {
   var Roster = SportsModel.extend({
 
     url: function(options){
-      // TODO: throw an error if no season_id or team_id
       var options = options || {}
       var team_id = options.team_id || this.team_id
       var subseason_id = options.subseason_id || this.subseason_id
