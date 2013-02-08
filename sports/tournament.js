@@ -1,3 +1,4 @@
+"use strict"
 var Url = require('url')
 var _ = require('underscore')
 var SportsModel = require('./sportsModel')

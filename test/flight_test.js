@@ -1,3 +1,4 @@
+"use strict"
 var assert = require('assert')
 var sinon = require('sinon')
 
@@ -11,7 +12,7 @@ var server
 var testFlight
 
 describe('Flight Model', function() {
-  parseList = ngin.FlightStage.parseList
+  var parseList = ngin.FlightStage.parseList
 
   beforeEach(function(done) {
     server = Server()
