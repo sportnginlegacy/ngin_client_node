@@ -16,9 +16,11 @@ module.exports = function(ngin) {
   var Roster = SportsModel.extend({
 
     url: function(options){
-      // TODO: throw an error if no season_id or team_id
+      var options = options || {}
+      var team_id = options.team_id || this.team_id
+      var subseason_id = options.subseason_id || this.subseason_id
       var base = config.urls && config.urls.sports || config.url
-      base = Url.resolve(base, '/subseasons/' + options.subseason_id + '/teams/' + options.team_id + '/rosters' )
+      base = Url.resolve(base, '/subseasons/' + subseason_id + '/teams/' + team_id + '/rosters' )
       if (!this.id) return base
       return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
     },
@@ -28,6 +30,13 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/rosters')
     }
 
+  })
+
+  // wrap the inheirited list function with arg checking
+  Roster.list = _.wrap(Roster.list, function(list, options, callback) {
+    if (!options.url && !(options.subseason_id && options.team_id))
+      return callback(new Error('subseason_id and team_id are required'))
+    list.call(TeamInstance, options, callback)
   })
 
   return Roster
