@@ -6,7 +6,7 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Member Class
+   * Persona Class
    *
    * @param {Object} attr
    * @param {Object} options
