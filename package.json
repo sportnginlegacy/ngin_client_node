@@ -1,13 +1,13 @@
 {
   "name": "ngin_client",
-  "version": "0.1.19",
+  "version": "0.1.21",
   "description": "Node client for interacting with the NGIN API services",
   "main": "./index.js",
   "dependencies": {
     "glob": "*",
     "request": "*",
     "underscore": "*",
-    "extendable": "*"
+    "extendable": "git://github.com/mikefrey/extendable-1"
   },
   "devDependencies": {
     "mocha": "*",

@@ -24,8 +24,8 @@ module.exports = function(ngin) {
       ngin.Standings.create({subseason_id: subseason_id, team_id: this.id}).fetch(callback)
     },
 
-    roster: function(season_id, callback) {
-      ngin.Roster.create({team_id:this.id, season_id:season_id}).fetch(callback)
+    roster: function(subseason_id, callback) {
+      ngin.Roster.create({team_id: this.id, subseason_id: subseason_id}).fetch(callback)
     },
 
     instances: function(callback) {
