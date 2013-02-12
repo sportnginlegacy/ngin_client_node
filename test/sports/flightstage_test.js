@@ -2,8 +2,8 @@
 var assert = require('assert')
 var sinon = require('sinon')
 
-var Server = require('./fixtures/http.js')
-var NginClient = require('../index')
+var Server = require('../fixtures/http.js')
+var NginClient = require('../../index')
 var ngin = new NginClient({
   url:'http://localhost:1337'
 })

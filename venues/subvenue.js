@@ -16,14 +16,14 @@ module.exports = function(ngin) {
 
   var Subvenue = Model.extend({
 
-    urlRoot: function() {
+    urlRoot: function(options) {
       options = options || {}
       var venueID = options.venue_id || this.venue_id
       this.venue_id = venueID
       delete options.venue_id
 
       var base = config.urls && config.urls.venues || config.url
-      return Url.resolve(base, '/venues' + this.venue_id + '/subvenues')
+      return Url.resolve(base, '/venues/' + this.venue_id + '/subvenues')
     }
 
   })
