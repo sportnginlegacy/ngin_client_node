@@ -1,3 +1,4 @@
+"use strict"
 
 module.exports = ApiClient
 
@@ -21,7 +22,7 @@ function hasher(ngin) {
 searchPaths.forEach(function(path) {
   var files = glob.sync(path, {cwd:__dirname})
   files.forEach(function(modelPath) {
-    modelName = modelPath.substring(modelPath.indexOf('/')+1).replace('.js','')
+    var modelName = modelPath.substring(modelPath.indexOf('/')+1).replace('.js','')
     modelName = modelName.charAt(0).toUpperCase() + modelName.substring(1)
     var Model = require('./'+modelPath)
     models[modelName] = _.memoize(Model, hasher)
