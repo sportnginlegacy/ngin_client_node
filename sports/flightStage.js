@@ -42,6 +42,10 @@ module.exports = function(ngin) {
       ngin.GameSlot.list({flight_stage_id: this.id}, callback)
     },
 
+    standings: function(callback) {
+      return ngin.Standings.create({ flight_stage_id:this.id }).fetch(callback)
+    },
+
     teams_advancing: function(callback) {
       var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
       FlightStage.sync('fetch', null, { url:url }, callback)
