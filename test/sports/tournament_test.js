@@ -53,6 +53,24 @@ describe('Tournament Model', function() {
       })
     })
 
+    it('should make requests on addPlayer with ID and playerID', function(done) {
+      testTournament.addPlayer(1, function(err, tournament, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/tournaments/1/add_player/1')
+        done()
+      })
+    })
+
+    it('should make requests on removePlayer with ID and playerID', function(done) {
+      testTournament.removePlayer(1, function(err, tournament, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/tournaments/1/remove_player/1')
+        done()
+      })
+    })
+
     it('should make requests on flightDefaults with tournamentID', function(done) {
       testTournament.flightDefaults(function(err, flightDefaults, opts) {
         assert.equal(opts.req.path, '/tournaments/1/flight_defaults')
