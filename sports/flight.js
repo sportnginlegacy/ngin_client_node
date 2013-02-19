@@ -66,11 +66,11 @@ module.exports = function(ngin) {
     },
 
     tiebreakPreference: function(callback){
-      return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, opts) {
+      return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, resp) {
         if (Array.isArray(list) && !err ) {
-          return callback(err, list[0], opts)
+          return callback(err, list[0], resp)
         }
-        callback(err, null, opts)
+        callback(err, null, resp)
       })
     },
 
