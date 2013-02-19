@@ -68,7 +68,7 @@ module.exports = function(ngin) {
         form: payload
       },
       function(err, res, body) {
-        if (err) return callback(err)
+        if (err) return callback(err, null, res)
         var data
         try {
           data = JSON.parse(body)
@@ -76,7 +76,7 @@ module.exports = function(ngin) {
           console.log('Response from /oauth/token not parsable JSON:', body)
           err = ex
         }
-        callback(err, data)
+        callback(err, data, res)
       })
     },
 
