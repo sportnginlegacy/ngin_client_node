@@ -37,6 +37,11 @@ module.exports = function(ngin) {
       Tournament.sync('delete', null, { url:url }, callback)
     },
 
+    players: function(options, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/players'
+      return ngin.Player.list({url:url}, callback)
+    },
+
     addPlayer: function(playerID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/add_player/' + playerID
       Tournament.sync('update', null, { url:url }, callback)

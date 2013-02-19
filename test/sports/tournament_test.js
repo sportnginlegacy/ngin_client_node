@@ -26,7 +26,7 @@ describe('Tournament Model', function() {
   })
 
   describe('Tournament Instance', function() {
-    it('should make requests on addTeam with ID and teamID', function(done) {
+    it('should make requests on teams with ID', function(done) {
       testTournament.teams(1, function(err, tournament, opts) {
         assert(!err)
         assert(!!opts)
@@ -49,6 +49,15 @@ describe('Tournament Model', function() {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/tournaments/1/remove_team/1')
+        done()
+      })
+    })
+
+    it('should make requests on players with ID', function(done) {
+      testTournament.players(1, function(err, tournament, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.path, '/tournaments/1/players')
         done()
       })
     })
