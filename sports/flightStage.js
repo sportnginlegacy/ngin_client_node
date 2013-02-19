@@ -49,7 +49,7 @@ module.exports = function(ngin) {
 
     advance_teams: function(callback) {
       var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
-      FlightStage.sync('update', null, { url:url }, callback)
+      FlightStage.sync('save', null, { url:url }, callback) // Stat Ngin expects a POST
     }
 
   })
