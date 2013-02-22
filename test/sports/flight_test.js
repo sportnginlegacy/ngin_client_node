@@ -1,8 +1,9 @@
+"use strict"
 var assert = require('assert')
 var sinon = require('sinon')
 
-var Server = require('./fixtures/http.js')
-var NginClient = require('../index')
+var Server = require('../fixtures/http.js')
+var NginClient = require('../../index')
 var ngin = new NginClient({
   url:'http://localhost:1337'
 })
@@ -11,7 +12,7 @@ var server
 var testFlight
 
 describe('Flight Model', function() {
-  parseList = ngin.FlightStage.parseList
+  var parseList = ngin.FlightStage.parseList
 
   beforeEach(function(done) {
     server = Server()

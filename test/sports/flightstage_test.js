@@ -1,8 +1,9 @@
+"use strict"
 var assert = require('assert')
 var sinon = require('sinon')
 
-var Server = require('./fixtures/http.js')
-var NginClient = require('../index')
+var Server = require('../fixtures/http.js')
+var NginClient = require('../../index')
 var ngin = new NginClient({
   url:'http://localhost:1337'
 })
@@ -68,6 +69,16 @@ describe('Flight Stage Model', function() {
         assert(!!opts)
         assert.equal(opts.req.method, 'PUT')
         assert.equal(opts.req.path, '/flights/1/flight_stages/1/teams_advancing')
+        done()
+      })
+    })
+
+    it('should make requests on standings with flight_stage_id and flight_id', function(done) {
+      testFlightStage.standings(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.method, 'GET')
+        assert.equal(opts.req.path, '/flight_stages/1/standings')
         done()
       })
     })

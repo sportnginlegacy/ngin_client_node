@@ -1,6 +1,6 @@
 {
   "name": "ngin_client",
-  "version": "0.1.22",
+  "version": "0.1.27",
   "description": "Node client for interacting with the NGIN API services",
   "main": "./index.js",
   "dependencies": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tstmedia/ngin_api_client"
+    "url": "git://github.com/tstmedia/ngin_client_node"
   },
   "scripts": {
     "test": "mocha --recursive -R spec"

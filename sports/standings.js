@@ -1,3 +1,4 @@
+"use strict"
 var Url = require('url')
 var _ = require('underscore')
 
@@ -17,30 +18,17 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       options = options || {}
-      var route = ''
-      if (options.subseason_id || this.subseason_id) {
-        var subseasonID = options.subseason_id || this.subseason_id
-        delete options.subseason_id
-        route = 'subseasons/' + subseasonID
-      } else if (options.pool_id || this.pool_id) {
-        var poolID = options.pool_id || this.pool_id
-        delete options.pool_id
-        route = 'pools/' + poolID
-      }
+      var id, route = []
 
-      var scope = ''
-      if (options.team_id || this.team_id) {
-        var teamID = options.team_id || this.team_id
-        scope = '/teams/' + teamID
-        delete options.team_id
-      } else if (options.division_id || this.division_id) {
-        var divisionID = options.division_id || this.division_id
-        scope = '/divisions/' + divisionID
-        delete options.division_id
-      }
+      if (id = options.subseason_id || this.subseason_id) route.push('subseasons', id)
+      if (id = options.flight_stage_id || this.flight_stage_id) route.push('flight_stages', id)
+      else if (id = options.division_id || this.division_id) route.push('divisions', id)
+      else if (id = options.pool_id || this.pool_id) route.push('pools', id)
+      else if (id = options.team_id || this.team_id) route.push('teams', id)
+      route.push('standings')
 
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, route + scope + '/standings')
+      return Url.resolve(base, route.join('/'))
     }
 
   })

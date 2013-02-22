@@ -1,3 +1,4 @@
+"use strict"
 var Url = require('url')
 var _ = require('underscore')
 
@@ -26,7 +27,19 @@ module.exports = function(ngin) {
         return Url.resolve(base, 'subseasons/' + subseason_id + '/teams')
       if (team_id)
         return Url.resolve(base, 'teams/' + team_id + '/team_instances')
+    },
+
+    save: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+      if (options.team_id || this.team_id){
+        options.method = 'PUT'
+      }
+      TeamInstance.__super__.save.call(this, options, callback)
     }
+
 
   })
 

@@ -1,3 +1,4 @@
+"use strict"
 var Url = require('url')
 var _ = require('underscore')
 
@@ -40,6 +41,10 @@ module.exports = function(ngin) {
 
     schedule: function(callback) {
       ngin.GameSlot.list({flight_stage_id: this.id}, callback)
+    },
+
+    standings: function(callback) {
+      return ngin.Standings.create({ flight_stage_id:this.id }).fetch(callback)
     },
 
     teams_advancing: function(callback) {

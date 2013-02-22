@@ -1,3 +1,4 @@
+"use strict"
 
 var _ = require('underscore')
 var extendable = require('extendable')
@@ -30,7 +31,7 @@ module.exports = function(ngin) {
         options = {}
       }
       this.sync('read', options, function(err, data, resp) {
-        if (err) return callback(err)
+        if (err) return callback(err, data, resp)
         data = self.parse(data, resp)
         _.extend(self, data)
         callback(err, data, resp)
@@ -47,7 +48,7 @@ module.exports = function(ngin) {
       if (!this.isValid()) return callback('Model is not in a valid state.')
       var method = options.method || !!this.id ? 'update' : 'create'
       this.sync(method, options, function(err, data, resp) {
-        if (err) return callback(err)
+        if (err) return callback(err, data, resp)
         data = self.parse(data, resp)
         _.extend(self, data)
         callback(err, data)
@@ -121,7 +122,7 @@ module.exports = function(ngin) {
       else {
         // Fetch the model from API
         inst.fetch(options, function(err, data, resp) {
-          callback && callback(err, inst)
+          callback && callback(err, inst, data, resp)
         })
       }
 
@@ -140,7 +141,7 @@ module.exports = function(ngin) {
       }
 
       this.sync('read', null, options, function(err, data, resp) {
-        if (err) return callback(err)
+        if (err) return callback(err, data, resp)
         data = self.parseList(data, resp)
         var list = []
         for (var i = 0; i < data.length; i++) {

@@ -1,3 +1,4 @@
+"use strict"
 var Url = require('url')
 var _ = require('underscore')
 var SportsModel = require('./sportsModel')
@@ -33,6 +34,21 @@ module.exports = function(ngin) {
 
     removeTeam: function(teamID, callback) {
       var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
+      Tournament.sync('delete', null, { url:url }, callback)
+    },
+
+    players: function(options, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/players'
+      return ngin.Player.list({url:url}, callback)
+    },
+
+    addPlayer: function(playerID, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/add_player/' + playerID
+      Tournament.sync('update', null, { url:url }, callback)
+    },
+
+    removePlayer: function(playerID, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/remove_player/' + playerID
       Tournament.sync('delete', null, { url:url }, callback)
     },
 
