@@ -27,8 +27,13 @@ module.exports = function(ngin) {
     },
 
     personas: function(options, callback) {
+      if (typeof options === 'function') {
+        callback = options
+        options = {}
+      }
+      options || (options = {})
       var url = this.urlRoot() + '/' + this.id + '/personas'
-      return ngin.Persona.list({url:url}, callback)
+      return ngin.Persona.list(_.extend({}, options, {url:url}), callback)
     }
 
   })
