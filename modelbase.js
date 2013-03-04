@@ -137,7 +137,7 @@ module.exports = function(ngin) {
       }
 
       if (!options.url) {
-        options.url = _.isFunction(this.prototype.url) ? this.prototype.url(options) : this.prototype.url
+        options.url = _.isFunction(this.prototype.url) ? this.prototype.url.call({}, options) : this.prototype.url
       }
 
       this.sync('read', null, options, function(err, data, resp) {
