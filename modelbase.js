@@ -136,8 +136,11 @@ module.exports = function(ngin) {
         options = {}
       }
 
+      // create a temp obj that with the same prototype as the model
+      var temp = _.extend({}, this.prototype)
+
       if (!options.url) {
-        options.url = _.isFunction(this.prototype.url) ? this.prototype.url.call({}, options) : this.prototype.url
+        options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
       }
 
       this.sync('read', null, options, function(err, data, resp) {
