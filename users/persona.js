@@ -16,7 +16,7 @@ module.exports = function(ngin) {
   var Persona = Model.extend({
 
     urlRoot: function() {
-      var base = config.urls && config.urls.members || config.url
+      var base = config.urls && config.urls.users || config.url
       return Url.resolve(base, '/personas')
     }
 
