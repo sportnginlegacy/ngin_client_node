@@ -19,7 +19,6 @@ module.exports = function(ngin) {
     urlRoot: function(options) {
       options = options || {}
       var flightID = options.flight_id || this.flight_id
-      this.flight_id = flightID
       delete options.flight_id
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'flights/' + flightID + '/flight_stages')
