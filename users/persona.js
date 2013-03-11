@@ -20,6 +20,14 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/personas')
     }
 
+  },{
+
+    orgs: function(orgID, callback) {
+      var base = config.urls && config.urls.users || config.url
+      var url = Url.resolve(base, '/personas?owner_type=organization&owner_id=' + orgID)
+      Persona.list({url:url}, callback)
+    }
+
   })
 
   return Persona
