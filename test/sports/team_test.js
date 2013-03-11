@@ -35,11 +35,11 @@ describe('Team Model', function() {
       })
     })
 
-    it("should make a request for rosters with ID and subseasonID ", function(done){
+    it("should make a request for rosters with ID and seasonID ", function(done){
       testTeam.roster(1, function(err, team, opts) {
         assert(!err)
         assert(!!opts)
-        assert.equal(opts.req.path, '/subseasons/1/teams/1/rosters')
+        assert.equal(opts.req.path, '/seasons/1/teams/1/rosters')
         done()
       })
     })
