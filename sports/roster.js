@@ -19,9 +19,9 @@ module.exports = function(ngin) {
     url: function(options){
       var options = options || {}
       var team_id = options.team_id || this.team_id
-      var subseason_id = options.subseason_id || this.subseason_id
+      var season_id = options.season_id || this.season_id
       var base = config.urls && config.urls.sports || config.url
-      base = Url.resolve(base, '/subseasons/' + subseason_id + '/teams/' + team_id + '/rosters' )
+      base = Url.resolve(base, '/seasons/' + season_id + '/teams/' + team_id + '/rosters' )
       if (!this.id) return base
       return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
     },
@@ -35,8 +35,8 @@ module.exports = function(ngin) {
 
   // wrap the inheirited list function with arg checking
   Roster.list = _.wrap(Roster.list, function(list, options, callback) {
-    if (!options.url && !(options.subseason_id && options.team_id))
-      return callback(new Error('subseason_id and team_id are required'))
+    if (!options.url && !(options.season_id && options.team_id))
+      return callback(new Error('season_id and team_id are required'))
     list.call(TeamInstance, options, callback)
   })
 
