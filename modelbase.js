@@ -67,7 +67,6 @@ module.exports = function(ngin) {
     },
 
     url: function(options){
-      console.log("###", options, this, this.urlRoot)
       // Get base url
       var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
       // Append id if set
@@ -81,7 +80,6 @@ module.exports = function(ngin) {
           separator = '&'
         })
       }
-      console.log(url)
       return url
     },
 
