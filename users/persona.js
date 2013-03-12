@@ -16,16 +16,24 @@ module.exports = function(ngin) {
   var Persona = Model.extend({
 
     urlRoot: function() {
+      console.log('running model urlRoot')
       var base = config.urls && config.urls.users || config.url
       return Url.resolve(base, '/personas')
     }
 
-  },{
+  }, {
 
-    orgs: function(orgID, callback) {
-      var base = config.urls && config.urls.users || config.url
-      var url = Url.resolve(base, '/personas?owner_type=organization&owner_id=' + orgID)
-      Persona.list({url:url}, callback)
+    list: function(options, callback){
+      console.log('running list')
+      var url = this.urlRoot()
+      if (options.orgID) {
+        url = url + '/personas?owner_type=organization&owner_id=' + options.orgID
+      }
+      console.log('URL', url)
+      options = {
+        url: url
+      }
+      return Model.list.call(this, options, callback)
     }
 
   })
