@@ -24,16 +24,14 @@ module.exports = function(ngin) {
   }, {
 
     list: function(options, callback){
-      console.log('running list')
       var url = this.urlRoot()
-      if (options.orgID) {
-        url = url + '/personas?owner_type=organization&owner_id=' + options.orgID
+      if (options.owner_type && options.owner_id) {
+        url = url + '?owner_type='+ options.owner_type + '&owner_id=' + options.owner_id
       }
-      console.log('URL', url)
       options = {
         url: url
       }
-      return Model.list.call(this, options, callback)
+      Model.list.call(this, options, callback)
     }
 
   })
