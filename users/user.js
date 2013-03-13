@@ -37,6 +37,21 @@ module.exports = function(ngin) {
 
     isThirdNorth: function() {
       return this.permissions && this.permissions.some(isThirdNorth)
+    },
+
+    personas: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/personas'
+      return ngin.Persona.list(_.extend({}, null, {url:url}), callback)
+    },
+
+    groups: function(options, callback) {
+      if (typeof options === 'function') {
+        callback = options
+        options = {}
+      }
+      options || (options = {})
+      var url = this.urlRoot() + '/' + this.id + '/groups'
+      return ngin.Persona.list(_.extend({}, options, {url:url}), callback)
     }
 
   }, {

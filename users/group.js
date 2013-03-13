@@ -34,6 +34,16 @@ module.exports = function(ngin) {
       options || (options = {})
       var url = this.urlRoot() + '/' + this.id + '/personas'
       return ngin.Persona.list(_.extend({}, options, {url:url}), callback)
+    },
+
+    add_persona: function(personId, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/add_persona/' + personId
+      Group.sync('update', null, { url:url }, callback)
+    },
+
+    remove_persona: function(personId, callback) {
+      var url = this.urlRoot() + '/' + this.id + '/remove_persona/' + personId
+      Group.sync('update', null, { url:url }, callback)
     }
 
   })

@@ -59,11 +59,28 @@ describe('Group Model', function() {
   describe('Group Instance', function() {
 
     it('should make requests on personas', function(done) {
-      var group = ngin.Group.create({id:1}, {fetched:true})
-      group.personas(function(err, personas, resp) {
+      testGroup.personas(function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
         assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/personas')
+        done()
+      })
+    })
+
+    it('should make request to add_personas with personaId', function(done) {
+      testGroup.add_persona(1, function(err, personas, resp) {
+        assert(!err)
+        assert(!!personas)
+        assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/add_persona/1')
+        done()
+      })
+    })
+
+    it('should make request to remove_personas with personaId', function(done) {
+      testGroup.remove_persona(1, function(err, personas, resp) {
+        assert(!err)
+        assert(!!personas)
+        assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/remove_persona/1')
         done()
       })
     })
