@@ -1,4 +1,3 @@
-"use strict"
 var Url = require('url')
 var _ = require('underscore')
 
@@ -7,22 +6,22 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Member Class
+   * Permission Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var Member = Model.extend({
+  var Permission = Model.extend({
 
     urlRoot: function() {
       var base = config.urls && config.urls.users || config.url
-      return Url.resolve(base, '/members')
+      return Url.resolve(base, '/permissions')
     }
 
   })
 
-  return Member
+  return Permission
 
 }
