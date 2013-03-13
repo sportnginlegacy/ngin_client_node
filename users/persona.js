@@ -18,7 +18,22 @@ module.exports = function(ngin) {
     urlRoot: function() {
       var base = config.urls && config.urls.users || config.url
       return Url.resolve(base, '/personas')
-    }
+    },
+
+    permissions: function(callback) {
+      var url = this.urlRoot() + '/' + this.id + '/permissions'
+      return ngin.Permission.list(_.extend({}, null, {url:url}), callback)
+    },
+
+    groups: function(options, callback) {
+      if (typeof options === 'function') {
+        callback = options
+        options = {}
+      }
+      options || (options = {})
+      var url = this.urlRoot() + '/' + this.id + '/groups'
+      return ngin.Permission.list(_.extend({}, options, {url:url}), callback)
+    },
 
   })
 
