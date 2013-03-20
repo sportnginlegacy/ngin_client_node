@@ -3,7 +3,7 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var config = ngin.config
-  var Model = ngin.Model
+  var Model = ngin.NginModel
   var headers = {
     'STAT-NGIN-API-TOKEN': config.statNginApiToken,
     'Accept': 'application/vnd.stat-ngin.v2,application/json'

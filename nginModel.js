@@ -4,18 +4,6 @@ var _ = require('underscore')
 module.exports = function(ngin) {
   var config = ngin.config
   var Model = ngin.Model
-  var headers = {
-    // 'STAT-NGIN-API-TOKEN': config.statNginApiToken,
-    // 'Accept': 'application/vnd.stat-ngin.v2,application/json'
-  }
-
-  /**
-   * Extend from this model to interact with stat ngin
-   *
-   * @param {Object} attr
-   * @param {Object} options
-   * @api public
-   */
 
   function normalizeParams(url, options, callback) {
     if (url && typeof url === 'object') {
@@ -34,6 +22,14 @@ module.exports = function(ngin) {
     options.url = url
     return [options, callback]
   }
+
+  /**
+   * Extend from this model to do the new hotness
+   *
+   * @param {Object} attr
+   * @param {Object} options
+   * @api public
+   */
 
   var NginModel = Model.extend({
 
@@ -56,14 +52,6 @@ module.exports = function(ngin) {
     }
 
   }, {
-
-    create: function(attributes, url, options, callback) {
-      var args = normalizeParams(url, options, callback)
-      args.unshift(attributes)
-      if (!args[1].url && !args[1].fetched && attributes.id != null)
-        throw new Error('Url not present or create not implemented.')
-      Model.create.apply(this, args)
-    },
 
     list: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
