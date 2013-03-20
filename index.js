@@ -51,6 +51,8 @@ function ApiClient(config) {
 
   models.sync = require('./sync')
   models.Model = require('./modelbase')
+  // TODO: remove this when the refactor is complete
+  models.NginModel = require('./nginModel')
 
   // add each model to the ApiClient
   Object.keys(models).forEach(function(modelName) {
