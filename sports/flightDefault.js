@@ -4,7 +4,24 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
+
+  /**
+   * Scopes the url to the tournament or flight
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend(_.clone(options || {}), inst)
+    if (typeof options !== 'object' && !options.tournament_id)
+      throw new Error('tournament_id required to make flight defaults api calls')
+
+    return ngin.Tournament.urlRoot() + '/' + options.tournament_id + FlightDefault.urlRoot()
+  }
 
   /**
    * FlightDefault Class
@@ -16,13 +33,9 @@ module.exports = function(ngin) {
 
   var FlightDefault = SportsModel.extend({
 
-    urlRoot: function(options) {
-      options = options || {}
-      var tournamentID = options.tournament_id || this.tournament_id
-      this.tournament_id = tournamentID
-      delete options.tournament_id
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'tournaments/' + tournamentID + '/flight_defaults')
+    fetch: function(options, callback) {
+      var url = scopeUrl(options, this)
+      return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
@@ -31,29 +44,18 @@ module.exports = function(ngin) {
         options = {}
       }
 
+      var url = scopeUrl(options, this)
       options.method = options.method || 'PUT'
-      FlightDefault.__super__.save.call(this, options, callback)
-    },
+      return FlightDefault.__super__.save.call(this, options, callback)
+    }
 
-    url: function(options){
-      // Get base url
-      var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
-      // Add options as query parameters
-      var separator = "?"
-      _.each(options, function(val, key){
-        url += separator + encodeURIComponent(key) + "=" + encodeURIComponent(val)
-        separator = "&"
-      })
-      return url
+  }, {
+
+    urlRoot: function() {
+      return '/flight_defaults'
     }
 
   })
-
-  // wrap the inheirited list function with arg checking
-  FlightDefault.list = _.wrap(FlightDefault.list, function(list, options, callback) {
-    return callback(new Error('Not implemented'))
-  })
-
 
   return FlightDefault
 

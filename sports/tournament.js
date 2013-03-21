@@ -5,6 +5,7 @@ var SportsModel = require('./sportsModel')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
 
   /**
@@ -17,39 +18,51 @@ module.exports = function(ngin) {
 
   var Tournament = SportsModel.extend({
 
-    urlRoot: function() {
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/tournaments')
+    fetch: function(options, callback) {
+      var url = Tournament.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Tournament.urlRoot() + '/' + this.id
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = Tournament.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
     },
 
     teams: function(options, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/teams'
-      return ngin.Team.list({url: url}, callback)
+      options || (options = {})
+      options.url = Tournament.urlRoot() + '/' + this.id + '/teams'
+      return ngin.Team.list(options, callback)
     },
 
     addTeam: function(teamID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
-      Tournament.sync('update', null, { url:url }, callback)
+      var url = Tournament.urlRoot() + '/' + this.id + '/add_team/' + teamID
+      return Tournament.sync('update', null, { url:url }, callback)
     },
 
     removeTeam: function(teamID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
-      Tournament.sync('delete', null, { url:url }, callback)
+      var url = Tournament.urlRoot() + '/' + this.id + '/remove_team/' + teamID
+      return Tournament.sync('delete', null, { url:url }, callback)
     },
 
     players: function(options, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/players'
-      return ngin.Player.list({url:url}, callback)
+      options || (options = {})
+      options.url = Tournament.urlRoot() + '/' + this.id + '/players'
+      return ngin.Player.list(options, callback)
     },
 
     addPlayer: function(playerID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/add_player/' + playerID
-      Tournament.sync('update', null, { url:url }, callback)
+      var url = Tournament.urlRoot() + '/' + this.id + '/add_player/' + playerID
+      return Tournament.sync('update', null, { url:url }, callback)
     },
 
     removePlayer: function(playerID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/remove_player/' + playerID
-      Tournament.sync('delete', null, { url:url }, callback)
+      var url = Tournament.urlRoot() + '/' + this.id + '/remove_player/' + playerID
+      return Tournament.sync('delete', null, { url:url }, callback)
     },
 
     flightDefaults: function(callback) {
@@ -61,7 +74,21 @@ module.exports = function(ngin) {
     },
 
     tiebreakPreference: function(callback){
-      return ngin.TiebreakPreference.create({tournament_id: this.id}).fetch(callback)
+      // url: /tournaments/:id/tiebreak_preference
+      var url = Tournament.urlRoot() + '/' + this.id + ngin.TiebreakPreference.urlRoot()
+      return ngin.TiebreakPreference.create({}).fetch({url:url}, callback)
+    }
+
+  }, {
+
+    urlRoot: function() {
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/tournaments')
+    },
+
+    list: function(options, callback) {
+      var url = Tournament.urlRoot()
+      SportsModel.list.call(this, url, options, callback)
     }
 
   })

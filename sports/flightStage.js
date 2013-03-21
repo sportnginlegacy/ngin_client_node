@@ -7,6 +7,22 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to the tournament or flight
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend(_.clone(options || {}), inst)
+    if (typeof options !== 'object' && !options.flight_id)
+      throw new Error('flight_id required to make flight defaults api calls')
+
+    return ngin.Flight.urlRoot() + '/' + options.flight_id + FlightStage.urlRoot()
+  }
+
+  /**
    * FlightStage Class
    *
    * @param {Object} attr
@@ -16,30 +32,22 @@ module.exports = function(ngin) {
 
   var FlightStage = SportsModel.extend({
 
-    urlRoot: function(options) {
-      options = options || {}
-      var flightID = options.flight_id || this.flight_id
-      delete options.flight_id
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, 'flights/' + flightID + '/flight_stages')
-    },
-
     validate: function() {
       return ~['pool','single_elim','double_elim','round_robin'].indexOf(this.type) ? false : 'Property "type" has an invalid value'
     },
 
     addTeam: function(teamID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamID
-      FlightStage.sync('update', null, { url:url }, callback)
+      var url = scopeUrl({}, this) + '/' + this.id + '/add_team/' + teamID
+      return FlightStage.sync('update', null, { url:url }, callback)
     },
 
     removeTeam: function(teamID, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamID
-      FlightStage.sync('delete', null, { url:url }, callback)
+      var url = scopeUrl({}, this) + '/' + this.id + '/remove_team/' + teamID
+      return FlightStage.sync('delete', null, { url:url }, callback)
     },
 
     schedule: function(callback) {
-      ngin.GameSlot.list({flight_stage_id: this.id}, callback)
+      return ngin.GameSlot.list({flight_stage_id: this.id}, callback)
     },
 
     standings: function(callback) {
@@ -47,21 +55,26 @@ module.exports = function(ngin) {
     },
 
     teams_advancing: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
-      FlightStage.sync('fetch', null, { url:url }, callback)
+      var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
+      return FlightStage.sync('fetch', null, { url:url }, callback)
     },
 
     advance_teams: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/teams_advancing'
-      FlightStage.sync('create', { teams:this.teams }, { url:url }, callback) // Stat Ngin expects a POST
+      var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
+      return FlightStage.sync('create', { teams:this.teams }, { url:url }, callback) // Stat Ngin expects a POST
     }
 
-  })
+  }, {
 
-  // wrap the inheirited list function with arg checking
-  FlightStage.list = _.wrap(FlightStage.list, function(list, options, callback) {
-    if (!options.flight_id) return callback(new Error('flight_id is required'))
-    list.call(FlightStage, options, callback)
+    urlRoot: function() {
+      return '/flight_stages'
+    },
+
+    list: function(options, callback) {
+      var url = scopeUrl(options)
+      return SportsModel.list.call(this, url, options, callback)
+    }
+
   })
 
   return FlightStage

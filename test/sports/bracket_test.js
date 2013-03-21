@@ -30,13 +30,21 @@ describe('Bracket Model', function() {
     })
   })
 
+  it('should make requests on list', function(done) {
+    ngin.Bracket.list(function(err, data, resp) {
+      assert(!err)
+      assert(!!resp)
+      assert.equal(resp.req.path, '/brackets')
+      done()
+    })
+  })
+
   it('should make requests on save with ID', function(done) {
     var bracket = ngin.Bracket.create({id:1}, {fetched:true})
     bracket.save(function(err, data, resp) {
       assert(!err)
       assert(!!resp)
-      data = JSON.parse(resp.body)
-      assert.equal(data.metadata.url, '/brackets/1')
+      assert.equal(resp.req.path, '/brackets/1')
       done()
     })
   })
@@ -46,18 +54,7 @@ describe('Bracket Model', function() {
     bracket.destroy(function(err, data, resp) {
       assert(!err)
       assert(!!resp)
-      data = JSON.parse(resp.body)
-      assert.equal(data.metadata.url, '/brackets/1')
-      done()
-    })
-  })
-
-  it('should make requests on list', function(done) {
-    ngin.Bracket.list(function(err, data, resp) {
-      assert(!err)
-      assert(!!resp)
-      data = JSON.parse(resp.body)
-      assert.equal(data.metadata.url, '/brackets')
+      assert.equal(resp.req.path, '/brackets/1')
       done()
     })
   })
