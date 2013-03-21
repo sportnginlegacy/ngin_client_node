@@ -4,7 +4,26 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
+
+  /**
+   * Scopes the url to the tournament or flight
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend(_.clone(options || {}), inst)
+    var teamID = options.team_id
+    var seasonID = options.season_id
+    var base = config.urls && config.urls.sports || config.url
+    base = Url.resolve(base, '/seasons/' + seasonID + '/teams/' + teamID + '/rosters')
+    if (!options.id) return base
+    return Url.resolve(base, encodeURIComponent(options.id))
+  }
 
   /**
    * Roster Class
@@ -16,28 +35,25 @@ module.exports = function(ngin) {
 
   var Roster = SportsModel.extend({
 
-    url: function(options){
-      var options = options || {}
-      var team_id = options.team_id || this.team_id
-      var season_id = options.season_id || this.season_id
-      var base = config.urls && config.urls.sports || config.url
-      base = Url.resolve(base, '/seasons/' + season_id + '/teams/' + team_id + '/rosters' )
-      if (!this.id) return base
-      return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
-    },
+    fetch: function(options, callback) {
+      var url = Roster.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    }
+
+  }, {
 
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/rosters')
+    },
+
+    list: function(options, callback) {
+      if (!options.url && !(options.season_id && options.team_id))
+        return callback(new Error('season_id and team_id are required'))
+      var url = scopeUrl(options)
+      SportsModel.list.call(this, url, options, callback)
     }
 
-  })
-
-  // wrap the inheirited list function with arg checking
-  Roster.list = _.wrap(Roster.list, function(list, options, callback) {
-    if (!options.url && !(options.season_id && options.team_id))
-      return callback(new Error('season_id and team_id are required'))
-    list.call(TeamInstance, options, callback)
   })
 
   return Roster
