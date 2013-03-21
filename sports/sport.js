@@ -4,6 +4,7 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
 
   /**
@@ -16,14 +17,21 @@ module.exports = function(ngin) {
 
   var Sport = SportsModel.extend({
 
+    standingsModules: function(callback) {
+      return ngin.StandingsModule.create({sport_id: this.id}).fetch(callback)
+    }
+
+  }, {
+
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/sports')
     },
 
-    standingsModules: function(callback) {
-      ngin.StandingsModule.create({sport_id: this.id}).fetch(callback)
-    },
+    list: function(options, callback) {
+      var url = Sport.urlRoot()
+      return SportsModel.list.call(this, url, options, callback)
+    }
 
   })
 

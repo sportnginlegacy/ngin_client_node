@@ -36,19 +36,19 @@ module.exports = function(ngin) {
     fetch: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or fetch not implemented.')
-      Model.prototype.fetch.apply(this, args)
+      return Model.prototype.fetch.apply(this, args)
     },
 
     save: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or save not implemented.')
-      Model.prototype.save.apply(this, args)
+      return Model.prototype.save.apply(this, args)
     },
 
     destroy: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or destroy not implemented.')
-      Model.prototype.destroy.apply(this, args)
+      return Model.prototype.destroy.apply(this, args)
     }
 
   }, {
@@ -56,7 +56,7 @@ module.exports = function(ngin) {
     list: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or list not implemented.')
-      Model.list.apply(this, args)
+      return Model.list.apply(this, args)
     }
 
   })
