@@ -13,11 +13,11 @@ var server
 describe('Flight Model', function() {
   var parseList = ngin.FlightStage.parseList
 
-  beforeEach(function() {
+  before(function() {
     server = Server()
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 

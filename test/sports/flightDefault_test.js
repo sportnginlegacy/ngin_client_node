@@ -13,16 +13,16 @@ var testFlightDefault
 
 describe('FlightDefault Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.FlightDefault.create({tournament_id: 1}, function(err, flightDefault) {
-      testFlightDefault = flightDefault
-    })
-    done()
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
+  })
+
+  beforeEach(function() {
+    testFlightDefault = ngin.FlightDefault.create({tournament_id: 1}, {fetched:true})
   })
 
   it('should make requests on fetch with ID', function(done) {

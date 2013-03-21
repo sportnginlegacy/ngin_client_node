@@ -12,11 +12,11 @@ var server
 
 describe('Flight Stage Model', function() {
 
-  beforeEach(function() {
+  before(function() {
     server = Server()
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
