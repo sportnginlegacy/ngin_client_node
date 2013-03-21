@@ -9,23 +9,63 @@ var ngin = new NginClient({
 })
 
 var server
-var testSubseason
 
 describe('Subseason Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Subseason.create({id:1}, function(err, subseason) {
-      testSubseason = subseason
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
+  describe('Subseason Class', function() {
+
+    it('should make requests on create with ID', function(done) {
+      ngin.Subseason.create({id:1}, function(err, subseason) {
+        assert(!err)
+        assert(!!subseason)
+        assert.equal(subseason.metadata.url, '/subseasons/1')
+        done()
+      })
+    })
+
+    it('should make requests on list', function(done) {
+      ngin.Subseason.list({season_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/subseasons?season_id=1')
+        done()
+      })
+    })
+  })
+
   describe('Subseason Instance', function() {
+
+    var testSubseason
+
+    beforeEach(function() {
+      testSubseason = ngin.Subseason.create({id:1}, {fetched:true})
+    })
+
+    it('should make requests on save with ID', function(done) {
+      testSubseason.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/subseasons/1')
+        done()
+      })
+    })
+
+    it('should make requests on destroy with ID', function(done) {
+      testSubseason.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/subseasons/1')
+        done()
+      })
+    })
 
     it('should make requests on addTeam with ID and teamID', function(done) {
       testSubseason.addTeam(1, function(err, subseason, opts) {
@@ -72,7 +112,7 @@ describe('Subseason Model', function() {
 
     it('should make requests on standingsPreference with subseasonID', function(done) {
       testSubseason.standingsPreference(function(err, subseason, opts) {
-        assert.equal(opts.req.path, '/subseasons/1/standings_preference')
+        assert.equal(opts.req.path, '/subseasons/1/standings_preferences')
         done()
       })
     })
