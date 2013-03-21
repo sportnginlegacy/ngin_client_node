@@ -13,12 +13,11 @@ var testSurvey
 
 describe('Survey Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    done()
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 

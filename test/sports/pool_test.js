@@ -9,23 +9,47 @@ var ngin = new NginClient({
 })
 
 var server
-var testPool
 
 describe('Pool Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Pool.create({id:1}, function(err, pool) {
-      testPool = pool
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
-  describe('Division Instance', function() {
+  describe('Pool Class', function() {
+
+    it('should make requests on create with ID', function(done) {
+      ngin.Pool.create({id:1}, function(err, pool) {
+        assert(!err)
+        assert(!!pool)
+        assert.equal(pool.metadata.url, '/pools/1')
+        done()
+      })
+    })
+
+    it('should make requests on list', function(done) {
+      ngin.Pool.list(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/pools')
+        done()
+      })
+    })
+
+  })
+
+  describe('Pool Instance', function() {
+
+    var testPool
+
+    beforeEach(function() {
+      testPool = ngin.Pool.create({id:1}, {fetched:true})
+    })
+
     it("should make a request for standings with ID and subseasonID ", function(done){
       testPool.standings(function(err, pool, opts) {
         assert(!err)
@@ -52,6 +76,25 @@ describe('Pool Model', function() {
         done()
       })
     })
+
+    it('should make requests on save with ID', function(done) {
+      testPool.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/pools/1')
+        done()
+      })
+    })
+
+    it('should make requests on destroy with ID', function(done) {
+      testPool.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/pools/1')
+        done()
+      })
+    })
+
   })
 
 })
