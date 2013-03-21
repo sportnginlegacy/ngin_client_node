@@ -12,34 +12,67 @@ var server
 
 describe('GameSlot Model', function() {
 
-  beforeEach(function(done) {
+  beforeEach(function() {
     server = Server()
-    done()
   })
 
   afterEach(function(done) {
     server.close(done)
   })
 
-  it('should make requests on list', function(done) {
-    ngin.GameSlot.list(function(err, data, resp) {
-      assert(!err)
-      assert(!!resp)
-      data = JSON.parse(resp.body)
-      assert.equal(data.metadata.url, '/tournament_schedules')
-      done()
+  describe('GameSlot Class', function() {
+
+    it('should make requests on list with flight_id', function(done) {
+      ngin.GameSlot.list({flight_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournament_schedules?flight_id=1')
+        done()
+      })
     })
+
+    it('should make requests on list with flight_stage_id', function(done) {
+      ngin.GameSlot.list({flight_stage_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournament_schedules?flight_stage_id=1')
+        done()
+      })
+    })
+
   })
 
-  it('should make requests on save with ID', function(done) {
-    var gameslot = ngin.GameSlot.create({id:1}, {fetched:true})
-    gameslot.save(function(err, data, resp) {
-      assert(!err)
-      assert(!!resp)
-      data = JSON.parse(resp.body)
-      assert.equal(data.metadata.url, '/tournament_schedules/1')
+  describe('GameSlot Instance', function() {
+
+    var gameslot
+
+    beforeEach(function() {
+      gameslot = ngin.GameSlot.create({id:1}, {fetched:true})
+    })
+
+    it('should make requests on save with ID', function(done) {
+      gameslot.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournament_schedules/1')
+        done()
+      })
+    })
+
+    it('should throw on delete', function(done) {
+      assert.throws(function(){
+        gameslot.delete(done)
+      }, Error)
       done()
     })
+
+    it('should throw on fetch', function(done) {
+      assert.throws(function(){
+        gameslot.fetch(done)
+      }, Error)
+      done()
+    })
+
   })
 
 })

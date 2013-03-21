@@ -4,6 +4,7 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
 
   /**
@@ -31,6 +32,21 @@ module.exports = function(ngin) {
    */
 
   var FlightStage = SportsModel.extend({
+
+    fetch: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
+    },
 
     validate: function() {
       return ~['pool','single_elim','double_elim','round_robin'].indexOf(this.type) ? false : 'Property "type" has an invalid value'
