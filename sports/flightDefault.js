@@ -46,7 +46,7 @@ module.exports = function(ngin) {
 
       var url = scopeUrl(options, this)
       options.method = options.method || 'PUT'
-      return FlightDefault.__super__.save.call(this, options, callback)
+      return FlightDefault.__super__.save.call(this, url, options, callback)
     }
 
   }, {
