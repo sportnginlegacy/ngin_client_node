@@ -79,7 +79,7 @@ module.exports = function(ngin) {
       }
 
       // var opts = { url:url }
-      Model.sync.call(this, 'create', payload, { url:url }, function(err, data, res) {
+      return Model.sync.call(this, 'create', payload, { url:url }, function(err, data, res) {
         if (!err && typeof data !== 'object')
           err = new Error('Response from /oauth/token not parsable JSON')
         callback(err, data, res)
@@ -92,7 +92,7 @@ module.exports = function(ngin) {
         callback = options, options = {}
       }
       options.url = Url.resolve(config.urls.users, '/oauth/me')
-      User.create({id:'me'}, options, callback)
+      return User.create({id:'me'}, options, callback)
     }
   })
 

@@ -1,4 +1,3 @@
-"use strict"
 var assert = require('assert')
 var sinon = require('sinon')
 
@@ -9,8 +8,9 @@ var ngin = new NginClient({
 })
 
 var server
+var testSubvenue
 
-describe('Bracket Model', function() {
+describe('Subvenue Model', function() {
 
   before(function() {
     server = Server()
@@ -20,50 +20,50 @@ describe('Bracket Model', function() {
     server.close(done)
   })
 
-  describe('Bracket Class', function() {
+  describe('Subvenue Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Bracket.create({id:1}, function(err, bracket) {
+      ngin.Subvenue.list({venue_id:1}, function(err, subvenue, opts) {
         assert(!err)
-        assert(!!bracket)
-        assert.equal(bracket.metadata.url, '/brackets/1')
+        assert(!!subvenue)
+        assert.equal(opts.req.path, '/venues/1/subvenues')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.Bracket.list(function(err, data, resp) {
+      ngin.Subvenue.list({venue_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        assert.equal(resp.req.path, '/brackets')
+        assert.equal(resp.req.path, '/venues/1/subvenues')
         done()
       })
     })
 
   })
 
-  describe('Bracket Instance', function() {
+  describe('Subvenue Instance', function() {
 
-    var bracket
+    var subvenue
 
     beforeEach(function() {
-      bracket = ngin.Bracket.create({id:1}, {fetched:true})
+      subvenue = ngin.Subvenue.create({id:2, venue_id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      bracket.save(function(err, data, resp) {
+      subvenue.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        assert.equal(resp.req.path, '/brackets/1')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      bracket.destroy(function(err, data, resp) {
+      subvenue.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        assert.equal(resp.req.path, '/brackets/1')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2')
         done()
       })
     })

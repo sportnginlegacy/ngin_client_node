@@ -26,7 +26,7 @@ module.exports = function(ngin) {
     list: function(options, callback) {
       if (!options.url)
         return callback(new Error('No url provided for Permission list'))
-      Model.list.call(this, null, options, callback)
+      return Model.list.call(this, null, options, callback)
     }
 
   })

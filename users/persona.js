@@ -39,7 +39,7 @@ module.exports = function(ngin) {
 
     list: function(options, callback) {
       var url = Persona.urlRoot()
-      Model.list.call(this, url, options, callback)
+      return Model.list.call(this, url, options, callback)
     }
 
   })

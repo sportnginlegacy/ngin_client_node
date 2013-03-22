@@ -3,8 +3,24 @@ var Url = require('url')
 var _ = require('underscore')
 
 module.exports = function(ngin) {
-  var Model = ngin.Model
+  var Model = ngin.NginModel
+  var Super = Model.prototype
   var config = ngin.config
+
+  /**
+   * Scopes the url to the tournament or flight
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend(_.clone(options || {}), inst)
+    if (!options.venue_id)
+      throw new Error('venue_id required to make subvenue api calls')
+    return ngin.Venue.urlRoot() + '/' + options.venue_id + Subvenue.urlRoot()
+  }
 
   /**
    * Subvenue Class
@@ -16,22 +32,32 @@ module.exports = function(ngin) {
 
   var Subvenue = Model.extend({
 
-    urlRoot: function(options) {
-      options = options || {}
-      var venueID = options.venue_id || this.venue_id
-      this.venue_id = venueID
-      delete options.venue_id
+    fetch: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
 
-      var base = config.urls && config.urls.venues || config.url
-      return Url.resolve(base, '/venues/' + this.venue_id + '/subvenues')
+    save: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
     }
 
-  })
+  }, {
 
-  // wrap the inheirited list function with arg checking
-  Subvenue.list = _.wrap(Subvenue.list, function(list, options, callback) {
-    if (!options.venue_id) return callback(new Error('venue_id is required'))
-    list.call(Subvenue, options, callback)
+    urlRoot: function(options) {
+      return '/subvenues'
+    },
+
+    list: function(options, callback) {
+      var url = scopeUrl(options)
+      return Model.list.call(Subvenue, url, options, callback)
+    }
+
   })
 
   return Subvenue

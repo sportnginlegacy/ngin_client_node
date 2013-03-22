@@ -41,7 +41,7 @@ module.exports = function(ngin) {
 
     list: function(options, callback) {
       var url = Bracket.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })
