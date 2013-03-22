@@ -46,7 +46,7 @@ module.exports = function(ngin) {
         options.method = 'PUT'
       }
       var url = scopeUrl(options, this)
-      Super.save.call(this, url, options, callback)
+      return Super.save.call(this, url, options, callback)
     }
 
   }, {
@@ -65,7 +65,7 @@ module.exports = function(ngin) {
       if (options.team_id)
         url = ngin.Team.urlRoot() + '/' + options.team_id + '/team_instances'
 
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

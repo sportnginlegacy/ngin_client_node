@@ -37,7 +37,7 @@ module.exports = function(ngin) {
       if (options.flight_id) options.query.flight_id = options.flight_id
       if (options.flight_stage_id) options.query.flight_stage_id = options.flight_stage_id
       var url = GameSlot.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

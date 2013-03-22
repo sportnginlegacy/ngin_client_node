@@ -49,7 +49,7 @@ module.exports = function(ngin) {
       if (!options.url && !(options.season_id && options.team_id))
         return callback(new Error('season_id and team_id are required'))
       var url = scopeUrl(options)
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

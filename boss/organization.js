@@ -26,7 +26,7 @@ module.exports = function(ngin) {
 
     mine: function(callback) {
       var url = Organization.urlRoot() + '/mine'
-      Model.list.call(this, url, callback)
+      return Model.list.call(this, url, callback)
     }
 
   })

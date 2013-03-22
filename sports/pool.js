@@ -34,12 +34,12 @@ module.exports = function(ngin) {
 
     addTeam: function(teamId, callback) {
       var url = Pool.urlRoot() + '/' + this.id + '/add_team/' + teamId
-      Pool.sync('update', null, { url:url }, callback)
+      return Pool.sync('update', null, { url:url }, callback)
     },
 
     removeTeam: function(teamId, callback) {
       var url = Pool.urlRoot() + '/' + this.id + '/remove_team/' + teamId
-      Pool.sync('delete', null, { url:url }, callback)
+      return Pool.sync('delete', null, { url:url }, callback)
     },
 
     standings: function(callback) {
@@ -56,7 +56,7 @@ module.exports = function(ngin) {
 
     list: function(options, callback) {
       var url = Pool.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

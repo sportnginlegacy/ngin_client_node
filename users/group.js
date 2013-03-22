@@ -52,7 +52,7 @@ module.exports = function(ngin) {
         owner_type: options.owner_type
       }
       var url = Group.urlRoot()
-      Model.list.call(this, url, options, callback)
+      return Model.list.call(this, url, options, callback)
     }
 
   })

@@ -45,7 +45,7 @@ module.exports = function(ngin) {
 
     list: function(options, callback) {
       var url = Division.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

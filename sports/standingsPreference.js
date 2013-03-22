@@ -20,13 +20,13 @@ module.exports = function(ngin) {
     if (!options || !options.subseason_id)
       throw new Error('subseason_id required to make standings preference api calls')
 
-      var url = ngin.Subseason.urlRoot() + '/' + options.subseason_id
-      if (options.pool_id) {
-        url += '/pools/' + options.pool_id
-      } else if (options.division_id) {
-        url += '/divisions/' + options.division_id
-      }
-      return url + StandingsPreference.urlRoot()
+    var url = ngin.Subseason.urlRoot() + '/' + options.subseason_id
+    if (options.pool_id) {
+      url += '/pools/' + options.pool_id
+    } else if (options.division_id) {
+      url += '/divisions/' + options.division_id
+    }
+    return url + StandingsPreference.urlRoot()
   }
 
   /**

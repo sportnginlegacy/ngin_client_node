@@ -78,7 +78,7 @@ module.exports = function(ngin) {
       options.query.season_id = options.season_id
 
       var url = Subseason.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

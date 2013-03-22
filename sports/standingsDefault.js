@@ -35,7 +35,7 @@ module.exports = function(ngin) {
 
     fetch: function(options, callback) {
       var url = scopeUrl(options, this)
-      Super.fetch.call(this, url, options, callback)
+      return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
@@ -45,7 +45,7 @@ module.exports = function(ngin) {
       }
       var url = scopeUrl(options, this)
       options.method = options.method || 'PUT'
-      Super.save.call(this, url, options, callback)
+      return Super.save.call(this, url, options, callback)
     }
 
   }, {

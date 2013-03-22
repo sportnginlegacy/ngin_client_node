@@ -29,7 +29,7 @@ module.exports = function(ngin) {
         return callback(new Error('sport_id is required to list tibreak criteria'))
       options.query = { sport_id:options.sport_id }
       var url = TiebreakCriteria.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })

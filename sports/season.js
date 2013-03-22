@@ -47,7 +47,7 @@ module.exports = function(ngin) {
       if (options.tournament_id) options.query.tournament_id = options.tournament_id
       if (options.league_id) options.query.league_id = options.league_id
       var url = Season.urlRoot()
-      SportsModel.list.call(this, url, options, callback)
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })
