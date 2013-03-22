@@ -19,7 +19,7 @@ module.exports = function(ngin) {
       options = null
     }
     options || (options = {})
-    options.url = url
+    options.url = options.url || url
     return [options, callback]
   }
 

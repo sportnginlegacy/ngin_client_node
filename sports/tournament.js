@@ -34,7 +34,9 @@ module.exports = function(ngin) {
     },
 
     teams: function(options, callback) {
-      options || (options = {})
+      if (typeof options == 'function') {
+        callback = options, options = {}
+      }
       options.url = Tournament.urlRoot() + '/' + this.id + '/teams'
       return ngin.Team.list(options, callback)
     },
@@ -50,7 +52,9 @@ module.exports = function(ngin) {
     },
 
     players: function(options, callback) {
-      options || (options = {})
+      if (typeof options == 'function') {
+        callback = options, options = {}
+      }
       options.url = Tournament.urlRoot() + '/' + this.id + '/players'
       return ngin.Player.list(options, callback)
     },

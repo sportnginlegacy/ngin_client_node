@@ -9,25 +9,67 @@ var ngin = new NginClient({
 })
 
 var server
-var testTournament
 
 describe('Tournament Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Tournament.create({id:1}, function(err, tournament) {
-      testTournament = tournament
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
+  describe('Tournament Class', function() {
+
+    it('should make requests on create with ID', function(done) {
+      ngin.Tournament.create({id:1}, function(err, tournament) {
+        assert(!err)
+        assert(!!tournament)
+        assert.equal(tournament.metadata.url, '/tournaments/1')
+        done()
+      })
+    })
+
+    it('should make requests on list', function(done) {
+      ngin.Tournament.list(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournaments')
+        done()
+      })
+    })
+
+  })
+
   describe('Tournament Instance', function() {
+
+    var testTournament
+
+    beforeEach(function() {
+      testTournament = ngin.Tournament.create({id:1}, {fetched:true})
+    })
+
+    it('should make requests on save with ID', function(done) {
+      testTournament.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournaments/1')
+        done()
+      })
+    })
+
+    it('should make requests on destroy with ID', function(done) {
+      testTournament.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/tournaments/1')
+        done()
+      })
+    })
+
     it('should make requests on teams with ID', function(done) {
-      testTournament.teams(1, function(err, tournament, opts) {
+      testTournament.teams(function(err, tournament, opts) {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/tournaments/1/teams')
@@ -54,7 +96,7 @@ describe('Tournament Model', function() {
     })
 
     it('should make requests on players with ID', function(done) {
-      testTournament.players(1, function(err, tournament, opts) {
+      testTournament.players(function(err, tournament, opts) {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.path, '/tournaments/1/players')
