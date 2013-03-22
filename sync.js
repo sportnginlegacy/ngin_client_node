@@ -26,6 +26,9 @@ module.exports = function(ngin) {
 
     // Default options, unless specified.
     options || (options = {})
+    if (typeof options == 'function') {
+      callback = options, options = {}
+    }
 
     // Default JSON-request options.
     var params = _.extend({}, options, {

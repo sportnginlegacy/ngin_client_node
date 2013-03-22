@@ -8,7 +8,8 @@ function isThirdNorth(perm) {
 }
 
 module.exports = function(ngin) {
-  var Model = ngin.Model
+  var Model = ngin.NginModel
+  var Super = Model.prototype
   var config = ngin.config
 
   /**
@@ -21,17 +22,12 @@ module.exports = function(ngin) {
 
   var User = Model.extend({
 
-    urlRoot: function() {
-      var base = config.urls && config.urls.users || config.url
-      return Url.resolve(base, '/users')
-    },
-
     initialize: function(attr, options) {
       this.isThirdNorth = _.memoize(this.isThirdNorth)
     },
 
     parse: function(attr) {
-      var attr = User.__super__.parse(attr)
+      var attr = Super.parse.call(this, attr)
       return _.extend({}, attr.user, { permissions: attr.permissions })
     },
 
@@ -40,21 +36,25 @@ module.exports = function(ngin) {
     },
 
     personas: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/personas'
-      return ngin.Persona.list(_.extend({}, null, {url:url}), callback)
+      var url = User.urlRoot() + '/' + this.id + '/personas'
+      return ngin.Persona.list(_.extend({}, {url:url}), callback)
     },
 
     groups: function(options, callback) {
       if (typeof options === 'function') {
-        callback = options
-        options = {}
+        callback = options, options = {}
       }
       options || (options = {})
-      var url = this.urlRoot() + '/' + this.id + '/groups'
+      var url = User.urlRoot() + '/' + this.id + '/groups'
       return ngin.Persona.list(_.extend({}, options, {url:url}), callback)
     }
 
   }, {
+
+    urlRoot: function() {
+      var base = config.urls && config.urls.users || config.url
+      return Url.resolve(base, '/users')
+    },
 
     authenticate: function(options, callback) {
       var url = Url.resolve(config.urls.users, '/oauth/token')
@@ -78,19 +78,10 @@ module.exports = function(ngin) {
         payload.password = options.password
       }
 
-      request.post({
-        uri: url,
-        form: payload
-      },
-      function(err, res, body) {
-        if (err) return callback(err, null, res)
-        var data
-        try {
-          data = JSON.parse(body)
-        } catch (ex) {
-          console.log('Response from /oauth/token not parsable JSON:', body)
-          err = ex
-        }
+      // var opts = { url:url }
+      Model.sync.call(this, 'create', payload, { url:url }, function(err, data, res) {
+        if (!err && typeof data !== 'object')
+          err = new Error('Response from /oauth/token not parsable JSON')
         callback(err, data, res)
       })
     },
@@ -98,8 +89,7 @@ module.exports = function(ngin) {
     me: function(options, callback) {
       options || (options = {})
       if (typeof options == 'function') {
-        callback = options
-        options = {}
+        callback = options, options = {}
       }
       options.url = Url.resolve(config.urls.users, '/oauth/me')
       User.create({id:'me'}, options, callback)

@@ -9,23 +9,25 @@ var ngin = new NginClient({
 })
 
 var server
-var testUser
 
 describe('User Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.User.create({id:1}, function(err, user) {
-      testUser = user
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
   describe('User Instance', function() {
+
+    var testUser
+
+    beforeEach(function() {
+      testUser = ngin.User.create({id:1}, {fetched:true})
+    })
+
     it("should make a request for personas with userId ", function(done){
       testUser.personas(function(err, personas, opts) {
         assert(!err)
