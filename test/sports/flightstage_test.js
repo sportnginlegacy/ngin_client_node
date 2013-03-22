@@ -46,11 +46,8 @@ describe('Flight Stage Model', function() {
 
     var testFlightStage
 
-    beforeEach(function(done) {
-      ngin.FlightStage.create({id:1, flight_id:1}, function(err, flightstage) {
-        testFlightStage = flightstage
-        done()
-      })
+    beforeEach(function() {
+      testFlightStage = ngin.FlightStage.create({id:1, flight_id:1}, {fetched:true})
     })
 
     it('should make requests on addTeam with ID and teamID', function(done) {

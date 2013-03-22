@@ -45,8 +45,13 @@ describe('Division Model', function() {
 
   describe('Division Instance', function() {
 
+    var testDivision
+
+    beforeEach(function() {
+      testDivision = ngin.Division.create({id:1}, {fetched:true})
+    })
+
     it("should make a request for standings with ID and subseasonID ", function(done){
-      var testDivision = ngin.Division.create({id:1}, {fetched:true})
       testDivision.standings(1, function(err, division, opts) {
         assert(!err)
         assert(!!opts)
@@ -56,8 +61,7 @@ describe('Division Model', function() {
     })
 
     it('should make requests on save with ID', function(done) {
-      var division = ngin.Division.create({id:1}, {fetched:true})
-      division.save(function(err, data, resp) {
+      testDivision.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         data = JSON.parse(resp.body)
@@ -67,8 +71,7 @@ describe('Division Model', function() {
     })
 
     it('should make requests on destroy with ID', function(done) {
-      var division = ngin.Division.create({id:1}, {fetched:true})
-      division.destroy(function(err, data, resp) {
+      testDivision.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         data = JSON.parse(resp.body)

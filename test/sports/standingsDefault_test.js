@@ -42,7 +42,7 @@ describe('StandingsDefault Model', function() {
 
     var standingsDefault
 
-    before(function() {
+    beforeEach(function() {
       standingsDefault = new ngin.StandingsDefault({tournament_id:1}, {fetched:true})
     })
 

@@ -42,7 +42,7 @@ describe('StandingsPreference Model', function() {
 
     var standingsPref
 
-    before(function() {
+    beforeEach(function() {
       standingsPref = new ngin.StandingsPreference({subseason_id:1}, {fetched:true})
     })
 

@@ -37,12 +37,11 @@ module.exports = function(ngin) {
     },
 
     roster: function(season_id, callback) {
-      return ngin.Roster.create({team_id: this.id, season_id: season_id}).fetch(callback)
+      return ngin.Roster.list({team_id: this.id, season_id: season_id}, callback)
     },
 
     instances: function(callback) {
-      var url = Team.urlRoot() + '/' + this.id + '/team_instances'
-      return ngin.TeamInstance.list({url:url}, callback)
+      return ngin.TeamInstance.list({team_id:this.id}, callback)
     }
 
   }, {
@@ -53,7 +52,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var url = Bracket.urlRoot()
+      var url = Team.urlRoot()
       SportsModel.list.call(this, url, options, callback)
     }
 

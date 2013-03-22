@@ -17,12 +17,10 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    var teamID = options.team_id
-    var seasonID = options.season_id
-    var base = config.urls && config.urls.sports || config.url
-    base = Url.resolve(base, '/seasons/' + seasonID + '/teams/' + teamID + '/rosters')
-    if (!options.id) return base
-    return Url.resolve(base, encodeURIComponent(options.id))
+    var url = config.urls && config.urls.sports || config.url
+    url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams/' + options.team_id + '/rosters'
+    if (options.id) url += '/' + options.id
+    return url
   }
 
   /**

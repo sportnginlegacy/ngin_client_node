@@ -71,14 +71,16 @@ module.exports = function(ngin) {
       return ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, callback)
     },
 
-    tiebreakPreference: function(callback){
-      return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, resp) {
-        if (Array.isArray(list) && !err ) {
-          return callback(err, list[0], resp)
-        }
-        callback(err, null, resp)
-      })
-    }
+    // Commenting this out for now. It may be needed later, however,
+    // it probably shouldn't be using `list`.
+    // tiebreakPreference: function(callback){
+    //   return ngin.TiebreakPreference.list({flight_id: this.id}, function(err, list, resp) {
+    //     if (Array.isArray(list) && !err ) {
+    //       return callback(err, list[0], resp)
+    //     }
+    //     callback(err, null, resp)
+    //   })
+    // }
 
   }, {
 

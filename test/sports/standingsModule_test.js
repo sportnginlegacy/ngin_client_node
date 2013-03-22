@@ -42,7 +42,7 @@ describe('StandingsModule Model', function() {
 
     var standingsModule
 
-    before(function() {
+    beforeEach(function() {
       standingsModule = new ngin.StandingsModule({sport_id:1}, {fetched:true})
     })
 

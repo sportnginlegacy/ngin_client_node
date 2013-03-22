@@ -147,14 +147,15 @@ describe('Flight Model', function() {
       })
     })
 
-    it('should make requests on tieBreakPreference with flight_id', function(done) {
-      testFlight.tiebreakPreference(function(err, tiebreakPreference, opts) {
-        assert(!err, 'err should be falsy')
-        assert(!!opts, 'opts should not be falsy')
-        assert.equal(opts.req.path, '/flights/1/tiebreak_preference')
-        done()
-      })
-    })
+    // this feature is disabled for the time being.
+    // it('should make requests on tieBreakPreference with flight_id', function(done) {
+    //   testFlight.tiebreakPreference(function(err, tiebreakPreference, opts) {
+    //     assert(!err, 'err should be falsy')
+    //     assert(!!opts, 'opts should not be falsy')
+    //     assert.equal(opts.req.path, '/flights/1/tiebreak_preference')
+    //     done()
+    //   })
+    // })
 
   })
 

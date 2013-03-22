@@ -60,11 +60,6 @@ module.exports = function(ngin) {
       // No need for the base portion of the url here
       // since this url must be scoped to another object.
       return '/tiebreak_preference'
-    },
-
-    list: function(options, callback) {
-      var url = scopeUrl(options)
-      SportsModel.list.call(this, url, options, callback)
     }
 
   })
