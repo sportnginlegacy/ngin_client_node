@@ -30,7 +30,7 @@ module.exports = function(ngin) {
         callback = options
         options = {}
       }
-      this.sync('read', options, function(err, data, resp) {
+      return this.sync('read', options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
         data = self.parse(data, resp)
         _.extend(self, data)
@@ -47,7 +47,7 @@ module.exports = function(ngin) {
 
       if (!this.isValid()) return callback('Model is not in a valid state.')
       var method = options.method || !!this.id ? 'update' : 'create'
-      this.sync(method, options, function(err, data, resp) {
+      return this.sync(method, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
         data = self.parse(data, resp)
         _.extend(self, data)
@@ -61,26 +61,9 @@ module.exports = function(ngin) {
         options = {}
       }
       if (!this.id) callback(null, true)
-      this.sync('delete', options, function(err, data, resp) {
+      return this.sync('delete', options, function(err, data, resp) {
         return callback(err, data, resp)
       })
-    },
-
-    url: function(options){
-      // Get base url
-      var url = (this.urlRoot instanceof Function) ? this.urlRoot(options) : this.urlRoot
-      // Append id if set
-      if (this.id) url += (url.charAt(url.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id)
-      // Add options as query parameters
-      if (options) {
-        var separator = '?'
-        Object.keys(options).forEach(function(key) {
-          if (options[key] == null) return
-          url += separator + encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
-          separator = '&'
-        })
-      }
-      return url
     },
 
     parse: function(attributes) {
@@ -89,7 +72,7 @@ module.exports = function(ngin) {
     },
 
     sync: function(method, options, callback) {
-      sync(method, this, options, callback)
+      return sync(method, this, options, callback)
     }
 
   })
@@ -101,14 +84,14 @@ module.exports = function(ngin) {
 
     create: function(attributes, options, callback) {
       if (typeof options === 'function') {
-        callback = options
-        options = null
+        callback = options, options = {}
       }
+
+      options || (options = {})
+      attributes || (attributes = {})
 
       var Class = this
       var defaults = Class.defaults
-      options || (options = {})
-      attributes || (attributes = {})
       if (defaults = _.result(Class, 'defaults')) {
         attributes = _.extend({}, defaults, attributes)
       }
@@ -143,7 +126,7 @@ module.exports = function(ngin) {
         options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
       }
 
-      this.sync('read', null, options, function(err, data, resp) {
+      return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
         data = self.parseList(data, resp)
         var list = []
