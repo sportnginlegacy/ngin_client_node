@@ -20,6 +20,19 @@ describe('User Model', function() {
     server.close(done)
   })
 
+  describe('User Class', function() {
+
+    it('should make a request for logged in user', function(done) {
+      ngin.User.me(function(err, model, data, resp) {
+        assert(!err)
+        assert(!!data)
+        assert.equal(resp.req.path, '/oauth/me')
+        done()
+      })
+    })
+
+  })
+
   describe('User Instance', function() {
 
     var testUser

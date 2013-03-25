@@ -26,6 +26,11 @@ module.exports = function(ngin) {
       this.isThirdNorth = _.memoize(this.isThirdNorth)
     },
 
+    fetch: function(options, callback) {
+      var url = User.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
     parse: function(attr) {
       var attr = Super.parse.call(this, attr)
       return _.extend({}, attr.user, { permissions: attr.permissions })
@@ -90,7 +95,8 @@ module.exports = function(ngin) {
       if (typeof options == 'function') {
         callback = options, options = {}
       }
-      options.url = Url.resolve(config.urls.users, '/oauth/me')
+      var base = config.urls && config.urls.users || config.url
+      options.url = Url.resolve(base, '/oauth/me')
       return User.create({id:'me'}, options, callback)
     }
   })
