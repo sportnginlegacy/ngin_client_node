@@ -24,10 +24,11 @@ describe('Flight Model', function() {
   describe('Flight Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Flight.create({id:1}, function(err, bracket) {
+      ngin.Flight.create({id:1}, function(err, flight, data, resp) {
         assert(!err)
-        assert(!!bracket)
-        assert.equal(bracket.metadata.url, '/flights/1')
+        assert(!!flight)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/flights/1')
         done()
       })
     })
@@ -36,8 +37,8 @@ describe('Flight Model', function() {
       ngin.Flight.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        data = JSON.parse(resp.body)
-        assert.equal(data.metadata.url, '/flights')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/flights')
         done()
       })
     })
@@ -53,106 +54,122 @@ describe('Flight Model', function() {
     })
 
     it('should make requests on save with ID', function(done) {
-      var flight = ngin.Flight.create({id:1}, {fetched:true})
-      flight.save(function(err, data, resp) {
+      testFlight.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        data = JSON.parse(resp.body)
-        assert.equal(data.metadata.url, '/flights/1')
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/flights/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testFlight.id
+      testFlight.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/flights')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      var flight = ngin.Flight.create({id:1}, {fetched:true})
-      flight.destroy(function(err, data, resp) {
+      testFlight.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        data = JSON.parse(resp.body)
-        assert.equal(data.metadata.url, '/flights/1')
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/flights/1')
         done()
       })
     })
 
     it('should make requests on addTeam with ID and teamID', function(done) {
-      testFlight.addTeam(1, function(err, flight, opts) {
+      testFlight.addTeam(1, function(err, flight, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/flights/1/add_team/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/flights/1/add_team/1')
         done()
       })
     })
 
     it('should make requests on removeTeam with ID and teamID', function(done) {
-      testFlight.removeTeam(1, function(err, f, opts) {
+      testFlight.removeTeam(1, function(err, f, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/flights/1/remove_team/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/flights/1/remove_team/1')
         done()
       })
     })
 
     it('should make requests on addToWaitlist with ID and teamID', function(done) {
-      testFlight.addToWaitlist(1, function(err, f, opts) {
+      testFlight.addToWaitlist(1, function(err, f, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/flights/1/add_to_waitlist/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/flights/1/add_to_waitlist/1')
         done()
       })
     })
 
     it('should make requests on removeFromWaitlist with ID and teamID', function(done) {
-      testFlight.removeFromWaitlist(1, function(err, f, opts) {
+      testFlight.removeFromWaitlist(1, function(err, f, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/flights/1/remove_from_waitlist/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/flights/1/remove_from_waitlist/1')
         done()
       })
     })
 
     it('should make requests on stage', function(done) {
-      testFlight.stages(function(err, f, opts) {
+      testFlight.stages(function(err, f, resp) {
         assert(!err, 'err should be falsy')
-        assert(!!opts, 'opts should not be falsy')
-        assert.equal(opts.req.path, '/flights/1/flight_stages')
+        assert(!!resp, 'resp should not be falsy')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/flights/1/flight_stages')
         done()
       })
     })
 
     it('should make requests on schedule with flight_id', function(done) {
-      testFlight.schedule(function(err, f, opts) {
+      testFlight.schedule(function(err, f, resp) {
         assert(!err, 'err should be falsy')
-        assert(!!opts, 'opts should not be falsy')
-        assert.equal(opts.req.path, '/tournament_schedules?flight_id=1')
+        assert(!!resp, 'resp should not be falsy')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournament_schedules?flight_id=1')
         done()
       })
     })
 
     it('should make requests on createSchedule with flight_id', function(done) {
-      testFlight.createSchedule(function(err, f, opts) {
+      testFlight.createSchedule(function(err, f, resp) {
         assert(!err, 'err should be falsy')
-        assert(!!opts, 'opts should not be falsy')
-        assert.equal(opts.req.path, '/tournament_schedules?flight_id=1')
+        assert(!!resp, 'resp should not be falsy')
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/tournament_schedules?flight_id=1')
         done()
       })
     })
 
     it('should make requests on publish with flight_id', function(done) {
-      testFlight.publish(function(err, f, opts) {
+      testFlight.publish(function(err, f, resp) {
         assert(!err, 'err should be falsy')
-        assert(!!opts, 'opts should not be falsy')
-        assert.equal(opts.req.method, 'POST')
-        assert.equal(opts.req.path, '/tournament_schedules/publish?flight_id=1')
+        assert(!!resp, 'resp should not be falsy')
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/tournament_schedules/publish?flight_id=1')
         done()
       })
     })
 
     // this feature is disabled for the time being.
     // it('should make requests on tieBreakPreference with flight_id', function(done) {
-    //   testFlight.tiebreakPreference(function(err, tiebreakPreference, opts) {
+    //   testFlight.tiebreakPreference(function(err, tiebreakPreference, resp) {
     //     assert(!err, 'err should be falsy')
-    //     assert(!!opts, 'opts should not be falsy')
-    //     assert.equal(opts.req.path, '/flights/1/tiebreak_preference')
+    //     assert(!!resp, 'resp should not be falsy')
+    //     assert.equal(resp.req.path, '/flights/1/tiebreak_preference')
     //     done()
     //   })
     // })

@@ -26,6 +26,7 @@ describe('GameSlot Model', function() {
       ngin.GameSlot.list({flight_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/tournament_schedules?flight_id=1')
         done()
       })
@@ -35,6 +36,7 @@ describe('GameSlot Model', function() {
       ngin.GameSlot.list({flight_stage_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/tournament_schedules?flight_stage_id=1')
         done()
       })
@@ -54,6 +56,7 @@ describe('GameSlot Model', function() {
       gameslot.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/tournament_schedules/1')
         done()
       })

@@ -23,10 +23,11 @@ describe('Player Model', function() {
   describe('Player Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Player.create({id:1}, function(err, player) {
+      ngin.Player.create({id:1}, function(err, player, data, resp) {
         assert(!err)
         assert(!!player)
-        assert.equal(player.metadata.url, '/players/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/players/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Player Model', function() {
       ngin.Player.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/players')
         done()
       })
@@ -53,7 +55,19 @@ describe('Player Model', function() {
       player.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/players/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete player.id
+      player.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/players')
         done()
       })
     })
@@ -62,6 +76,7 @@ describe('Player Model', function() {
       player.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/players/1')
         done()
       })

@@ -26,6 +26,7 @@ describe('User Model', function() {
       ngin.User.me(function(err, model, data, resp) {
         assert(!err)
         assert(!!data)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/oauth/me')
         done()
       })
@@ -42,19 +43,21 @@ describe('User Model', function() {
     })
 
     it("should make a request for personas with userId ", function(done){
-      testUser.personas(function(err, personas, opts) {
+      testUser.personas(function(err, personas, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/users/1/personas')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/users/1/personas')
         done()
       })
     })
 
     it("should make a request for groups with userId ", function(done){
-      testUser.groups(function(err, groups, opts) {
+      testUser.groups(function(err, groups, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/users/1/groups')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/users/1/groups')
         done()
       })
     })

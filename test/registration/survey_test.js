@@ -23,9 +23,10 @@ describe('Survey Model', function() {
   describe('Survey Class', function() {
 
     it("should make a request on create with ID", function(done) {
-      ngin.Survey.create({id:1}, function(err, survey) {
+      ngin.Survey.create({id:1}, function(err, survey, data, resp) {
         assert(!err)
         assert(!!survey)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(survey.metadata && survey.metadata.url, '/api2/registration/survey/show/1.json')
         done()
       })

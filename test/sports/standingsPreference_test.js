@@ -50,6 +50,7 @@ describe('StandingsPreference Model', function() {
       standingsPref.fetch(function(err, standingsPref, resp) {
         assert(!err)
         assert(!!standingsPref)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subseasons/1/standings_preferences')
         done()
       })
@@ -59,6 +60,7 @@ describe('StandingsPreference Model', function() {
       standingsPref.fetch({pool_id:2}, function(err, standingsPref, resp) {
         assert(!err)
         assert(!!standingsPref)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subseasons/1/pools/2/standings_preferences')
         done()
       })
@@ -68,6 +70,7 @@ describe('StandingsPreference Model', function() {
       standingsPref.fetch({division_id:2}, function(err, standingsPref, resp) {
         assert(!err)
         assert(!!standingsPref)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subseasons/1/divisions/2/standings_preferences')
         done()
       })

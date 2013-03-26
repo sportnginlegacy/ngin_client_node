@@ -23,10 +23,11 @@ describe('Pool Model', function() {
   describe('Pool Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Pool.create({id:1}, function(err, pool) {
+      ngin.Pool.create({id:1}, function(err, pool, data, resp) {
         assert(!err)
         assert(!!pool)
-        assert.equal(pool.metadata.url, '/pools/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/pools/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Pool Model', function() {
       ngin.Pool.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/pools')
         done()
       })
@@ -51,28 +53,31 @@ describe('Pool Model', function() {
     })
 
     it("should make a request for standings with ID and subseasonID ", function(done){
-      testPool.standings(function(err, pool, opts) {
+      testPool.standings(function(err, pool, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/pools/1/standings')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/pools/1/standings')
         done()
       })
     })
 
     it("should make a request for addTeam with ID and teamID", function(done){
-      testPool.addTeam(1, function(err, pool, opts) {
+      testPool.addTeam(1, function(err, pool, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/pools/1/add_team/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/pools/1/add_team/1')
         done()
       })
     })
 
     it("should make a request for removeTeam with ID and teamID ", function(done){
-      testPool.removeTeam(1, function(err, pool, opts) {
+      testPool.removeTeam(1, function(err, pool, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/pools/1/remove_team/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/pools/1/remove_team/1')
         done()
       })
     })
@@ -81,7 +86,19 @@ describe('Pool Model', function() {
       testPool.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/pools/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testPool.id
+      testPool.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/pools')
         done()
       })
     })
@@ -90,6 +107,7 @@ describe('Pool Model', function() {
       testPool.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/pools/1')
         done()
       })

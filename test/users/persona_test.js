@@ -29,19 +29,21 @@ describe('Persona Model', function() {
     })
 
     it("should make a request for permissions with personaId ", function(done){
-      testPersona.permissions(function(err, permissions, opts) {
+      testPersona.permissions(function(err, permissions, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/personas/1/permissions')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/personas/1/permissions')
         done()
       })
     })
 
     it("should make a request for groups with personaId ", function(done){
-      testPersona.groups(function(err, groups, opts) {
+      testPersona.groups(function(err, groups, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/personas/1/groups')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/personas/1/groups')
         done()
       })
     })

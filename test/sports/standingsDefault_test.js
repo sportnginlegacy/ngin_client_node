@@ -50,6 +50,7 @@ describe('StandingsDefault Model', function() {
       standingsDefault.fetch(function(err, standingsDefault, resp) {
         assert(!err)
         assert(!!standingsDefault)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/tournaments/1/standings_defaults')
         done()
       })
@@ -59,6 +60,7 @@ describe('StandingsDefault Model', function() {
       standingsDefault.save(function(err, standingsDefault, resp) {
         assert(!err)
         assert(!!standingsDefault)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/tournaments/1/standings_defaults')
         done()
       })

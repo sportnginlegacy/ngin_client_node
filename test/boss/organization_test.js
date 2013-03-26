@@ -33,6 +33,7 @@ describe('Organization Model', function() {
       ngin.Organization.mine(function(err, org, resp) {
         assert(!err)
         assert(!!org)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/mine')
         done()
       })

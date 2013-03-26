@@ -23,10 +23,11 @@ describe('Subvenue Model', function() {
   describe('Subvenue Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Subvenue.list({venue_id:1}, function(err, subvenue, opts) {
+      ngin.Subvenue.create({id:2, venue_id:1}, function(err, subvenue, data, resp) {
         assert(!err)
         assert(!!subvenue)
-        assert.equal(opts.req.path, '/venues/1/subvenues')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Subvenue Model', function() {
       ngin.Subvenue.list({venue_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/venues/1/subvenues')
         done()
       })
@@ -54,7 +56,19 @@ describe('Subvenue Model', function() {
       subvenue.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/venues/1/subvenues/2')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete subvenue.id
+      subvenue.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/venues/1/subvenues')
         done()
       })
     })
@@ -63,6 +77,7 @@ describe('Subvenue Model', function() {
       subvenue.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/venues/1/subvenues/2')
         done()
       })

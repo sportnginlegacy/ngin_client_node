@@ -28,6 +28,7 @@ describe('Group Model', function() {
         var group = ngin.Group.list({owner_id:1, owner_type:'org'}, function(err, groups, resp) {
           assert(!err)
           assert(!!groups)
+          assert.equal(resp.req.method, 'GET')
           assert.equal(resp.req.path, '/groups?owner_id=1&owner_type=org')
           done()
         })
@@ -63,6 +64,7 @@ describe('Group Model', function() {
       testGroup.personas(function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/groups/1/personas')
         done()
       })
@@ -72,6 +74,7 @@ describe('Group Model', function() {
       testGroup.addPersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/groups/1/add_persona/1')
         done()
       })
@@ -81,6 +84,7 @@ describe('Group Model', function() {
       testGroup.removePersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/groups/1/remove_persona/1')
         done()
       })

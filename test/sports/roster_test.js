@@ -23,10 +23,11 @@ describe('Roster Model', function() {
   describe('Roster Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Roster.create({id:1}, function(err, roster) {
+      ngin.Roster.create({id:1}, function(err, roster, data, resp) {
         assert(!err)
         assert(!!roster)
-        assert.equal(roster.metadata.url, '/rosters/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/rosters/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Roster Model', function() {
       ngin.Roster.list({season_id:1, team_id:2}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/seasons/1/teams/2/rosters')
         done()
       })

@@ -23,10 +23,11 @@ describe('Game Model', function() {
   describe('Game Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Game.create({id:1}, function(err, game) {
+      ngin.Game.create({id:1}, function(err, game, data, resp) {
         assert(!err)
         assert(!!game)
-        assert.equal(game.metadata.url, '/games/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/games/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Game Model', function() {
       ngin.Game.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/games')
         done()
       })
@@ -53,7 +55,19 @@ describe('Game Model', function() {
       game.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/games/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete game.id
+      game.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/games')
         done()
       })
     })
@@ -62,6 +76,7 @@ describe('Game Model', function() {
       game.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/games/1')
         done()
       })

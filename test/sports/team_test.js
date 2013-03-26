@@ -23,10 +23,11 @@ describe('Team Model', function() {
   describe('Team Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Team.create({id:1}, function(err, team) {
+      ngin.Team.create({id:1}, function(err, team, data, resp) {
         assert(!err)
         assert(!!team)
-        assert.equal(team.metadata.url, '/teams/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/teams/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Team Model', function() {
       ngin.Team.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/teams')
         done()
       })
@@ -54,7 +56,19 @@ describe('Team Model', function() {
       testTeam.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/teams/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testTeam.id
+      testTeam.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/teams')
         done()
       })
     })
@@ -63,34 +77,38 @@ describe('Team Model', function() {
       testTeam.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/teams/1')
         done()
       })
     })
 
     it("should make a request for standings with ID and subseasonID ", function(done){
-      testTeam.standings(1, function(err, team, opts) {
+      testTeam.standings(1, function(err, team, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/subseasons/1/teams/1/standings')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subseasons/1/teams/1/standings')
         done()
       })
     })
 
     it("should make a request for rosters with ID and seasonID ", function(done){
-      testTeam.roster(1, function(err, team, opts) {
+      testTeam.roster(1, function(err, team, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/seasons/1/teams/1/rosters')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/teams/1/rosters')
         done()
       })
     })
 
     it("should make a request for instances with ID", function(done){
-      testTeam.instances(function(err, team, opts) {
+      testTeam.instances(function(err, team, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/teams/1/team_instances')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/teams/1/team_instances')
         done()
       })
     })

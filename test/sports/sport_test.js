@@ -26,6 +26,7 @@ describe('Sport Model', function() {
       ngin.Sport.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/sports')
         done()
       })
@@ -63,10 +64,11 @@ describe('Sport Model', function() {
     })
 
     it("should make a request for standings modules with id", function(done){
-      testSport.standingsModules(function(err, standingsModule, opts) {
+      testSport.standingsModules(function(err, standingsModule, resp) {
         assert(!err)
-        assert(!!opts)
-        assert.equal(opts.req.path, '/sports/1/standings_modules')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/sports/1/standings_modules')
         done()
       })
     })

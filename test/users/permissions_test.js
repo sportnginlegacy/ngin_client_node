@@ -27,6 +27,7 @@ describe('Permission Model', function() {
       ngin.Permission.list({url:url}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/permissions/1')
       })
       done()

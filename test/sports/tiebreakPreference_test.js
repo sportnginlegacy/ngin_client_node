@@ -51,6 +51,7 @@ describe('TiebreakPreference Model', function() {
       tiebreakPref.fetch(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/tournaments/1/tiebreak_preference')
         done()
       })
@@ -61,6 +62,7 @@ describe('TiebreakPreference Model', function() {
       tiebreakPref.fetch(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/flights/1/tiebreak_preference')
         done()
       })
@@ -71,6 +73,7 @@ describe('TiebreakPreference Model', function() {
       tiebreakPref.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
         assert.equal(resp.req.path, '/tournaments/1/tiebreak_preference')
         done()
       })
@@ -81,6 +84,7 @@ describe('TiebreakPreference Model', function() {
       tiebreakPref.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
         assert.equal(resp.req.path, '/flights/1/tiebreak_preference')
         done()
       })

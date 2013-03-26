@@ -50,6 +50,7 @@ describe('StandingsModule Model', function() {
       standingsModule.fetch(function(err, standingsModule, resp) {
         assert(!err)
         assert(!!standingsModule)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/sports/1/standings_modules')
         done()
       })

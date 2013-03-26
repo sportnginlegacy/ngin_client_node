@@ -26,18 +26,21 @@ describe('FlightDefault Model', function() {
   })
 
   it('should make requests on fetch with ID', function(done) {
-    testFlightDefault.fetch({}, function(err, flightDefault, opts) {
+    testFlightDefault.fetch({}, function(err, flightDefault, resp) {
       assert(!err)
       assert(!!flightDefault)
-      assert.equal(flightDefault.metadata.url, '/tournaments/1/flight_defaults')
+      assert.equal(resp.req.method, 'GET')
+      assert.equal(resp.req.path, '/tournaments/1/flight_defaults')
       done()
     })
   })
 
   it('should make requests on save', function(done) {
-    testFlightDefault.save(function(err, flightDefault, opts) {
+    testFlightDefault.save(function(err, flightDefault, resp) {
       assert(!err)
       assert(!!flightDefault)
+      assert.equal(resp.req.method, 'PUT')
+      assert.equal(resp.req.path, '/tournaments/1/flight_defaults')
       done()
     })
   })

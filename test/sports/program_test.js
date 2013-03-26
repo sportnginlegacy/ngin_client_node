@@ -23,10 +23,11 @@ describe('Program Model', function() {
   describe('Program Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Program.create({id:1}, function(err, program) {
+      ngin.Program.create({id:1}, function(err, program, data, resp) {
         assert(!err)
         assert(!!program)
-        assert.equal(program.metadata.url, '/programs/1')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/programs/1')
         done()
       })
     })
@@ -35,6 +36,7 @@ describe('Program Model', function() {
       ngin.Program.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/programs')
         done()
       })
@@ -53,7 +55,19 @@ describe('Program Model', function() {
       program.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/programs/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete program.id
+      program.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/programs')
         done()
       })
     })
@@ -62,6 +76,7 @@ describe('Program Model', function() {
       program.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/programs/1')
         done()
       })

@@ -27,6 +27,7 @@ describe('TeamInstance Model', function() {
       ngin.TeamInstance.list({subseason_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subseasons/1/teams')
         done()
       })
@@ -36,6 +37,7 @@ describe('TeamInstance Model', function() {
       ngin.TeamInstance.list({team_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/teams/1/team_instances')
         done()
       })
@@ -50,18 +52,20 @@ describe('TeamInstance Model', function() {
     })
 
     it('should make requests on show with teamID', function(done) {
-      testTeamInstance.fetch(function(err, ti){
+      testTeamInstance.fetch(function(err, ti, resp){
         assert(!err)
         assert(!!ti)
-        assert.equal(ti.metadata.url, '/subseasons/1/teams/2')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subseasons/1/teams/2')
         done()
       })
     })
 
-    it('should make requests on save with ID', function(done) {
+    it('should make requests on save with teamID and subseasonID', function(done) {
       testTeamInstance.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/subseasons/1/teams/2')
         done()
       })

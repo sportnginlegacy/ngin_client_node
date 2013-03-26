@@ -26,6 +26,7 @@ describe('TiebreakCriteria Model', function() {
       ngin.TiebreakCriteria.list({sport_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/tiebreak_criteria?sport_id=1')
         done()
       })

@@ -23,9 +23,10 @@ describe('League Model', function() {
   describe('League Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.League.create({id:1}, function(err, league) {
+      ngin.League.create({id:1}, function(err, league, data, resp) {
         assert(!err)
         assert(!!league)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(league.metadata.url, '/leagues/1')
         done()
       })
@@ -35,6 +36,7 @@ describe('League Model', function() {
       ngin.League.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/leagues')
         done()
       })
@@ -53,7 +55,19 @@ describe('League Model', function() {
       league.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/leagues/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete league.id
+      league.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/leagues')
         done()
       })
     })
