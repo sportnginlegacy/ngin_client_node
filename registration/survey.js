@@ -7,8 +7,6 @@ module.exports = function(ngin) {
   var Super = Model.prototype
   var config = ngin.config
 
-  // http://www.ngin.com/api2/registration/survey/show/20834.json
-
   /**
    * Survey Class
    *

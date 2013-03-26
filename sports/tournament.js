@@ -24,7 +24,7 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      var url = Tournament.urlRoot() + '/' + this.id
+      var url = Tournament.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 

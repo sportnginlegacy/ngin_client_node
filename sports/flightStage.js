@@ -39,7 +39,7 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      var url = scopeUrl(options, this) + '/' + this.id
+      var url = scopeUrl(options, this) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 

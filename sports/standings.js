@@ -16,19 +16,15 @@ module.exports = function(ngin) {
    * @api public
    */
 
-  function buildUrl(options, inst) {
-    // if (!options || typeof options !== 'object' || !options.tournament_id || !options.flight_id)
-    //   throw new Error('tournament_id or flight_id required to make tibreak preference api calls')
+  function scopeUrl(options, inst) {
+    options = _.extend(_.clone(options || {}), inst)
+    var route = []
 
-    options || (options = {})
-    inst || (inst = {})
-    var id, route = []
-
-    if (id = options.subseason_id || inst.subseason_id) route.push('subseasons', id)
-    if (id = options.flight_stage_id || inst.flight_stage_id) route.push('flight_stages', id)
-    else if (id = options.division_id || inst.division_id) route.push('divisions', id)
-    else if (id = options.pool_id || inst.pool_id) route.push('pools', id)
-    else if (id = options.team_id || inst.team_id) route.push('teams', id)
+    if (options.subseason_id) route.push('subseasons', options.subseason_id)
+    if (options.flight_stage_id) route.push('flight_stages', options.flight_stage_id)
+    else if (options.division_id) route.push('divisions', options.division_id)
+    else if (options.pool_id) route.push('pools', options.pool_id)
+    else if (options.team_id) route.push('teams', options.team_id)
     route.push('standings')
 
     var base = config.urls && config.urls.sports || config.url
@@ -46,7 +42,7 @@ module.exports = function(ngin) {
   var Standings = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = buildUrl(options, this)
+      var url = scopeUrl(options, this)
       return Super.fetch.call(this, url, options, callback)
     }
 

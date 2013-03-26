@@ -19,7 +19,7 @@ module.exports = function(ngin) {
   var GameSlot = SportsModel.extend({
 
     save: function(options, callback) {
-      var url = GameSlot.urlRoot() + '/' + this.id
+      var url = GameSlot.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
