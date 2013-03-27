@@ -83,7 +83,7 @@ module.exports = function(ngin) {
         payload.password = options.password
       }
 
-      return Model.sync.call(this, 'create', payload, { url:url }, function(err, data, res) {
+      return request.post(url, { json:payload }, function(err, res, data) {
         if (!err && typeof data !== 'object')
           err = new Error('Response from /oauth/token not parsable JSON')
         callback(err, data, res)
