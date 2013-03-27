@@ -38,9 +38,7 @@ module.exports = function(ngin) {
     })
 
     // Ensure that we have a URL.
-    if (!params.url) {
-      params.url = _.result(model, 'url') || urlError()
-    }
+    if (!params.url) return callback(new Error('Url not present'))
 
     // request expects the `url` property to be a parsed Url object
     if (typeof params.url == 'string') {
@@ -55,7 +53,13 @@ module.exports = function(ngin) {
 
     // translate from query to qs for request
     if (params.query) {
-      params.qs = params.query
+      params.qs = _.extend({}, params.query)
+    }
+
+    // put the org id on the query string
+    if (params.org_id) {
+      params.qs || (params.qs = {})
+      params.qs.org_id = params.org_id
     }
 
     // Don't process data on a non-GET request.
@@ -89,7 +93,7 @@ module.exports = function(ngin) {
       // if the response wasn't in the 2XX status
       // code block then we treat it as an error
       if (resp.statusCode >= 300) {
-        var err = new Error('Request failed')
+        var err = new Error('NGIN Request failed with ' + resp.statusCode)
         err.url = params.url
         err.statusCode = resp.statusCode
         err.body = parsedBody
