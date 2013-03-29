@@ -60,6 +60,27 @@ describe('Group Model', function() {
       testGroup = ngin.Group.create({id:1}, {fetched:true})
     })
 
+    it('should make requests on save with ID', function(done) {
+      testGroup.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/groups/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testGroup.id
+      testGroup.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/groups')
+        done()
+      })
+    })
+
     it('should make requests on personas', function(done) {
       testGroup.personas(function(err, personas, resp) {
         assert(!err)

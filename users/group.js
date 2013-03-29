@@ -18,6 +18,16 @@ module.exports = function(ngin) {
 
   var Group = Model.extend({
 
+    fetch: function(options, callback) {
+      var url = Group.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Group.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
     personas: function(options, callback) {
       if (typeof options === 'function') {
         callback = options, options = {}
