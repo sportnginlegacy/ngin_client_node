@@ -31,10 +31,10 @@ module.exports = function(ngin) {
         options = {}
       }
       return this.sync('read', options, function(err, data, resp) {
-        if (err) return callback(err, data, resp)
+        if (err) return callback(err, self, resp)
         data = self.parse(data, resp)
         _.extend(self, data)
-        callback(err, data, resp)
+        callback(err, self, resp)
       })
     },
 
