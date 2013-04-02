@@ -32,14 +32,14 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    availableTimes: function(callback) {
+    availableTimes: function(options, callback) {
       var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('read', null, { url:url }, callback)
+      return Venue.sync('read', url, options, callback)
     },
 
-    updateAvailableTimes: function(callback) {
+    updateAvailableTimes: function(options, callback) {
       var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('update', null, { url:url }, callback)
+      return Venue.sync('update', url, options, callback)
     }
 
   }, {
