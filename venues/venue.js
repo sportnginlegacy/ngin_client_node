@@ -32,14 +32,8 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    availableTimes: function(options, callback) {
-      var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('read', null, { url:url }, callback)
-    },
-
-    updateAvailableTimes: function(options, callback) {
-      var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('update', null, { url:url }, callback)
+    availableTimes: function(callback) {
+      return ngin.AvailableTimes.create({venue_id:this.id}).fetch(callback)
     }
 
   }, {

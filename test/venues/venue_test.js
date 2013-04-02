@@ -86,21 +86,11 @@ describe('Venue Model', function() {
       })
     })
 
-    it('should make requests on availableTimes with ID', function(done) {
-      testVenue.availableTimes(function(err, venue, resp) {
+    it('should make requests on standingsDefaults with tournamentID', function(done) {
+      testVenue.availableTimes(function(err, availableTimes, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues/1/available_times')
-        done()
-      })
-    })
-
-    it('should make requests on updateAvailableTimes with ID', function(done) {
-      testVenue.updateAvailableTimes(function(err, venue, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/venues/1/available_times')
         done()
       })
