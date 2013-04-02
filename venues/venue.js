@@ -34,12 +34,12 @@ module.exports = function(ngin) {
 
     availableTimes: function(options, callback) {
       var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('read', options, { url:url }, callback)
+      return Venue.sync('read', null, { url:url }, callback)
     },
 
     updateAvailableTimes: function(options, callback) {
       var url = Venue.urlRoot() + '/' + this.id + '/available_times'
-      return Venue.sync('update', options, { url:url }, callback)
+      return Venue.sync('update', null, { url:url }, callback)
     }
 
   }, {
