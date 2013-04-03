@@ -16,6 +16,21 @@ module.exports = function(ngin) {
 
   var Persona = Model.extend({
 
+    fetch: function(options, callback) {
+      var url = Persona.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Persona.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = Persona.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
+    },
+
     permissions: function(callback) {
       var url = Persona.urlRoot() + '/' + this.id + '/permissions'
       return ngin.Permission.list(_.extend({}, null, {url:url}), callback)
@@ -38,6 +53,8 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
+      if (!options.url && !options.user_id && !options.group_id && !(options.owner_type && options.owner_id))
+        return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
       var url = Persona.urlRoot()
       return Model.list.call(this, url, options, callback)
     }
