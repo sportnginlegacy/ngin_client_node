@@ -23,33 +23,33 @@ describe('Persona Model', function() {
   describe('list', function(){
 
     it("should make a request on list with userID", function(done) {
-      ngin.Persona.list({user_id: 1}, function(err, data, resp) {
+      ngin.Persona.list({query:{user_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/personas')
+        assert.equal(resp.req.path, '/personas?user_id=1')
+        done()
       })
-      done()
     })
 
     it("should make a request on list with userID", function(done) {
-      ngin.Persona.list({group_id: 1}, function(err, data, resp) {
+      ngin.Persona.list({query:{group_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/personas')
+        assert.equal(resp.req.path, '/personas?group_id=1')
+        done()
       })
-      done()
     })
 
     it("should make a request on list with userID", function(done) {
-      ngin.Persona.list({owner_type: 1, owner_id: 1}, function(err, data, resp) {
+      ngin.Persona.list({query:{owner_type: 1, owner_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/personas')
+        assert.equal(resp.req.path, '/personas?owner_type=1&owner_id=1')
+        done()
       })
-      done()
     })
 
     it("should error on list without user_id or group_id or (owner_type and owner_id)", function(done) {

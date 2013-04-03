@@ -53,8 +53,10 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.url && !options.user_id && !options.group_id && !(options.owner_type && options.owner_id))
+      var query = options.query || {}
+      if (!options.url && !query.user_id && !query.group_id && !(query.owner_type && query.owner_id)) {
         return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
+      }
       var url = Persona.urlRoot()
       return Model.list.call(this, url, options, callback)
     }
