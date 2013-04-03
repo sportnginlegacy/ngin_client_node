@@ -3,7 +3,8 @@ var Url = require('url')
 var _ = require('underscore')
 
 module.exports = function(ngin) {
-  var Model = ngin.Model
+  var Model = ngin.NginModel
+  var Super = Model.prototype
   var config = ngin.config || {}
 
   /**
@@ -16,17 +17,16 @@ module.exports = function(ngin) {
 
   var Organization = Model.extend({
 
+  },{
+
     urlRoot: function() {
       var base = config.urls && config.urls.boss || config.url
       return Url.resolve(base, '/organizations')
-    }
-
-  },{
+    },
 
     mine: function(callback) {
-      var base = config.urls && config.urls.boss || config.url
-      var url = Url.resolve(base, '/organizations/mine')
-      Organization.list({url:url}, callback)
+      var url = Organization.urlRoot() + '/mine'
+      return Model.list.call(this, url, callback)
     }
 
   })

@@ -13,27 +13,71 @@ var testTeamInstance
 
 describe('TeamInstance Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.TeamInstance.create({subseason_id:1, id:1}, function(err, ti) {
-      testTeamInstance = ti
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
-  describe('TeamIstance Instance', function(){
-    it('should make requests on show with teamID', function(done) {
-      testTeamInstance.fetch({team_id:1}, function(err, ti){
+  describe('TeamInstance Class', function() {
+
+    it('should make requests on list with subseason_id', function(done) {
+      ngin.TeamInstance.list({subseason_id:1}, function(err, data, resp) {
         assert(!err)
-        assert(!!ti)
-        assert.equal(ti.metadata.url, '/subseasons/1/teams/1')
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subseasons/1/teams')
         done()
       })
     })
+
+    it('should make requests on list with team_id', function(done) {
+      ngin.TeamInstance.list({team_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/teams/1/team_instances')
+        done()
+      })
+    })
+
+  })
+
+  describe('TeamInstance Instance', function() {
+
+    beforeEach(function() {
+      testTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
+    })
+
+    it('should make requests on show with teamID', function(done) {
+      testTeamInstance.fetch(function(err, ti, resp){
+        assert(!err)
+        assert(!!ti)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subseasons/1/teams/2')
+        done()
+      })
+    })
+
+    it('should make requests on save with teamID and subseasonID', function(done) {
+      testTeamInstance.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/subseasons/1/teams/2')
+        done()
+      })
+    })
+
+    it('should throw on delete', function(done) {
+      assert.throws(function(){
+        testTeamInstance.delete(done)
+      }, Error)
+      done()
+    })
+
   })
 
 })

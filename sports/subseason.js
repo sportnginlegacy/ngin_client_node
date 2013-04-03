@@ -4,6 +4,7 @@ var _ = require('underscore')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
+  var Super = SportsModel.prototype
   var config = ngin.config
 
   /**
@@ -16,29 +17,39 @@ module.exports = function(ngin) {
 
   var Subseason = SportsModel.extend({
 
-    urlRoot: function() {
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/subseasons')
+    fetch: function(options, callback) {
+      var url = Subseason.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Subseason.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = Subseason.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
     },
 
     addTeam: function(teamId, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/add_team/' + teamId
-      Subseason.sync('update', null, { url:url }, callback)
+      var url = Subseason.urlRoot() + '/' + this.id + '/add_team/' + teamId
+      return Subseason.sync('update', null, { url:url }, callback)
     },
 
     removeTeam: function(teamId, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/remove_team/' + teamId
-      Subseason.sync('delete', null, { url:url }, callback)
+      var url = Subseason.urlRoot() + '/' + this.id + '/remove_team/' + teamId
+      return Subseason.sync('delete', null, { url:url }, callback)
     },
 
     addDivision: function(divisionId, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/add_division/' + divisionId
-      Subseason.sync('update', null, { url:url }, callback)
+      var url = Subseason.urlRoot() + '/' + this.id + '/add_division/' + divisionId
+      return Subseason.sync('update', null, { url:url }, callback)
     },
 
     removeDivision: function(divisionId, callback) {
-      var url = this.urlRoot() + '/' + this.id + '/remove_division/' + divisionId
-      Subseason.sync('delete', null, { url:url }, callback)
+      var url = Subseason.urlRoot() + '/' + this.id + '/remove_division/' + divisionId
+      return Subseason.sync('delete', null, { url:url }, callback)
     },
 
     standings: function(callback) {
@@ -50,8 +61,24 @@ module.exports = function(ngin) {
     },
 
     teams: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/teams'
-      return ngin.TeamInstance.list({url:url}, callback)
+      return ngin.TeamInstance.list({subseason_id: this.id}, callback)
+    }
+
+  }, {
+
+    urlRoot: function() {
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/subseasons')
+    },
+
+    list: function(options, callback) {
+      if (!options || !options.season_id)
+        callback(new Error('season_id is required to list subseasons'))
+      options.query || (options.query = {})
+      options.query.season_id = options.season_id
+
+      var url = Subseason.urlRoot()
+      return SportsModel.list.call(this, url, options, callback)
     }
 
   })
