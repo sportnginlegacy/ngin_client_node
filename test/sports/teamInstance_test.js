@@ -9,7 +9,6 @@ var ngin = new NginClient({
 })
 
 var server
-var testTeamInstance
 
 describe('TeamInstance Model', function() {
 
@@ -46,6 +45,8 @@ describe('TeamInstance Model', function() {
   })
 
   describe('TeamInstance Instance', function() {
+
+    var testTeamInstance
 
     beforeEach(function() {
       testTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
