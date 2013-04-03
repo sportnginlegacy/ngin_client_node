@@ -33,7 +33,6 @@ searchPaths.forEach(function(path) {
     modelName = modelName.charAt(0).toUpperCase() + modelName.substring(1)
     var Model = require('./'+modelPath)
     models[modelName] = _.memoize(Model, hasher)
-
   })
 })
 
