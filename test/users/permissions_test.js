@@ -29,8 +29,8 @@ describe('Permission Model', function() {
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/permissions/1')
+        done()
       })
-      done()
     })
 
     it('should throw on list without url', function(done) {
