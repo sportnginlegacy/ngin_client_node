@@ -8,19 +8,14 @@ var ngin = new NginClient({
 })
 
 var server
-var testVenue
 
 describe('Venue Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Venue.create({id:1}, function(err, venue) {
-      testVenue = venue
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
