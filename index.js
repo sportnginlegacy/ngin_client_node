@@ -17,7 +17,8 @@ var searchPaths = [
   'messages/*.js',
   'boss/*.js',
   'venues/*.js',
-  'registration/*.js'
+  'registration/*.js',
+  'officials/*.js'
 ]
 
 function hasher(ngin) {

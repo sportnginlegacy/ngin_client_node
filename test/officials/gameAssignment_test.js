@@ -9,7 +9,7 @@ var ngin = new NginClient({
 
 var server
 
-describe('Venue Model', function() {
+describe('GameAssignment Model', function() {
 
   before(function() {
     server = Server()
@@ -19,74 +19,64 @@ describe('Venue Model', function() {
     server.close(done)
   })
 
-  describe('Venue Class', function() {
+  describe('GameAssignment Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Venue.create({id:1}, function(err, venue, data, resp) {
+      ngin.GameAssignment.create({id:1}, function(err, venue, data, resp) {
         assert(!err)
         assert(!!venue)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(venue.metadata.url, '/venues/1')
+        assert.equal(venue.metadata.url, '/game_assignments/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.Venue.list(function(err, data, resp) {
+      ngin.GameAssignment.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues')
+        assert.equal(resp.req.path, '/game_assignments')
         done()
       })
     })
   })
 
-  describe('Venue Instance', function() {
+  describe('GameAssignment Instance', function() {
 
-    var testVenue
+    var testGameAssignment
 
     beforeEach(function() {
-      testVenue = ngin.Venue.create({id:1}, {fetched:true})
+      testGameAssignment = ngin.GameAssignment.create({id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      testVenue.save(function(err, data, resp) {
+      testGameAssignment.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/venues/1')
+        assert.equal(resp.req.path, '/game_assignments/1')
         done()
       })
     })
 
     it('should make requests on save without ID', function(done) {
-      delete testVenue.id
-      testVenue.save(function(err, data, resp) {
+      delete testGameAssignment.id
+      testGameAssignment.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/venues')
+        assert.equal(resp.req.path, '/game_assignments')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      testVenue.destroy(function(err, data, resp) {
+      testGameAssignment.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/venues/1')
-        done()
-      })
-    })
-
-    it('should make requests on standingsDefaults with tournamentID', function(done) {
-      testVenue.availableTimes(function(err, availableTimes, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues/1/available_times')
+        assert.equal(resp.req.path, '/game_assignments/1')
         done()
       })
     })

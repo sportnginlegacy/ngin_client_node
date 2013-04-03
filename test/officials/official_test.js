@@ -9,7 +9,7 @@ var ngin = new NginClient({
 
 var server
 
-describe('Venue Model', function() {
+describe('Official Model', function() {
 
   before(function() {
     server = Server()
@@ -19,74 +19,64 @@ describe('Venue Model', function() {
     server.close(done)
   })
 
-  describe('Venue Class', function() {
+  describe('Official Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Venue.create({id:1}, function(err, venue, data, resp) {
+      ngin.Official.create({id:1}, function(err, venue, data, resp) {
         assert(!err)
         assert(!!venue)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(venue.metadata.url, '/venues/1')
+        assert.equal(venue.metadata.url, '/officials/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.Venue.list(function(err, data, resp) {
+      ngin.Official.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues')
+        assert.equal(resp.req.path, '/officials')
         done()
       })
     })
   })
 
-  describe('Venue Instance', function() {
+  describe('Official Instance', function() {
 
-    var testVenue
+    var testOfficial
 
     beforeEach(function() {
-      testVenue = ngin.Venue.create({id:1}, {fetched:true})
+      testOfficial = ngin.Official.create({id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      testVenue.save(function(err, data, resp) {
+      testOfficial.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/venues/1')
+        assert.equal(resp.req.path, '/officials/1')
         done()
       })
     })
 
     it('should make requests on save without ID', function(done) {
-      delete testVenue.id
-      testVenue.save(function(err, data, resp) {
+      delete testOfficial.id
+      testOfficial.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/venues')
+        assert.equal(resp.req.path, '/officials')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      testVenue.destroy(function(err, data, resp) {
+      testOfficial.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/venues/1')
-        done()
-      })
-    })
-
-    it('should make requests on standingsDefaults with tournamentID', function(done) {
-      testVenue.availableTimes(function(err, availableTimes, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues/1/available_times')
+        assert.equal(resp.req.path, '/officials/1')
         done()
       })
     })

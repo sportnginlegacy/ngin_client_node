@@ -8,48 +8,44 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Venue Class
+   * Official Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var Venue = Model.extend({
+  var Official = Model.extend({
 
     fetch: function(options, callback) {
-      var url = Venue.urlRoot() + '/' + this.id
+      var url = Official.urlRoot() + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = Venue.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = Official.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = Venue.urlRoot() + '/' + this.id
+      var url = Official.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
-    },
-
-    availableTimes: function(callback) {
-      return ngin.AvailableTimes.create({venue_id:this.id}).fetch(callback)
     }
 
   }, {
 
     urlRoot: function() {
-      var base = config.urls && config.urls.venues || config.url
-      return Url.resolve(base, '/venues')
+      var base = config.urls && config.urls.officials || config.url
+      return Url.resolve(base, '/officials')
     },
 
     list: function(options, callback) {
-      var url = Venue.urlRoot()
+      var url = Official.urlRoot()
       return Model.list.call(this, url, options, callback)
     }
 
   })
 
-  return Venue
+  return Official
 
 }
