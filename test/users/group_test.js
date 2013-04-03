@@ -81,6 +81,16 @@ describe('Group Model', function() {
       })
     })
 
+    it('should make requests on destroy with ID', function(done) {
+      testGroup.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/groups/1')
+        done()
+      })
+    })
+
     it('should make requests on personas', function(done) {
       testGroup.personas(function(err, personas, resp) {
         assert(!err)

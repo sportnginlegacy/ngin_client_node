@@ -28,6 +28,11 @@ module.exports = function(ngin) {
       return Super.save.call(this, url, options, callback)
     },
 
+    destroy: function(options, callback) {
+      var url = Group.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
+    },
+
     personas: function(options, callback) {
       if (typeof options === 'function') {
         callback = options, options = {}
