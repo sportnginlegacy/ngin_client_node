@@ -3,7 +3,8 @@ var Url = require('url')
 var _ = require('underscore')
 
 module.exports = function(ngin) {
-  var Model = ngin.Model
+  var Model = ngin.NginModel
+  var Super = Model.prototype
   var config = ngin.config
 
   /**
@@ -16,19 +17,41 @@ module.exports = function(ngin) {
 
   var Venue = Model.extend({
 
+    fetch: function(options, callback) {
+      var url = Venue.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Venue.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = Venue.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
+    },
+
+    availableTimes: function(callback) {
+      var url = Venue.urlRoot() + '/' + this.id + '/available_times'
+      return Venue.sync('read', null, { url:url }, callback)
+    },
+
+    updateAvailableTimes: function(callback) {
+      var url = Venue.urlRoot() + '/' + this.id + '/available_times'
+      return Venue.sync('update', null, { url:url }, callback)
+    }
+
+  }, {
+
     urlRoot: function() {
       var base = config.urls && config.urls.venues || config.url
       return Url.resolve(base, '/venues')
     },
 
-    availableTimes: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/available_times'
-      Venue.sync('read', null, { url:url }, callback)
-    },
-
-    updateAvailableTimes: function(callback) {
-      var url = this.urlRoot() + '/' + this.id + '/available_times'
-      Venue.sync('update', null, { url:url }, callback)
+    list: function(options, callback) {
+      var url = Venue.urlRoot()
+      return Model.list.call(this, url, options, callback)
     }
 
   })

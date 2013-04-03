@@ -2,7 +2,8 @@ var Url = require('url')
 var _ = require('underscore')
 
 module.exports = function(ngin) {
-  var Model = ngin.Model
+  var Model = ngin.NginModel
+  var Super = Model.prototype
   var config = ngin.config
 
   /**
@@ -15,10 +16,12 @@ module.exports = function(ngin) {
 
   var Role = Model.extend({
 
+  },{
+
     urlRoot: function() {
       var base = config.urls && config.urls.users || config.url
       return Url.resolve(base, '/roles')
-    },
+    }
 
   })
 

@@ -9,31 +9,67 @@ var ngin = new NginClient({
 })
 
 var server
-var testOrg
 
 describe('Organization Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Organization.create({id:1}, function(err, org) {
-      testOrg = org
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
-  describe('Organization Instance', function(){
+  describe('Organization Class', function() {
+
+    it("should throw on list", function(done) {
+      assert.throws(function() {
+        ngin.Organization.list({}, done)
+      }, Error)
+      done()
+    })
+
     it('should make requests on mine', function(done) {
       ngin.Organization.mine(function(err, org, resp) {
         assert(!err)
         assert(!!org)
+        assert.equal(resp.req.method, 'GET')
         assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/mine')
         done()
       })
     })
+
+  })
+
+  describe('Organization Instance', function() {
+
+    var testOrg
+
+    before(function() {
+      testOrg = new ngin.Organization({id:1}, {fetched:true})
+    })
+
+    it('should throw on fetch', function(done) {
+      assert.throws(function(){
+        testOrg.fetch(done)
+      }, Error)
+      done()
+    })
+
+    it('should throw on save', function(done) {
+      assert.throws(function(){
+        testOrg.save(done)
+      }, Error)
+      done()
+    })
+
+    it('should throw on delete', function(done) {
+      assert.throws(function(){
+        testOrg.delete(done)
+      }, Error)
+      done()
+    })
+
   })
 
 })

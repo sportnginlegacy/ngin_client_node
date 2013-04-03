@@ -9,23 +9,47 @@ var ngin = new NginClient({
 })
 
 var server
-var testFlightStage
 
 describe('Flight Stage Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.FlightStage.create({id:1, flight_id:1}, function(err, flightstage) {
-      testFlightStage = flightstage
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
+  describe('Flight Stage Class', function() {
+
+    it('should make requests on create with ID', function(done) {
+      ngin.FlightStage.create({id:1, flight_id:1}, function(err, flightStage) {
+        assert(!err)
+        assert(!!flightStage)
+        assert.equal(flightStage.metadata.url, '/flights/1/flight_stages/1')
+        done()
+      })
+    })
+
+    it('should make requests on list', function(done) {
+      ngin.FlightStage.list({flight_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.path, '/flights/1/flight_stages')
+        done()
+      })
+    })
+
+  })
+
   describe('Flight Stage Instance', function() {
+
+    var testFlightStage
+
+    beforeEach(function() {
+      testFlightStage = ngin.FlightStage.create({id:1, flight_id:1}, {fetched:true})
+    })
+
     it('should make requests on addTeam with ID and teamID', function(done) {
       testFlightStage.addTeam(1, function(err, flightstage, opts) {
         assert(!err)
@@ -82,6 +106,7 @@ describe('Flight Stage Model', function() {
         done()
       })
     })
+
   })
 
 })

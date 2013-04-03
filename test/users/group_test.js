@@ -9,19 +9,14 @@ var ngin = new NginClient({
 })
 
 var server
-var testGroup
 
 describe('Group Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.Group.create({id:1}, function(err, group) {
-      testGroup = group
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 
@@ -33,7 +28,8 @@ describe('Group Model', function() {
         var group = ngin.Group.list({owner_id:1, owner_type:'org'}, function(err, groups, resp) {
           assert(!err)
           assert(!!groups)
-          assert.equal(JSON.parse(resp.body).metadata.url, '/groups?owner_id=1&owner_type=org')
+          assert.equal(resp.req.method, 'GET')
+          assert.equal(resp.req.path, '/groups?owner_id=1&owner_type=org')
           done()
         })
       })
@@ -58,29 +54,69 @@ describe('Group Model', function() {
 
   describe('Group Instance', function() {
 
+    var testGroup
+
+    beforeEach(function() {
+      testGroup = ngin.Group.create({id:1}, {fetched:true})
+    })
+
+    it('should make requests on save with ID', function(done) {
+      testGroup.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/groups/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testGroup.id
+      testGroup.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/groups')
+        done()
+      })
+    })
+
+    it('should make requests on destroy with ID', function(done) {
+      testGroup.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/groups/1')
+        done()
+      })
+    })
+
     it('should make requests on personas', function(done) {
       testGroup.personas(function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
-        assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/personas')
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/groups/1/personas')
         done()
       })
     })
 
     it('should make request to add_personas with personaId', function(done) {
-      testGroup.add_persona(1, function(err, personas, resp) {
+      testGroup.addPersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
-        assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/add_persona/1')
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/groups/1/add_persona/1')
         done()
       })
     })
 
     it('should make request to remove_personas with personaId', function(done) {
-      testGroup.remove_persona(1, function(err, personas, resp) {
+      testGroup.removePersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
-        assert.equal(JSON.parse(resp.body).metadata.url, '/groups/1/remove_persona/1')
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/groups/1/remove_persona/1')
         done()
       })
     })

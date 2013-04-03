@@ -2,8 +2,13 @@
 
 module.exports = ApiClient
 
-var _ = require('underscore')
 var glob = require('glob')
+var _ = require('underscore')
+
+// setup global underscore template settings
+_.templateSettings = {
+  escape : /\{\{(.+?)\}\}/g
+}
 
 var models = {}
 var searchPaths = [
@@ -11,7 +16,8 @@ var searchPaths = [
   'users/*.js',
   'messages/*.js',
   'boss/*.js',
-  'venues/*.js'
+  'venues/*.js',
+  'registration/*.js'
 ]
 
 function hasher(ngin) {
@@ -45,6 +51,7 @@ function ApiClient(config) {
 
   models.sync = require('./sync')
   models.Model = require('./modelbase')
+  models.NginModel = require('./nginModel')
 
   // add each model to the ApiClient
   Object.keys(models).forEach(function(modelName) {
