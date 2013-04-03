@@ -8,19 +8,14 @@ var ngin = new NginClient({
 })
 
 var server
-var testGameAssignment
 
 describe('GameAssignment Model', function() {
 
-  beforeEach(function(done) {
+  before(function() {
     server = Server()
-    ngin.GameAssignment.create({id:1}, function(err, venue) {
-      testGameAssignment = venue
-      done()
-    })
   })
 
-  afterEach(function(done) {
+  after(function(done) {
     server.close(done)
   })
 

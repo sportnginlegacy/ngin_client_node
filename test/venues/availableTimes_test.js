@@ -8,7 +8,6 @@ var ngin = new NginClient({
 })
 
 var server
-var testAvailableTimes
 
 describe('AvailableTimes Model', function() {
 
@@ -20,16 +19,23 @@ describe('AvailableTimes Model', function() {
     server.close(done)
   })
 
+  it('should throw on list', function(done) {
+    assert.throws(function(){
+      tbc.list(done)
+    }, Error)
+    done()
+  })
+
   describe('AvailableTimes Instance', function() {
 
-    var available_times
+    var testAvailableTimes
 
     beforeEach(function() {
-      available_times = ngin.AvailableTimes.create({venue_id:1}, {fetched:true})
+      testAvailableTimes = ngin.AvailableTimes.create({venue_id:1}, {fetched:true})
     })
 
     it("should make a request on create with ID", function(done) {
-      available_times.fetch(function(err, availableTimes, resp) {
+      testAvailableTimes.fetch(function(err, availableTimes, resp) {
         assert(!err)
         assert(!!availableTimes)
         assert.equal(resp.req.method, 'GET')
@@ -39,13 +45,20 @@ describe('AvailableTimes Model', function() {
     })
 
     it('should make requests on save without ID', function(done) {
-      available_times.save(function(err, data, resp) {
+      testAvailableTimes.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/venues/1/available_times')
         done()
       })
+    })
+
+    it('should throw on delete', function(done) {
+      assert.throws(function(){
+        tbc.delete(done)
+      }, Error)
+      done()
     })
 
   })
