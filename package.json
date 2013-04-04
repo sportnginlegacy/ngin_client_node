@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "blanket":"*"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -21,6 +22,8 @@
     "url": "git://github.com/tstmedia/ngin_client_node"
   },
   "scripts": {
-    "test": "mocha --recursive -R spec"
+    "test": "mocha --recursive -R spec",
+    "coverage": "mocha --recursive --require blanket -R html-cov > coverage.html && open ./coverage.html",
+    "blanket": { "pattern": "src"}
   }
 }

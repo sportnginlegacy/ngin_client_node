@@ -1,3 +1,5 @@
 node_modules
 test
 .gitignore
+coverage.html
+.DS_Store
