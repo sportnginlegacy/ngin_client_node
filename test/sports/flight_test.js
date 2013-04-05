@@ -33,12 +33,21 @@ describe('Flight Model', function() {
       })
     })
 
-    it('should make requests on list', function(done) {
-      ngin.Flight.list(function(err, data, resp) {
+    it('should make requests on list with tournament_id', function(done) {
+      ngin.Flight.list({tournament_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/flights')
+        assert.equal(resp.req.path, '/flights?tournament_id=1')
+        done()
+      })
+    })
+
+    it('should make error on list without tournament_id', function(done) {
+      ngin.Flight.list({}, function(err, data, resp) {
+        assert(err)
+        assert(!data)
+        assert(!resp)
         done()
       })
     })
