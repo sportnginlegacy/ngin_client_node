@@ -1,6 +1,6 @@
 {
   "name": "ngin_client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node client for interacting with the NGIN API services",
   "main": "./index.js",
   "dependencies": {
@@ -12,7 +12,7 @@
   "devDependencies": {
     "mocha": "*",
     "sinon": "*",
-    "blanket":"*"
+    "blanket": "*"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -24,6 +24,8 @@
   "scripts": {
     "test": "mocha --recursive -R spec",
     "coverage": "mocha --recursive --require blanket -R html-cov > coverage.html && open ./coverage.html",
-    "blanket": { "pattern": "src"}
+    "blanket": {
+      "pattern": "src"
+    }
   }
 }
