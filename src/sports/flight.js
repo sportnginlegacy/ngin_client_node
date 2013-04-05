@@ -95,6 +95,10 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
+      if (!options.tournament_id)
+        return callback(new Error('tournament_id is required to list flights'))
+      options.query || (options.query = {})
+      options.query.tournament_id = options.tournament_id
       var url = Flight.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     }
