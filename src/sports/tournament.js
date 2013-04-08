@@ -66,7 +66,7 @@ module.exports = function(ngin) {
 
     removePlayer: function(playerID, callback) {
       var url = Tournament.urlRoot() + '/' + this.id + '/remove_player/' + playerID
-      return Tournament.sync('delete', null, { url:url }, this.callbackWithParse(callback))
+      return Tournament.sync('delete', null, { url:url }, callback)
     },
 
     flightDefaults: function(callback) {
