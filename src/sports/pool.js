@@ -34,7 +34,7 @@ module.exports = function(ngin) {
 
     addTeam: function(teamId, callback) {
       var url = Pool.urlRoot() + '/' + this.id + '/add_team/' + teamId
-      return Pool.sync('update', null, { url:url }, callback)
+      return Pool.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeTeam: function(teamId, callback) {
