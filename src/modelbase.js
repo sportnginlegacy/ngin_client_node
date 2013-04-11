@@ -74,7 +74,7 @@ module.exports = function(ngin) {
     callbackWithParse: function(callback) {
       return function(err, data) {
         var args = _.toArray(arguments)
-        args[1] = this.parse(args[1] || {})
+        if (args[1]) args[1] = this.parse(args[1])
         callback.apply(this, args)
       }.bind(this)
     },
