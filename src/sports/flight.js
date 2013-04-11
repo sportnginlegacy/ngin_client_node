@@ -34,7 +34,7 @@ module.exports = function(ngin) {
 
     addTeam: function(teamID, callback) {
       var url = Flight.urlRoot() + '/' + this.id + '/add_team/' + teamID
-      return Flight.sync('update', null, { url:url }, callback)
+      return Flight.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeTeam: function(teamID, callback) {
@@ -44,12 +44,12 @@ module.exports = function(ngin) {
 
     addToWaitlist: function(teamID, callback) {
       var url = Flight.urlRoot() + '/' + this.id + '/add_to_waitlist/' + teamID
-      return Flight.sync('update', null, { url:url }, callback)
+      return Flight.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeFromWaitlist: function(teamID, callback) {
       var url = Flight.urlRoot() + '/' + this.id + '/remove_from_waitlist/' + teamID
-      return Flight.sync('update', null, { url:url }, callback)
+      return Flight.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     stages: function(callback){
@@ -58,7 +58,7 @@ module.exports = function(ngin) {
 
     createSchedule: function(callback) {
       var url = Flight.tournamentUrlRoot() + '?flight_id=' + this.id
-      return Flight.sync('create', null, { url:url }, callback)
+      return Flight.sync('create', null, { url:url }, this.callbackWithParse(callback))
     },
 
     schedule: function(callback) {
@@ -68,7 +68,7 @@ module.exports = function(ngin) {
     publish: function(callback) {
       var url = Flight.tournamentUrlRoot() + '/publish?flight_id=' + this.id
       // semantically this is an update (PUT), but must technically be a POST
-      return ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, callback)
+      return ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, this.callbackWithParse(callback))
     },
 
     // Commenting this out for now. It may be needed later, however,
