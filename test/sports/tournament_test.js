@@ -172,6 +172,76 @@ describe('Tournament Model', function() {
         done()
       })
     })
+
+    it('should make requests on add_reservation with a ID and query params', function(done) {
+      testTournament.addVenue(1, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/venues/1/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on remove_reservation with a ID and query params', function(done) {
+      testTournament.removeVenue(1, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/venues/1/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on add_reservation with a ID and query params', function(done) {
+      testTournament.addSubvenue(1,2, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on remove_reservation with a ID and query params', function(done) {
+      testTournament.removeSubvenue(1,2, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on add_reservation with a ID and query params', function(done) {
+      testTournament.venues(1, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/venues?tournament_id=1&org_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on remove_reservation with a ID and query params', function(done) {
+      testTournament.subvenues(1, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/venues/1/subvenues?tournament_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on reservations with a ID', function(done) {
+      testTournament.reservations(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/reservations?tournament_id=1')
+        done()
+      })
+    })
   })
 
 })
