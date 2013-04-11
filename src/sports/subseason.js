@@ -34,7 +34,7 @@ module.exports = function(ngin) {
 
     addTeam: function(teamId, callback) {
       var url = Subseason.urlRoot() + '/' + this.id + '/add_team/' + teamId
-      return Subseason.sync('update', null, { url:url }, callback)
+      return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeTeam: function(teamId, callback) {
@@ -44,7 +44,7 @@ module.exports = function(ngin) {
 
     addDivision: function(divisionId, callback) {
       var url = Subseason.urlRoot() + '/' + this.id + '/add_division/' + divisionId
-      return Subseason.sync('update', null, { url:url }, callback)
+      return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeDivision: function(divisionId, callback) {

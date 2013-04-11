@@ -44,12 +44,12 @@ module.exports = function(ngin) {
 
     addPersona: function(personId, callback) {
       var url = Group.urlRoot() + '/' + this.id + '/add_persona/' + personId
-      return Group.sync('update', null, { url:url }, callback)
+      return Group.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removePersona: function(personId, callback) {
       var url = Group.urlRoot() + '/' + this.id + '/remove_persona/' + personId
-      return Group.sync('update', null, { url:url }, callback)
+      return Group.sync('update', null, { url:url }, this.callbackWithParse(callback))
     }
 
   }, {

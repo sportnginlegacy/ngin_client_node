@@ -54,7 +54,7 @@ module.exports = function(ngin) {
 
     addTeam: function(teamID, callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/add_team/' + teamID
-      return FlightStage.sync('update', null, { url:url }, callback)
+      return FlightStage.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeTeam: function(teamID, callback) {
@@ -72,12 +72,12 @@ module.exports = function(ngin) {
 
     teams_advancing: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
-      return FlightStage.sync('fetch', null, { url:url }, callback)
+      return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
     advance_teams: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
-      return FlightStage.sync('create', { teams:this.teams }, { url:url }, callback) // Stat Ngin expects a POST
+      return FlightStage.sync('create', { teams:this.teams }, { url:url }, this.callbackWithParse(callback)) // Stat Ngin expects a POST
     }
 
   }, {
