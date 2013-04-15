@@ -4,9 +4,7 @@ var sinon = require('sinon')
 
 var Server = require('../fixtures/http.js')
 var NginClient = require('../../index')
-var ngin = new NginClient({
-  url:'http://localhost:1337'
-})
+var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 var testFlightDefault
