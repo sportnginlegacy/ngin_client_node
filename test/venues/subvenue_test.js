@@ -81,6 +81,27 @@ describe('Subvenue Model', function() {
       })
     })
 
+
+    it('should make requests on add_reservation with a ID and query params', function(done) {
+      subvenue.addReservation({query:{reserver_type: 'Tournament', reserver_id: 1}}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on remove_reservation with a ID and query params', function(done) {
+      subvenue.removeReservation({query:{reserver_type: 'Tournament', reserver_id: 1}}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        done()
+      })
+    })
+
   })
 
 })
