@@ -81,6 +81,34 @@ module.exports = function(ngin) {
       // url: /tournaments/:id/tiebreak_preference
       var url = Tournament.urlRoot() + '/' + this.id + ngin.TiebreakPreference.urlRoot()
       return ngin.TiebreakPreference.create({}).fetch({url:url}, callback)
+    },
+
+    addVenue: function(venueID, callback){
+      return ngin.Venue.create({id: venueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
+    },
+
+    removeVenue: function(venueID, callback){
+      return ngin.Venue.create({id: venueID}, {fetched:true}).removeReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
+    },
+
+    addSubvenue: function(venueID, subvenueID, callback){
+      return ngin.Subvenue.create({venue_id: venueID, id: subvenueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
+    },
+
+    removeSubvenue: function(venueID, subvenueID, callback){
+      return ngin.Subvenue.create({venue_id: venueID, id: subvenueID}, {fetched:true}).removeReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
+    },
+
+    venues: function(orgID, callback){
+      return ngin.Venue.list({query: {tournament_id: this.id, org_id: orgID}}, callback)
+    },
+
+    subvenues: function(venueID, callback){
+      return ngin.Subvenue.list({venue_id: venueID, query: {tournament_id: this.id}}, callback)
+    },
+
+    reservations: function(callback){
+      return ngin.Reservation.list({query: {tournament_id: this.id}}, callback)
     }
 
   }, {
