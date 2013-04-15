@@ -18,6 +18,13 @@ module.exports = function(ngin) {
   var config = ngin.config
   var auth = ngin.auth
 
+  // console.log('SUPPRESSING LOGS', config.suppressLogs)
+
+  var log = _.reduce(['log','info','warn','error','trace'], function(m, n) {
+    m[n] = config.suppressLogs ? function(){} : console[n]
+    return m
+  }, {})
+
   // Override this function to change the manner in which Nokomis persists
   // models to the server. You will be passed the type of request, and the
   // model in question. By default, makes a RESTful HTTP request
@@ -75,11 +82,11 @@ module.exports = function(ngin) {
 
     var req = request(params, function(err, resp, body) {
       if (err) {
-        console.error('Request to ' + params.url + ' resulted in an error:', err)
+        log.error('Request to ' + params.url + ' resulted in an error:', err)
         return callback(err, body, resp)
       }
 
-      console.log('NGINClient:', req.nginID, 'Status:', resp.statusCode)
+      log.info('NGINClient:', req.nginID, 'Status:', resp.statusCode)
 
       var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
@@ -88,7 +95,7 @@ module.exports = function(ngin) {
         try {
           parsedBody = JSON.parse(parsedBody)
         } catch (e) {
-          console.error('API response not parsable JSON:', body)
+          log.error('API response not parsable JSON:', body)
         }
       }
 
@@ -99,7 +106,7 @@ module.exports = function(ngin) {
         err.url = params.url
         err.statusCode = resp.statusCode
         err.body = parsedBody
-        console.error(err)
+        log.error(err)
         return callback(err, body, resp)
       }
 
@@ -108,7 +115,7 @@ module.exports = function(ngin) {
 
     // identify the request and log the url
     req.nginID = crypto.randomBytes(4).toString('hex')
-    console.log('NGINClient:',
+    log.info('NGINClient:',
       req.nginID, params.method,
       req.uri.host.substring(0, req.uri.host.indexOf('.')),
       req.uri.path)
