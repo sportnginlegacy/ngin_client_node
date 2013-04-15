@@ -1,5 +1,6 @@
 "use strict"
 
+var crypto = require('crypto')
 var Url = require('url')
 var request = require('request')
 var _ = require('underscore')
@@ -72,12 +73,13 @@ module.exports = function(ngin) {
       params.headers.Authorization = 'Bearer ' + auth.access_token
     }
 
-    var req
-    return req = request(params, function(err, resp, body) {
+    var req = request(params, function(err, resp, body) {
       if (err) {
         console.error('Request to ' + params.url + ' resulted in an error:', err)
         return callback(err, body, resp)
       }
+
+      console.log('NGINClient:', req.nginID, 'Status:', resp.statusCode)
 
       var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
@@ -103,6 +105,16 @@ module.exports = function(ngin) {
 
       callback(err, parsedBody, resp)
     })
+
+    // identify the request and log the url
+    req.nginID = crypto.randomBytes(4).toString('hex')
+    console.log('NGINClient:',
+      req.nginID, params.method,
+      req.uri.host.substring(0, req.uri.host.indexOf('.')),
+      req.uri.path)
+
+
+    return req
   }
 
 }
