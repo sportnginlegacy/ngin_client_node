@@ -34,6 +34,16 @@ module.exports = function(ngin) {
 
     availableTimes: function(callback) {
       return ngin.AvailableTimes.create({venue_id:this.id}).fetch(callback)
+    },
+
+    addReservation: function(options, callback) {
+      var url = Venue.urlRoot() + '/' + this.id + '/reservations'
+      return Super.save.call(this, url, options, callback)
+    },
+
+    removeReservation: function(options, callback) {
+      var url = Venue.urlRoot() + '/' + this.id + '/reservations'
+      return Super.destroy.call(this, url, options, callback)
     }
 
   }, {

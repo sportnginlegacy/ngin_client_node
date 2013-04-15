@@ -45,6 +45,16 @@ module.exports = function(ngin) {
     destroy: function(options, callback) {
       var url = scopeUrl(options, this) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
+    },
+
+    addReservation: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      return Super.save.call(this, url, options, callback)
+    },
+
+    removeReservation: function(options, callback) {
+      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      return Super.destroy.call(this, url, options, callback)
     }
 
   }, {
