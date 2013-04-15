@@ -43,6 +43,15 @@ module.exports = function(ngin) {
       options || (options = {})
       var url = Persona.urlRoot() + '/' + this.id + '/groups'
       return ngin.Permission.list(_.extend({}, options, {url:url}), callback)
+    },
+
+    removeFromOrg: function(orgID, callback) {
+      if (orgID == null || typeof orgID == 'function')
+        return callback(new Error('orgID is required'))
+      if (!this.id)
+        return callback(new Error('persona has no ID'))
+      var url = Persona.urlRoot() + '/' + this.id + '/Organization/' + orgID
+      return Super.destroy.call(this, url, {}, callback)
     }
 
   }, {
