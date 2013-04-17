@@ -35,7 +35,7 @@ module.exports = function(ngin) {
   }, {
 
     urlRoot: function() {
-      var base = config.urls && config.urls.game_assignments || config.url
+      var base = config.urls && config.urls.officials || config.url
       return Url.resolve(base, '/game_assignments')
     },
 
