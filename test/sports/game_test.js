@@ -4,9 +4,7 @@ var sinon = require('sinon')
 
 var Server = require('../fixtures/http.js')
 var NginClient = require('../../index')
-var ngin = new NginClient({
-  url:'http://localhost:1337'
-})
+var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
@@ -78,6 +76,16 @@ describe('Game Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/games/1')
+        done()
+      })
+    })
+
+    it('should make requests on game_sheet with ID', function(done) {
+      game.game_sheet(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/games/1/game_sheet')
         done()
       })
     })

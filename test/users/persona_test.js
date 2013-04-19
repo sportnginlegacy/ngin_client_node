@@ -4,9 +4,7 @@ var sinon = require('sinon')
 
 var Server = require('../fixtures/http.js')
 var NginClient = require('../../index')
-var ngin = new NginClient({
-  url:'http://localhost:1337'
-})
+var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
@@ -129,6 +127,34 @@ describe('Persona Model', function() {
         done()
       })
     })
+
+    it("should make a request on removeFromOrg with orgID", function(done){
+      testPersona.removeFromOrg(2, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/personas/1/Organization/2')
+        done()
+      })
+    })
+
+    it("should not make a request on removeFromOrg without orgID", function(done){
+      testPersona.removeFromOrg(null, function(err, data, resp) {
+        assert(!!err)
+        assert(!resp)
+        done()
+      })
+    })
+
+    it("should not make a request on removeFromOrg without persona.id", function(done){
+      delete testPersona.id
+      testPersona.removeFromOrg(2, function(err, data, resp) {
+        assert(!!err)
+        assert(!resp)
+        done()
+      })
+    })
+
   })
 
 })
