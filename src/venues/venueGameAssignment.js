@@ -8,27 +8,27 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * GameAssignment Class
+   * VenueGameAssignment Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var GameAssignment = Model.extend({
+  var VenueGameAssignment = Model.extend({
 
     fetch: function(options, callback) {
-      var url = GameAssignment.urlRoot() + '/' + this.id
+      var url = VenueGameAssignment.urlRoot() + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = GameAssignment.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = VenueGameAssignment.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = GameAssignment.urlRoot() + '/' + this.id
+      var url = VenueGameAssignment.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     }
 
@@ -40,12 +40,12 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var url = GameAssignment.urlRoot()
+      var url = VenueGameAssignment.urlRoot()
       return Model.list.call(this, url, options, callback)
     }
 
   })
 
-  return GameAssignment
+  return VenueGameAssignment
 
 }

@@ -19,10 +19,10 @@ describe('GameAssignment Model', function() {
     server.close(done)
   })
 
-  describe('GameAssignment Class', function() {
+  describe('OfficialGameAssignment Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.GameAssignment.create({id:1}, function(err, venue, data, resp) {
+      ngin.OfficialGameAssignment.create({id:1}, function(err, venue, data, resp) {
         assert(!err)
         assert(!!venue)
         assert.equal(resp.req.method, 'GET')
@@ -32,7 +32,7 @@ describe('GameAssignment Model', function() {
     })
 
     it('should make requests on list', function(done) {
-      ngin.GameAssignment.list(function(err, data, resp) {
+      ngin.OfficialGameAssignment.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -42,16 +42,16 @@ describe('GameAssignment Model', function() {
     })
   })
 
-  describe('GameAssignment Instance', function() {
+  describe('OfficialGameAssignment Instance', function() {
 
-    var testGameAssignment
+    var testOfficialGameAssignment
 
     beforeEach(function() {
-      testGameAssignment = ngin.GameAssignment.create({id:1}, {fetched:true})
+      testOfficialGameAssignment = ngin.OfficialGameAssignment.create({id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      testGameAssignment.save(function(err, data, resp) {
+      testOfficialGameAssignment.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -61,8 +61,8 @@ describe('GameAssignment Model', function() {
     })
 
     it('should make requests on save without ID', function(done) {
-      delete testGameAssignment.id
-      testGameAssignment.save(function(err, data, resp) {
+      delete testOfficialGameAssignment.id
+      testOfficialGameAssignment.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
@@ -72,7 +72,7 @@ describe('GameAssignment Model', function() {
     })
 
     it('should make requests on destroy with ID', function(done) {
-      testGameAssignment.destroy(function(err, data, resp) {
+      testOfficialGameAssignment.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
