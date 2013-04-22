@@ -31,11 +31,9 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.flight_id && !options.flight_stage_id)
+      if (!options.query.flight_id && !options.query.flight_stage_id)
         return callback(new Error('flight_id or flight_stage_id is required'))
       options.query || (options.query = {})
-      if (options.flight_id) options.query.flight_id = options.flight_id
-      if (options.flight_stage_id) options.query.flight_stage_id = options.flight_stage_id
       var url = GameSlot.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     }
