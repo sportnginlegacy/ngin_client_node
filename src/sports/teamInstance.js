@@ -17,9 +17,9 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (!options.subseason_id || !options.id)
+    if (!options.subseason_id || !options.team_id)
       throw new Error('subseason_id and team_id required to make team instance api calls')
-    return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.id
+    return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
   }
 
   /**
