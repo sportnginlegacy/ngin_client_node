@@ -5,7 +5,7 @@
   "main": "./index.js",
   "dependencies": {
     "glob": "*",
-    "request": "*",
+    "request": "2.16.6",
     "underscore": "*",
     "extendable": "git://github.com/mikefrey/extendable-1"
   },
