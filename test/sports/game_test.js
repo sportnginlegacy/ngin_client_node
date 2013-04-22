@@ -80,8 +80,8 @@ describe('Game Model', function() {
       })
     })
 
-    it('should make requests on game_sheet with ID', function(done) {
-      game.game_sheet(function(err, data, resp) {
+    it('should make requests on gameSheet with ID', function(done) {
+      game.gameSheet(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
