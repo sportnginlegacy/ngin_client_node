@@ -78,6 +78,10 @@ module.exports = function(ngin) {
     advance_teams: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       return FlightStage.sync('create', { teams:this.teams }, { url:url }, this.callbackWithParse(callback)) // Stat Ngin expects a POST
+    },
+
+    brackets: function(callback) {
+      return ngin.Bracket.list({ query: {flight_stage_id:this.id} }, callback)
     }
 
   }, {
