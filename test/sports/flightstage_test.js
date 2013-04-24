@@ -105,6 +105,16 @@ describe('Flight Stage Model', function() {
       })
     })
 
+    it('should make requests on brackets with flight_stage_id', function(done) {
+      testFlightStage.brackets(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.method, 'GET')
+        assert.equal(opts.req.path, '/brackets?flight_stage_id=1')
+        done()
+      })
+    })
+
   })
 
 })
