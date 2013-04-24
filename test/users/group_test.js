@@ -103,7 +103,7 @@ describe('Group Model', function() {
       testGroup.addPersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
-        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.method, 'POST')
         assert.equal(resp.req.path, '/groups/1/add_persona/1')
         done()
       })
@@ -113,7 +113,7 @@ describe('Group Model', function() {
       testGroup.removePersona(1, function(err, personas, resp) {
         assert(!err)
         assert(!!personas)
-        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.method, 'POST')
         assert.equal(resp.req.path, '/groups/1/remove_persona/1')
         done()
       })

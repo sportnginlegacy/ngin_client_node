@@ -80,13 +80,16 @@ module.exports = function(ngin) {
       params.headers.Authorization = 'Bearer ' + auth.access_token
     }
 
+    var t = +new Date
     var req = request(params, function(err, resp, body) {
+      t = (+new Date - t)
+
       if (err) {
         log.error('Request to ' + params.url + ' resulted in an error:', err)
         return callback(err, body, resp)
       }
 
-      log.info('NGINClient:', req.nginID, 'Status:', resp.statusCode)
+      log.info('NGINClient:', req.nginID, 'Status:', resp.statusCode, 'Time:', t+'ms')
 
       var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 

@@ -30,6 +30,11 @@ module.exports = function(ngin) {
     destroy: function(options, callback) {
       var url = Game.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
+    },
+
+    gameSheet: function(options, callback) {
+      var url = Game.urlRoot() + '/' + this.id + '/game_sheet'
+      return ngin.GameSheet.create({}).fetch(url, options, callback)
     }
 
   },{
