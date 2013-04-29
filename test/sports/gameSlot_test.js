@@ -21,7 +21,7 @@ describe('GameSlot Model', function() {
   describe('GameSlot Class', function() {
 
     it('should make requests on list with flight_id', function(done) {
-      ngin.GameSlot.list({flight_id:1}, function(err, data, resp) {
+      ngin.GameSlot.list({query:{flight_id:1}}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -31,7 +31,7 @@ describe('GameSlot Model', function() {
     })
 
     it('should make requests on list with flight_stage_id', function(done) {
-      ngin.GameSlot.list({flight_stage_id:1}, function(err, data, resp) {
+      ngin.GameSlot.list({query:{flight_stage_id:1}}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')

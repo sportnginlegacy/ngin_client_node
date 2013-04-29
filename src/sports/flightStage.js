@@ -63,7 +63,7 @@ module.exports = function(ngin) {
     },
 
     schedule: function(callback) {
-      return ngin.GameSlot.list({flight_stage_id: this.id}, callback)
+      return ngin.GameSlot.list({ query: { flight_stage_id: this.id } }, callback)
     },
 
     standings: function(callback) {
