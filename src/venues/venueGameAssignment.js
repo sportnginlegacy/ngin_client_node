@@ -1,6 +1,7 @@
 "use strict"
 var Url = require('url')
 var _ = require('underscore')
+var massUpdate = require('../mixins/massUpdate')
 
 module.exports = function(ngin) {
   var Model = ngin.NginModel
@@ -44,10 +45,9 @@ module.exports = function(ngin) {
       return Model.list.call(this, url, options, callback)
     },
 
-    mass_update: function(options, callback) {
+    massUpdate: function(options, callback) {
       var url = VenueGameAssignment.urlRoot() + '/mass_update'
-      options.method = options.method || 'PUT'
-      return Model.mass_update.call(this, url, options, callback)
+      return massUpdate.call(this, url, options, callback)
     }
 
   })
