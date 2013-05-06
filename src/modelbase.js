@@ -151,29 +151,6 @@ module.exports = function(ngin) {
       })
     },
 
-    mass_update: function(options, callback) {
-      var self = this
-      if (typeof options == 'function') {
-        callback = options
-        options = {}
-      }
-
-      // create a temp obj that with the same prototype as the model
-      var temp = _.extend({}, this.prototype)
-
-      if (!options.url) {
-        options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
-      }
-
-      return this.sync('update', null, options, function(err, data, resp) {
-        if (err) return callback(err, data, resp)
-
-        // TODO: Add instantiation if needed.
-        data = self.parseList(data, resp)
-        callback(err, data, resp)
-      })
-    },
-
     parseList: function(data, resp) {
       if (data.result) data = data.result
       return data

@@ -57,12 +57,6 @@ module.exports = function(ngin) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or list not implemented.')
       return Model.list.apply(this, args)
-    },
-
-    mass_update: function(url, options, callback) {
-      var args = normalizeParams(url, options, callback)
-      if (!args[0].url) throw new Error('Url not present or list not implemented.')
-      return Model.mass_update.apply(this, args)
     }
 
   })
