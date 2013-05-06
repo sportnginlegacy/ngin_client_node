@@ -167,18 +167,10 @@ module.exports = function(ngin) {
 
       return this.sync('update', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
+
+        // TODO: Turn off instantiation if this takes too long.
         data = self.parseList(data, resp)
-        var list = []
-        for (var i = 0; i < data.length; i++) {
-          // TODO: The create method should run snychronously since we've already
-          // fetched the data. Might want to convert this code to use the `async`
-          // module so that we don't have to make assumptions about how the
-          // create method runs
-          self.create(data[i], {fetched:true}, function(err, inst) {
-            list.push(inst)
-          })
-        }
-        callback(err, list, resp)
+        callback(err, data, resp)
       })
     },
 
