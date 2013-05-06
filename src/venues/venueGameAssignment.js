@@ -42,6 +42,12 @@ module.exports = function(ngin) {
     list: function(options, callback) {
       var url = VenueGameAssignment.urlRoot()
       return Model.list.call(this, url, options, callback)
+    },
+
+    update_all: function(options, callback) {
+      var url = VenueGameAssignment.urlRoot() + '/update_all'
+      options.method = options.method || 'PUT'
+      return Model.update.call(this, url, options, callback)
     }
 
   })
