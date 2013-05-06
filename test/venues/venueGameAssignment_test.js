@@ -39,7 +39,7 @@ describe('GameAssignment Model', function() {
     })
 
     it('should make requests on list', function(done) {
-      ngin.VenueGameAssignment.update_all(function(err, data, resp) {
+      ngin.VenueGameAssignment.mass_update(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')

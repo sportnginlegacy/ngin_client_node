@@ -44,10 +44,10 @@ module.exports = function(ngin) {
       return Model.list.call(this, url, options, callback)
     },
 
-    update_all: function(options, callback) {
+    mass_update: function(options, callback) {
       var url = VenueGameAssignment.urlRoot() + '/update_all'
       options.method = options.method || 'PUT'
-      return Model.update.call(this, url, options, callback)
+      return Model.mass_update.call(this, url, options, callback)
     }
 
   })
