@@ -45,7 +45,7 @@ module.exports = function(ngin) {
     },
 
     mass_update: function(options, callback) {
-      var url = VenueGameAssignment.urlRoot() + '/update_all'
+      var url = VenueGameAssignment.urlRoot() + '/mass_update'
       options.method = options.method || 'PUT'
       return Model.mass_update.call(this, url, options, callback)
     }

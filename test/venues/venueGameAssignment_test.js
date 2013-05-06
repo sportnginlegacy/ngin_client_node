@@ -43,7 +43,7 @@ describe('GameAssignment Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/game_assignments/update_all')
+        assert.equal(resp.req.path, '/game_assignments/mass_update')
         done()
       })
     })
