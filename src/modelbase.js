@@ -151,7 +151,7 @@ module.exports = function(ngin) {
       })
     },
 
-    update: function(options, callback) {
+    mass_update: function(options, callback) {
       var self = this
       if (typeof options == 'function') {
         callback = options
