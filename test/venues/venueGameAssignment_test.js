@@ -37,6 +37,16 @@ describe('GameAssignment Model', function() {
         done()
       })
     })
+
+    it('should make requests on list', function(done) {
+      ngin.VenueGameAssignment.update_all(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/game_assignments/update_all')
+        done()
+      })
+    })
   })
 
   describe('VenueGameAssignment Instance', function() {

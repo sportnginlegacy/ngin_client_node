@@ -151,6 +151,37 @@ module.exports = function(ngin) {
       })
     },
 
+    update: function(options, callback) {
+      var self = this
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+
+      // create a temp obj that with the same prototype as the model
+      var temp = _.extend({}, this.prototype)
+
+      if (!options.url) {
+        options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
+      }
+
+      return this.sync('update', null, options, function(err, data, resp) {
+        if (err) return callback(err, data, resp)
+        data = self.parseList(data, resp)
+        var list = []
+        for (var i = 0; i < data.length; i++) {
+          // TODO: The create method should run snychronously since we've already
+          // fetched the data. Might want to convert this code to use the `async`
+          // module so that we don't have to make assumptions about how the
+          // create method runs
+          self.create(data[i], {fetched:true}, function(err, inst) {
+            list.push(inst)
+          })
+        }
+        callback(err, list, resp)
+      })
+    },
+
     parseList: function(data, resp) {
       if (data.result) data = data.result
       return data
