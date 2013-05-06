@@ -168,7 +168,7 @@ module.exports = function(ngin) {
       return this.sync('update', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
 
-        // TODO: Turn off instantiation if this takes too long.
+        // TODO: Add instantiation if needed.
         data = self.parseList(data, resp)
         callback(err, data, resp)
       })
