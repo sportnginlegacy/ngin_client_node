@@ -19,7 +19,7 @@ module.exports = function(ngin) {
     options = _.extend(_.clone(options || {}), inst)
     if (!options.venue_id)
       throw new Error('venue_id required to make subvenue api calls')
-    return ngin.Venue.urlRoot() + '/' + options.venue_id + Subvenue.urlRoot()
+    return ngin.Venue.urlRoot() + '/' + options.venue_id + '/subvenues'
   }
 
   /**
@@ -48,23 +48,24 @@ module.exports = function(ngin) {
     },
 
     addReservation: function(options, callback) {
-      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      var url = Subvenue.urlRoot() + '/' + this.id + '/reservations'
       return Super.save.call(this, url, options, callback)
     },
 
     removeReservation: function(options, callback) {
-      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      var url = Subvenue.urlRoot() + '/' + this.id + '/reservations'
       return Super.destroy.call(this, url, options, callback)
     }
 
   }, {
 
     urlRoot: function(options) {
-      return '/subvenues'
+      var base = config.urls && config.urls.venues || config.url
+      return Url.resolve(base, '/subvenues')
     },
 
     list: function(options, callback) {
-      var url = scopeUrl(options)
+      var url = Subvenue.urlRoot()
       return Model.list.call(Subvenue, url, options, callback)
     }
 
