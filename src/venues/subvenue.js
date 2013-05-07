@@ -65,7 +65,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var url = Subvenue.urlRoot()
+      var url = options.venue_id ? scopeUrl(options, this) : Subvenue.urlRoot()
       return Model.list.call(Subvenue, url, options, callback)
     }
 
