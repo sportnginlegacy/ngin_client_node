@@ -79,6 +79,11 @@ module.exports = function(ngin) {
     if (auth && auth.access_token) {
       params.headers.Authorization = 'Bearer ' + auth.access_token
     }
+    else if (auth && auth.auth_key) {
+      params.headers['auth-client-id'] = config.clientID
+      params.headers['auth-timestamp'] = auth.auth_timestamp
+      params.headers['auth-key'] = auth.auth_key
+    }
 
     var t = +new Date
     var req = request(params, function(err, resp, body) {
@@ -109,6 +114,7 @@ module.exports = function(ngin) {
         err.url = params.url
         err.statusCode = resp.statusCode
         err.body = parsedBody
+        err.reqHeaders = req.headers
         log.error(err)
         return callback(err, body, resp)
       }
