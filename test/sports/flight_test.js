@@ -171,6 +171,16 @@ describe('Flight Model', function() {
       })
     })
 
+    it('should make requests on gameLimits with flightID', function(done) {
+      testFlight.gameLimits(function(err, gameLimits, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/flights/1/game_limits')
+        done()
+      })
+    })
+
     // this feature is disabled for the time being.
     // it('should make requests on tieBreakPreference with flight_id', function(done) {
     //   testFlight.tiebreakPreference(function(err, tiebreakPreference, resp) {
