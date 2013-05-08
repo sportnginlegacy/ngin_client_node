@@ -1,5 +1,6 @@
 "use strict"
 
+var Url = require('url')
 var _ = require('underscore')
 var extendable = require('extendable')
 
@@ -136,24 +137,40 @@ module.exports = function(ngin) {
 
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
-        data = self.parseList(data, resp)
-        var list = []
-        for (var i = 0; i < data.length; i++) {
-          // TODO: The create method should run snychronously since we've already
-          // fetched the data. Might want to convert this code to use the `async`
-          // module so that we don't have to make assumptions about how the
-          // create method runs
-          self.create(data[i], {fetched:true}, function(err, inst) {
-            list.push(inst)
-          })
-        }
-        callback(err, list, resp)
+        data = self.recursiveParseList(data, resp, options, function(data) {
+          var list = []
+          for (var i = 0; i < data.length; i++) {
+            // TODO: The create method should run snychronously since we've already
+            // fetched the data. Might want to convert this code to use the `async`
+            // module so that we don't have to make assumptions about how the
+            // create method runs
+            self.create(data[i], {fetched:true}, function(err, inst) {
+              list.push(inst)
+            })
+          }
+          callback(err, list, resp)
+        })
       })
     },
 
-    parseList: function(data, resp) {
+    recursiveParseList: function(data, resp, options, finalize) {
+      var self = this
+      if (data.metadata && data.metadata.pagination) var pagination = data.metadata.pagination
       if (data.result) data = data.result
-      return data
+      if(pagination && !pagination.last_page) {
+        var current_page = pagination.current_page
+        var next_options = _.clone(options)
+        var next_url = Url.parse(next_options.url, true)
+        next_url.query.page = current_page + 1
+        next_options.url = next_url
+        var next_page = this.sync('read', null, next_options, function(err, more_data, resp) {
+          if (err) return callback(err, more_data, resp)
+          more_data.result = data.concat(more_data.result)
+          self.recursiveParseList(more_data, resp, next_options, finalize)
+        })
+      } else {
+        finalize(data)
+      }
     },
 
     sync: sync,
