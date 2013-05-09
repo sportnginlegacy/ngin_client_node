@@ -226,7 +226,7 @@ describe('Tournament Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subvenues?tournament_id=1')
+        assert.equal(resp.req.path, '/subvenues?venue_id=1&tournament_id=1')
         done()
       })
     })
