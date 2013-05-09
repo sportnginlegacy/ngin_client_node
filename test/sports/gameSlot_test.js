@@ -40,6 +40,16 @@ describe('GameSlot Model', function() {
       })
     })
 
+    it('should make requests on update', function(done) {
+      ngin.GameSlot.update(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/tournament_schedules')
+        done()
+      })
+    })
+
   })
 
   describe('GameSlot Instance', function() {
