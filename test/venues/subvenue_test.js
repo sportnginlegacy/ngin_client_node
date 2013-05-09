@@ -31,11 +31,11 @@ describe('Subvenue Model', function() {
     })
 
     it('should make requests on list', function(done) {
-      ngin.Subvenue.list({}, function(err, data, resp) {
+      ngin.Subvenue.list({venue_id: 1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subvenues')
+        assert.equal(resp.req.path, '/subvenues?venue_id=1')
         done()
       })
     })

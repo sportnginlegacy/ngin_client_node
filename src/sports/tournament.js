@@ -104,7 +104,7 @@ module.exports = function(ngin) {
     },
 
     subvenues: function(venueID, callback){
-      return ngin.Subvenue.list({query: {tournament_id: this.id, venue_id: venueID}}, callback)
+      return ngin.Subvenue.list({tournament_id: this.id}, callback)
     },
 
     reservations: function(callback){

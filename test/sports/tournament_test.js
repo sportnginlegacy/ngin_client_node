@@ -211,7 +211,7 @@ describe('Tournament Model', function() {
       })
     })
 
-    it('should make requests on add_reservation with a ID and query params', function(done) {
+    it('should make requests on venues with a ID and query params', function(done) {
       testTournament.venues(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
@@ -221,7 +221,7 @@ describe('Tournament Model', function() {
       })
     })
 
-    it('should make requests on remove_reservation with a ID and query params', function(done) {
+    it('should make requests on subvenues with a ID and query params', function(done) {
       testTournament.subvenues(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
