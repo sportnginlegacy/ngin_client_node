@@ -41,7 +41,7 @@ describe('GameSlot Model', function() {
     })
 
     it('should make requests on update', function(done) {
-      ngin.GameSlot.list({flight_stage_id:1}, function(err, data, resp) {
+      ngin.GameSlot.update(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
