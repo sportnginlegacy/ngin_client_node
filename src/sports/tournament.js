@@ -83,6 +83,10 @@ module.exports = function(ngin) {
       return ngin.TiebreakPreference.create({}).fetch({url:url}, callback)
     },
 
+    gameLimits: function(callback){
+      return ngin.GameLimits.create({tournament_id: this.id}).fetch(callback)
+    },
+
     addVenue: function(venueID, callback){
       return ngin.Venue.create({id: venueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
     },
@@ -104,7 +108,7 @@ module.exports = function(ngin) {
     },
 
     subvenues: function(venueID, callback){
-      return ngin.Subvenue.list({venue_id: venueID, query: {tournament_id: this.id}}, callback)
+      return ngin.Subvenue.list({tournament_id: this.id, venue_id: venueID}, callback)
     },
 
     reservations: function(callback){
