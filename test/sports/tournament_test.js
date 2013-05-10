@@ -206,7 +206,7 @@ describe('Tournament Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        assert.equal(resp.req.path, '/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
         done()
       })
     })
@@ -216,12 +216,12 @@ describe('Tournament Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/venues/1/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
+        assert.equal(resp.req.path, '/subvenues/2/reservations?reserver_type=Tournament&reserver_id=1')
         done()
       })
     })
 
-    it('should make requests on add_reservation with a ID and query params', function(done) {
+    it('should make requests on venues with a ID and query params', function(done) {
       testTournament.venues(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
@@ -231,12 +231,12 @@ describe('Tournament Model', function() {
       })
     })
 
-    it('should make requests on remove_reservation with a ID and query params', function(done) {
+    it('should make requests on subvenues with a ID and query params', function(done) {
       testTournament.subvenues(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/venues/1/subvenues?tournament_id=1')
+        assert.equal(resp.req.path, '/subvenues?venue_id=1&tournament_id=1')
         done()
       })
     })
