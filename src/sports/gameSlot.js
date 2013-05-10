@@ -43,6 +43,10 @@ module.exports = function(ngin) {
 
     update: function(options, callback) {
       var url = GameSlot.urlRoot()
+      if (!options.tournament_id)
+        return callback(new Error('tournament_id is required'))
+      options.query || (options.query = {})
+      if (options.tournament_id) options.query.tournament_id = options.tournament_id
       return massUpdate.call(this, url, options, callback)
     }
 
