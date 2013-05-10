@@ -171,6 +171,16 @@ describe('Tournament Model', function() {
       })
     })
 
+    it('should make requests on gameLimits with tournamentID', function(done) {
+      testTournament.gameLimits(function(err, gameLimits, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournaments/1/game_limits')
+        done()
+      })
+    })
+
     it('should make requests on add_reservation with a ID and query params', function(done) {
       testTournament.addVenue(1, function(err, data, resp) {
         assert(!err)

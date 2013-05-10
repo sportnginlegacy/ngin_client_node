@@ -83,6 +83,10 @@ module.exports = function(ngin) {
       return ngin.TiebreakPreference.create({}).fetch({url:url}, callback)
     },
 
+    gameLimits: function(callback){
+      return ngin.GameLimits.create({tournament_id: this.id}).fetch(callback)
+    },
+
     addVenue: function(venueID, callback){
       return ngin.Venue.create({id: venueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
     },
