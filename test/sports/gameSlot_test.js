@@ -41,11 +41,19 @@ describe('GameSlot Model', function() {
     })
 
     it('should make requests on update', function(done) {
-      ngin.GameSlot.update(function(err, data, resp) {
+      ngin.GameSlot.update({tournament_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/tournament_schedules')
+        assert.equal(resp.req.path, '/tournament_schedules?tournament_id=1')
+        done()
+      })
+    })
+
+    it('should fail on update without a tournament_id', function(done) {
+      ngin.GameSlot.update({}, function(err, data, resp) {
+        assert(err)
+        assert(!resp)
         done()
       })
     })
