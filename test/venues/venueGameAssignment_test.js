@@ -38,8 +38,8 @@ describe('GameAssignment Model', function() {
       })
     })
 
-    it('should make requests on massUpdate', function(done) {
-      ngin.VenueGameAssignment.massUpdate(function(err, data, resp) {
+    it('should make requests on Update', function(done) {
+      ngin.VenueGameAssignment.update(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
