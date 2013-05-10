@@ -2,6 +2,7 @@
 var Url = require('url')
 var _ = require('underscore')
 var SportsModel = require('./sportsModel')
+var massUpdate = require('../mixins/massUpdate')
 
 module.exports = function(ngin) {
   var SportsModel = ngin.SportsModel
@@ -38,6 +39,11 @@ module.exports = function(ngin) {
       if (options.flight_stage_id) options.query.flight_stage_id = options.flight_stage_id
       var url = GameSlot.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
+    },
+
+    update: function(options, callback) {
+      var url = GameSlot.urlRoot()
+      return massUpdate.call(this, url, options, callback)
     }
 
   })
