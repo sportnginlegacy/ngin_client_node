@@ -1,22 +1,15 @@
 "use strict"
 var _ = require('underscore')
 
-function normalizeParams(url, options, callback) {
-  options || (options = {})
-  options.url = options.url || url
-  return [options, callback]
-}
-
 module.exports = function(url, options, callback) {
-  var options = normalizeParams(url, options, callback)
-  callback = options[1]
-  options = options[0]
+  var params = {}
+  params.url = options.url || url
 
-  if (!options.url) throw new Error('Url not present or list not implemented.')
+  if (!params.url) throw new Error('Url not present or list not implemented.')
 
   console.log("NGIN CLIENT LOG",options)
 
-  return this.sync('update', options, options, function(err, data, resp) {
+  return this.sync('update', options, params, function(err, data, resp) {
     if (err) return callback(err, data, resp)
 
     // TODO: Add instantiation if needed.
