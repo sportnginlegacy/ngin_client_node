@@ -45,7 +45,7 @@ describe('GameSlot Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/tournament_schedules?tournament_id=1')
+        assert.equal(resp.req.path, '/tournament_schedules')
         done()
       })
     })
