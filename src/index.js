@@ -22,7 +22,7 @@ var searchPaths = [
 ]
 
 function hasher(ngin) {
-  return ngin && ngin.auth && ngin.auth.access_token || ngin.auth.auth_key || ''
+  return ngin && ngin.auth && (ngin.auth.access_token || ngin.auth.auth_key || '')
 }
 
 // Find all the individual models

@@ -19,7 +19,7 @@ module.exports = function(ngin) {
     options = _.extend(_.clone(options || {}), inst)
     if (!options.venue_id)
       throw new Error('venue_id required to make subvenue api calls')
-    return ngin.Venue.urlRoot() + '/' + options.venue_id + Subvenue.urlRoot()
+    return ngin.Venue.urlRoot() + '/' + options.venue_id + '/subvenues'
   }
 
   /**
@@ -48,23 +48,34 @@ module.exports = function(ngin) {
     },
 
     addReservation: function(options, callback) {
-      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      var url = Subvenue.urlRoot() + '/' + this.id + '/reservations'
       return Super.save.call(this, url, options, callback)
     },
 
     removeReservation: function(options, callback) {
-      var url = scopeUrl(options, this) + '/' + this.id + '/reservations'
+      var url = Subvenue.urlRoot() + '/' + this.id + '/reservations'
       return Super.destroy.call(this, url, options, callback)
     }
 
   }, {
 
     urlRoot: function(options) {
-      return '/subvenues'
+      var base = config.urls && config.urls.venues || config.url
+      return Url.resolve(base, '/subvenues')
     },
 
     list: function(options, callback) {
-      var url = scopeUrl(options)
+      if (!options.venue_id && !options.tournament_id && !options.org_id)
+        throw new Error('venue_id, tournament_id, or org_id are required to make subvenue api calls')
+      var query_params = { venue_id:options.venue_id, tournament_id:options.tournament_id, org_id:options.org_id }
+
+      _.each(['venue_id', 'tournament_id', 'org_id'], function(key){
+        if(!query_params[key])
+          query_params = _.omit(query_params, key)
+      })
+
+      options.query = query_params
+      var url = Subvenue.urlRoot()
       return Model.list.call(Subvenue, url, options, callback)
     }
 

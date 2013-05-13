@@ -36,7 +36,7 @@ module.exports = function(ngin) {
   }, {
 
     urlRoot: function() {
-      var base = config.urls && config.urls.officials || config.url
+      var base = config.urls && config.urls.venues || config.url
       return Url.resolve(base, '/game_assignments')
     },
 
@@ -45,8 +45,8 @@ module.exports = function(ngin) {
       return Model.list.call(this, url, options, callback)
     },
 
-    massUpdate: function(options, callback) {
-      var url = VenueGameAssignment.urlRoot() + '/mass_update'
+    update: function(options, callback) {
+      var url = VenueGameAssignment.urlRoot()
       return massUpdate.call(this, url, options, callback)
     }
 

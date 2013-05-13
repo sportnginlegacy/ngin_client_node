@@ -71,6 +71,10 @@ module.exports = function(ngin) {
       return ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, this.callbackWithParse(callback))
     },
 
+    gameLimits: function(callback){
+      return ngin.GameLimits.create({flight_id: this.id}).fetch(callback)
+    },
+
     // Commenting this out for now. It may be needed later, however,
     // it probably shouldn't be using `list`.
     // tiebreakPreference: function(callback){
