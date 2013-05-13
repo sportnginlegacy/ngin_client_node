@@ -2,18 +2,6 @@
 var _ = require('underscore')
 
 function normalizeParams(url, options, callback) {
-  if (url && typeof url === 'object') {
-    options = url
-    url = null
-  }
-  else if (typeof url === 'function') {
-    callback = url
-    url = null
-  }
-  if (typeof options === 'function') {
-    callback = options
-    options = null
-  }
   options || (options = {})
   options.url = options.url || url
   return [options, callback]
@@ -26,7 +14,9 @@ module.exports = function(url, options, callback) {
 
   if (!options.url) throw new Error('Url not present or list not implemented.')
 
-  return this.sync('update', null, options, function(err, data, resp) {
+  console.log("NGIN CLIENT LOG",options)
+
+  return this.sync('update', options, options, function(err, data, resp) {
     if (err) return callback(err, data, resp)
 
     // TODO: Add instantiation if needed.
