@@ -7,8 +7,6 @@ module.exports = function(url, options, callback) {
 
   if (!params.url) throw new Error('Url not present or list not implemented.')
 
-  console.log("NGIN CLIENT LOG",options)
-
   return this.sync('update', options, params, function(err, data, resp) {
     if (err) return callback(err, data, resp)
 
