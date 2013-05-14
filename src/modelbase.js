@@ -140,6 +140,10 @@ module.exports = function(ngin) {
         options.query = _.extend({}, options.query, {page:options.page})
       }
 
+      if (options.per_page) {
+        options.query = _.extend({}, options.query, {per_page:options.per_page})
+      }
+
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
 
