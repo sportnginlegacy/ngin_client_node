@@ -1,4 +1,5 @@
 "use strict"
+var _ = require('underscore')
 var http = require('http')
 var Buffer = require('buffer')
 var StringDecoder = require('string_decoder').StringDecoder
@@ -23,10 +24,8 @@ module.exports = function(config) {
       } catch(ex) {}
 
       var result = {
-        metadata: {
-          url: req.url
-        },
-        result: data
+        metadata: _.extend({ url: req.url }, config.metadata),
+        result: config.data || data
       }
 
       res.setHeader('Content-Type', 'application/json')

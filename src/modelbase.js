@@ -160,12 +160,12 @@ module.exports = function(ngin) {
             function(page, callback) {
               var opts = _.clone(options)
               opts.page = page
-              self.list(opts, function(err, list) { callback(err, list) })
+              self.list(opts, callback)
             },
             function(err, results) {
               if (err) return callback(err)
               list = list.concat.apply(list, results)
-              callback(null, list)
+              callback(null, list, resp)
             })
 
         })
