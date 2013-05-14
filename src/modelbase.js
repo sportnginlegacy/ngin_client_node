@@ -2,6 +2,7 @@
 
 var Url = require('url')
 var _ = require('underscore')
+var async = require('async')
 var extendable = require('extendable')
 
 var noop = function(){}
@@ -135,42 +136,56 @@ module.exports = function(ngin) {
         options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
       }
 
+      if (options.page) {
+        options.query = _.extend({}, options.query, {page:options.page})
+      }
+
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
-        data = self.recursiveParseList(data, resp, options, function(data) {
-          var list = []
-          for (var i = 0; i < data.length; i++) {
-            // TODO: The create method should run snychronously since we've already
-            // fetched the data. Might want to convert this code to use the `async`
-            // module so that we don't have to make assumptions about how the
-            // create method runs
-            self.create(data[i], {fetched:true}, function(err, inst) {
-              list.push(inst)
-            })
+
+        var pagination = data.metadata && data.metadata.pagination
+
+        data = self.parseList(data, resp)
+        self.fromList(data, function(err, list) {
+
+          // check for a single page request
+          if (options.page || !pagination || (pagination && pagination.total_pages === 1)) {
+            list._pagination = pagination
+            return callback(err, list, resp)
           }
-          callback(err, list, resp)
+
+          // auto paginate
+          var pages = _.range(pagination.current_page+1, pagination.total_pages+1)
+          async.map(pages,
+            function(page, callback) {
+              var opts = _.clone(options)
+              opts.page = page
+              self.list(opts, function(err, list) { callback(err, list) })
+            },
+            function(err, results) {
+              if (err) return callback(err)
+              list = list.concat.apply(list, results)
+              callback(null, list)
+            })
+
         })
       })
     },
 
-    recursiveParseList: function(data, resp, options, finalize) {
-      var self = this
-      if (data.metadata && data.metadata.pagination) var pagination = data.metadata.pagination
+    parseList: function(data, resp) {
       if (data.result) data = data.result
-      if(pagination && !pagination.last_page) {
-        var current_page = pagination.current_page
-        var next_options = _.clone(options)
-        var next_url = Url.parse(next_options.url, true)
-        next_url.query.page = current_page + 1
-        next_options.url = next_url
-        var next_page = this.sync('read', null, next_options, function(err, more_data, resp) {
-          if (err) return callback(err, more_data, resp)
-          more_data.result = data.concat(more_data.result)
-          self.recursiveParseList(more_data, resp, next_options, finalize)
-        })
-      } else {
-        finalize(data)
-      }
+      return data
+    },
+
+    fromList: function(data, callback) {
+      var list = []
+      async.map(data,
+        function(attrs, callback) {
+          this.create(attrs, {fetched:true}, function(err, inst) {
+            callback(err, inst)
+          })
+        }.bind(this),
+        callback)
     },
 
     sync: sync,
