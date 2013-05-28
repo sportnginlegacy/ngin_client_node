@@ -24,11 +24,23 @@ module.exports = function(ngin) {
       return Super.save.call(this, url, options, callback)
     },
 
+    getConflicts: function(options, callback) {
+      if (!options.tournament_id)
+        return callback(new Error('tournament_id is required'))
+      var url = GameSlot.conflictsUrlRoot()
+      return ngin.SchedulingConflict.list({tournament_id: options.tournament_id, game_slot_id: this.id}, callback)
+    }
+
   }, {
 
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, 'tournament_schedules')
+    },
+
+    conflictsUrlRoot: function() {
+      var base = config.urls && config.urls.sports || config.urls
+      return Url.resolve(base, '/scheduling_conflicts')
     },
 
     list: function(options, callback) {

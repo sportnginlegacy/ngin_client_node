@@ -92,6 +92,16 @@ describe('GameSlot Model', function() {
       done()
     })
 
+    it('should make a request for scheduling conflicts with tournament_id', function(done) {
+      gameslot.getConflicts({tournament_id:1}, function(err, schedulingConflicts, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/scheduling_conflicts')
+        done()
+      })
+    })
+
   })
 
 })
