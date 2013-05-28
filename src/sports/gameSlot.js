@@ -24,6 +24,12 @@ module.exports = function(ngin) {
       return Super.save.call(this, url, options, callback)
     },
 
+    getConflicts: function(options, callback) {
+      if (!options.tournament_id)
+        return callback(new Error('tournament_id is required'))
+      return ngin.SchedulingConflict.list({tournament_id: options.tournament_id, game_slot_id: this.id}, callback)
+    }
+
   }, {
 
     urlRoot: function() {
