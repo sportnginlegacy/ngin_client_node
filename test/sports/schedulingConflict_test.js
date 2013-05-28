@@ -22,12 +22,22 @@ describe('SchedulingConflict Model', function() {
 
     var params = {tournament_id: 1}
 
-    it('should make requests on list', function(done) {
+    it('should make requests on list with tournament_id', function(done) {
       ngin.SchedulingConflict.list({tournament_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/scheduling_conflicts')
+        assert.equal(resp.req.path, '/scheduling_conflicts?tournament_id=1&game_slot_id=')
+        done()
+      })
+    })
+
+    it('should make requests on list with tournament_id and game_slot_id', function(done) {
+      ngin.SchedulingConflict.list({tournament_id:1, game_slot_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/scheduling_conflicts?tournament_id=1&game_slot_id=1')
         done()
       })
     })

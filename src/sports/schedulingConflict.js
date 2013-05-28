@@ -29,7 +29,12 @@ module.exports = function(ngin) {
       if (!options.tournament_id)
         return callback(new Error('tournament_id is required'))
       var url = this.urlRoot()
-      return SportsModel.list.call(this, url, options, callback)
+      var params = {}
+      params.query = {
+        tournament_id: options.tournament_id,
+        game_slot_id: options.game_slot_id
+      }
+      return SportsModel.list.call(this, url, params, callback)
     }
 
   })

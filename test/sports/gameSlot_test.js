@@ -97,7 +97,7 @@ describe('GameSlot Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/scheduling_conflicts')
+        assert.equal(resp.req.path, '/scheduling_conflicts?tournament_id=1&game_slot_id=1')
         done()
       })
     })
