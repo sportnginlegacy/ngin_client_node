@@ -32,8 +32,10 @@ module.exports = function(ngin) {
       var params = {}
       params.query = {
         tournament_id: options.tournament_id,
-        game_slot_id: options.game_slot_id
       }
+
+      if (options.game_slot_id) params.query.game_slot_id = options.game_slot_id
+
       return SportsModel.list.call(this, url, params, callback)
     }
 
