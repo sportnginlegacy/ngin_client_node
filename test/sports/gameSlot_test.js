@@ -68,6 +68,16 @@ describe('GameSlot Model', function() {
       gameslot = ngin.GameSlot.create({id:1}, {fetched:true})
     })
 
+    it('should make requests on fetch with ID', function(done) {
+      gameslot.fetch({id: gameslot.id}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournament_schedules/1')
+        done()
+      })
+    })
+
     it('should make requests on save with ID', function(done) {
       gameslot.save(function(err, data, resp) {
         assert(!err)
@@ -81,13 +91,6 @@ describe('GameSlot Model', function() {
     it('should throw on delete', function(done) {
       assert.throws(function(){
         gameslot.delete(done)
-      }, Error)
-      done()
-    })
-
-    it('should throw on fetch', function(done) {
-      assert.throws(function(){
-        gameslot.fetch(done)
       }, Error)
       done()
     })
