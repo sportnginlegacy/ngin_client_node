@@ -1,6 +1,8 @@
 "use strict"
 
+var Url = require('url')
 var _ = require('underscore')
+var async = require('async')
 var extendable = require('extendable')
 
 var noop = function(){}
@@ -134,26 +136,60 @@ module.exports = function(ngin) {
         options.url = _.isFunction(temp.url) ? temp.url(options) : temp.url
       }
 
+      if (options.page) {
+        options.query = _.extend({}, options.query, {page:options.page})
+      }
+
+      if (options.per_page) {
+        options.query = _.extend({}, options.query, {per_page:options.per_page})
+      }
+
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
+
+        var pagination = data.metadata && data.metadata.pagination
+
         data = self.parseList(data, resp)
-        var list = []
-        for (var i = 0; i < data.length; i++) {
-          // TODO: The create method should run snychronously since we've already
-          // fetched the data. Might want to convert this code to use the `async`
-          // module so that we don't have to make assumptions about how the
-          // create method runs
-          self.create(data[i], {fetched:true}, function(err, inst) {
-            list.push(inst)
-          })
-        }
-        callback(err, list, resp)
+        self.fromList(data, function(err, list) {
+
+          // check for a single page request
+          if (options.page || !pagination || (pagination && pagination.total_pages === 1)) {
+            list._pagination = pagination
+            return callback(err, list, resp)
+          }
+
+          // auto paginate
+          var pages = _.range(pagination.current_page+1, pagination.total_pages+1)
+          async.map(pages,
+            function(page, callback) {
+              var opts = _.clone(options)
+              opts.page = page
+              self.list(opts, callback)
+            },
+            function(err, results) {
+              if (err) return callback(err)
+              list = list.concat.apply(list, results)
+              callback(null, list, resp)
+            })
+
+        })
       })
     },
 
     parseList: function(data, resp) {
       if (data.result) data = data.result
       return data
+    },
+
+    fromList: function(data, callback) {
+      var list = []
+      async.map(data,
+        function(attrs, callback) {
+          this.create(attrs, {fetched:true}, function(err, inst) {
+            callback(err, inst)
+          })
+        }.bind(this),
+        callback)
     },
 
     sync: sync,
