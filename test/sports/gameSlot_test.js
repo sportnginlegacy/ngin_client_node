@@ -40,6 +40,16 @@ describe('GameSlot Model', function() {
       })
     })
 
+    it('should make requests on list with game_slot_id', function(done) {
+      ngin.GameSlot.list({game_slot_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournament_schedules?game_slot_id=1')
+        done()
+      })
+    })
+
     it('should make requests on update', function(done) {
       ngin.GameSlot.update({tournament_id:1}, function(err, data, resp) {
         assert(!err)
