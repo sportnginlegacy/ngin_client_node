@@ -68,6 +68,16 @@ describe('GameSlot Model', function() {
       })
     })
 
+    it('should make requests on export with flight_id', function(done) {
+      ngin.GameSlot.export({flight_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournament_schedules.csv?flight_id=1')
+        done()
+      })
+    })
+
   })
 
   describe('GameSlot Instance', function() {

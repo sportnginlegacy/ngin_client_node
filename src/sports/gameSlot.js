@@ -49,8 +49,13 @@ module.exports = function(ngin) {
       if (options.flight_id) options.query.flight_id = options.flight_id
       if (options.flight_stage_id) options.query.flight_stage_id = options.flight_stage_id
       if (options.game_slot_id) options.query.game_slot_id = options.game_slot_id
-      var url = GameSlot.urlRoot()
+      var url = options.url || GameSlot.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
+    },
+
+    export: function(options, callback) {
+      options.url = GameSlot.urlRoot() + '.csv'
+      return GameSlot.list(options, callback)
     },
 
     update: function(options, callback) {
