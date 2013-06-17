@@ -78,6 +78,15 @@ describe('GameSlot Model', function() {
       })
     })
 
+    it('should make requests on export with accept:text/csv', function(done) {
+      ngin.GameSlot.export({flight_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.getHeader('Accept'), 'application/vnd.stat-ngin.v2,text/csv')
+        done()
+      })
+    })
+
   })
 
   describe('GameSlot Instance', function() {
