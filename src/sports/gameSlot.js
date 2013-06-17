@@ -55,6 +55,7 @@ module.exports = function(ngin) {
 
     export: function(options, callback) {
       options.url = GameSlot.urlRoot() + '.csv'
+      options.headers = {'Accept': 'application/vnd.stat-ngin.v2,text/csv'}
       return GameSlot.list(options, callback)
     },
 
