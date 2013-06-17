@@ -94,7 +94,7 @@ module.exports = function(ngin) {
         return callback(err, body, resp)
       }
 
-      log.info('NGINClient:', req.nginID, 'Status:', resp.statusCode, 'Time:', t+'ms')
+      log.log('NGINClient:', req.nginID, 'Status:', resp.statusCode, 'Time:', t+'ms')
 
       var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
 
@@ -115,7 +115,11 @@ module.exports = function(ngin) {
         err.statusCode = resp.statusCode
         err.body = parsedBody
         err.reqHeaders = req.headers
-        log.error(err)
+        if (parsedBody.errors) {
+          err.errors = parsedBody.errors
+          log.error('NGINClient: ' + req.nginID, parsedBody.errors)
+        }
+        log.error('NGINClient: ' + req.nginID, err)
         return callback(err, body, resp)
       }
 
@@ -124,7 +128,7 @@ module.exports = function(ngin) {
 
     // identify the request and log the url
     req.nginID = crypto.randomBytes(4).toString('hex')
-    log.info('NGINClient:',
+    log.log('NGINClient:',
       req.nginID, params.method,
       req.uri.host.substring(0, req.uri.host.indexOf('.')),
       req.uri.path)
