@@ -21,7 +21,7 @@ module.exports = function(ngin) {
 
     sync: function(method, options, callback) {
       options || (options = {})
-      options.headers = _.extend({}, options.headers, headers)
+      options.headers = _.extend({}, headers, options.headers)
       return SportsModel.__super__.sync.call(this, method, options, callback)
     }
 
@@ -29,7 +29,7 @@ module.exports = function(ngin) {
 
     sync: function(method, model, options, callback) {
       options || (options = {})
-      options.headers = _.extend({}, options.headers, headers)
+      options.headers = _.extend({}, headers, options.headers)
       return Model.sync(method, model, options, callback)
     }
 

@@ -147,6 +147,9 @@ module.exports = function(ngin) {
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
 
+        // don't act on the data if it's not an object/array
+        if (typeof data != 'object') return callback(err, data, resp)
+
         var pagination = data.metadata && data.metadata.pagination
 
         data = self.parseList(data, resp)
@@ -168,6 +171,7 @@ module.exports = function(ngin) {
             },
             function(err, results) {
               if (err) return callback(err)
+              // using concat here should work with both strings and arrays
               list = list.concat.apply(list, results)
               callback(null, list, resp)
             })
@@ -182,6 +186,9 @@ module.exports = function(ngin) {
     },
 
     fromList: function(data, callback) {
+      // don't act on the data if it's not an array
+      if (!_.isArray(data)) return callback(null, data)
+
       var list = []
       async.map(data,
         function(attrs, callback) {
