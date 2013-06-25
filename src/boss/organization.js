@@ -24,6 +24,11 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/organizations')
     },
 
+    list: function(callback) {
+      var url = Organization.urlRoot() + '/all'
+      return Model.list.call(this, url, callback)
+    },
+
     mine: function(callback) {
       var url = Organization.urlRoot() + '/mine'
       return Model.list.call(this, url, callback)
