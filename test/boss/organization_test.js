@@ -20,11 +20,14 @@ describe('Organization Model', function() {
 
   describe('Organization Class', function() {
 
-    it("should throw on list", function(done) {
-      assert.throws(function() {
-        ngin.Organization.list({}, done)
-      }, Error)
-      done()
+    it('should make requests on list', function(done) {
+      ngin.Organization.list(function(err, org, resp) {
+        assert(!err)
+        assert(!!org)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/all')
+        done()
+      })
     })
 
     it('should make requests on mine', function(done) {
