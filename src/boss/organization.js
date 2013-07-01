@@ -17,6 +17,11 @@ module.exports = function(ngin) {
 
   var Organization = Model.extend({
 
+    fetch: function(options, callback) {
+      var url = Organization.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    }
+
   },{
 
     urlRoot: function() {
@@ -24,14 +29,16 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/organizations')
     },
 
-    list: function(callback) {
+    list: function(options, callback) {
+      if (typeof options == 'function') callback = options, options = {}
       var url = Organization.urlRoot() + '/all'
-      return Model.list.call(this, url, callback)
+      return Model.list.call(this, url, options, callback)
     },
 
-    mine: function(callback) {
+    mine: function(options, callback) {
+      if (typeof options == 'function') callback = options, options = {}
       var url = Organization.urlRoot() + '/mine'
-      return Model.list.call(this, url, callback)
+      return Model.list.call(this, url, options, callback)
     }
 
   })

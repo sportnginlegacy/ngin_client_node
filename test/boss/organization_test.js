@@ -20,8 +20,18 @@ describe('Organization Model', function() {
 
   describe('Organization Class', function() {
 
+    it('should make requests on create with ID', function(done) {
+      ngin.Organization.create({id:1}, function(err, organization, data, resp) {
+        assert(!err)
+        assert(!!organization)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/organizations/1')
+        done()
+      })
+    })
+
     it('should make requests on list', function(done) {
-      ngin.Organization.list(function(err, org, resp) {
+      ngin.Organization.list({}, function(err, org, resp) {
         assert(!err)
         assert(!!org)
         assert.equal(resp.req.method, 'GET')
@@ -31,7 +41,7 @@ describe('Organization Model', function() {
     })
 
     it('should make requests on mine', function(done) {
-      ngin.Organization.mine(function(err, org, resp) {
+      ngin.Organization.mine({}, function(err, org, resp) {
         assert(!err)
         assert(!!org)
         assert.equal(resp.req.method, 'GET')
@@ -48,13 +58,6 @@ describe('Organization Model', function() {
 
     before(function() {
       testOrg = new ngin.Organization({id:1}, {fetched:true})
-    })
-
-    it('should throw on fetch', function(done) {
-      assert.throws(function(){
-        testOrg.fetch(done)
-      }, Error)
-      done()
     })
 
     it('should throw on save', function(done) {
