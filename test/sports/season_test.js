@@ -98,6 +98,37 @@ describe('Season Model', function() {
       })
     })
 
+
+    it('should make requests on addTeam with ID and teamID', function(done) {
+      season.addTeam(1, function(err, subseason, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/seasons/1/add_team/1')
+        done()
+      })
+    })
+
+    it('should make requests on removeTeam with ID and teamID', function(done) {
+      season.removeTeam(1, function(err, subseason, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/seasons/1/remove_team/1')
+        done()
+      })
+    })
+
+    it('should make requests on teams with seasonID', function(done) {
+      season.teams(function(err, season, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/teams')
+        done()
+      })
+    })
+
   })
 
 })

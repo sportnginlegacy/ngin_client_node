@@ -80,26 +80,6 @@ describe('Subseason Model', function() {
       })
     })
 
-    it('should make requests on addTeam with ID and teamID', function(done) {
-      testSubseason.addTeam(1, function(err, subseason, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/subseasons/1/add_team/1')
-        done()
-      })
-    })
-
-    it('should make requests on removeTeam with ID and teamID', function(done) {
-      testSubseason.removeTeam(1, function(err, subseason, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/subseasons/1/remove_team/1')
-        done()
-      })
-    })
-
     it('should make requests on addDivision with ID and divisionID', function(done) {
       testSubseason.addDivision(1, function(err, subseason, resp) {
         assert(!err)
@@ -136,16 +116,6 @@ describe('Subseason Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subseasons/1/standings_preferences')
-        done()
-      })
-    })
-
-    it('should make requests on teams with subseasonID', function(done) {
-      testSubseason.teams(function(err, subseason, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/teams')
         done()
       })
     })
