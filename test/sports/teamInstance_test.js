@@ -20,6 +20,7 @@ describe('TeamInstance Model', function() {
 
   describe('TeamInstance Class', function() {
 
+    // this will be depricated
     it('should make requests on list with subseason_id', function(done) {
       ngin.TeamInstance.list({subseason_id:1}, function(err, data, resp) {
         assert(!err)
