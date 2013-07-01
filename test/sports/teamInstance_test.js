@@ -20,6 +20,16 @@ describe('TeamInstance Model', function() {
 
   describe('TeamInstance Class', function() {
 
+    it('should make requests on list with subseason_id', function(done) {
+      ngin.TeamInstance.list({subseason_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subseasons/1/teams')
+        done()
+      })
+    })
+
     it('should make requests on list with season_id', function(done) {
       ngin.TeamInstance.list({season_id:1}, function(err, data, resp) {
         assert(!err)
@@ -44,24 +54,36 @@ describe('TeamInstance Model', function() {
 
   describe('TeamInstance Instance', function() {
 
-    var testTeamInstance
+    var subseasonTeamInstance
+    var seasonTeamInstance
 
     beforeEach(function() {
-      testTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched:true})
+      subseasonTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
+      seasonTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched: true})
     })
 
     it('should make requests on show with teamID', function(done) {
-      testTeamInstance.fetch(function(err, ti, resp){
+      subseasonTeamInstance.fetch(function(err, ti, resp){
         assert(!err)
         assert(!!ti)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/seasons/1/teams/2')
+        assert.equal(resp.req.path, '/subseasons/1/teams/2')
+        done()
+      })
+    })
+
+    it('should make requests on save with teamID and subseasonID', function(done) {
+      subseasonTeamInstance.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/subseasons/1/teams/2')
         done()
       })
     })
 
     it('should make requests on save with teamID and seasonID', function(done) {
-      testTeamInstance.save(function(err, data, resp) {
+      seasonTeamInstance.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
