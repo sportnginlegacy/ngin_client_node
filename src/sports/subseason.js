@@ -32,16 +32,6 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    addTeam: function(teamId, callback) {
-      var url = Subseason.urlRoot() + '/' + this.id + '/add_team/' + teamId
-      return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
-    },
-
-    removeTeam: function(teamId, callback) {
-      var url = Subseason.urlRoot() + '/' + this.id + '/remove_team/' + teamId
-      return Subseason.sync('delete', null, { url:url }, callback)
-    },
-
     addDivision: function(divisionId, callback) {
       var url = Subseason.urlRoot() + '/' + this.id + '/add_division/' + divisionId
       return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
@@ -59,10 +49,6 @@ module.exports = function(ngin) {
     standingsPreference: function(callback) {
       return ngin.StandingsPreference.create({subseason_id: this.id}).fetch(callback)
     },
-
-    teams: function(callback) {
-      return ngin.TeamInstance.list({subseason_id: this.id}, callback)
-    }
 
   }, {
 
