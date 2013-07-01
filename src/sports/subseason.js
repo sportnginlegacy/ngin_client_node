@@ -32,11 +32,13 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
+    // This will be depricated in the future
     addTeam: function(teamId, callback) {
       var url = Subseason.urlRoot() + '/' + this.id + '/add_team/' + teamId
       return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
+    // this will be depricated in the future
     removeTeam: function(teamId, callback) {
       var url = Subseason.urlRoot() + '/' + this.id + '/remove_team/' + teamId
       return Subseason.sync('delete', null, { url:url }, callback)
@@ -60,6 +62,7 @@ module.exports = function(ngin) {
       return ngin.StandingsPreference.create({subseason_id: this.id}).fetch(callback)
     },
 
+    // this will be depricated in the future
     teams: function(callback) {
       return ngin.TeamInstance.list({subseason_id: this.id}, callback)
     }
