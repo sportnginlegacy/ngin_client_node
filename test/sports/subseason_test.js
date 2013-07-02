@@ -80,6 +80,7 @@ describe('Subseason Model', function() {
       })
     })
 
+    // this will be depricated
     it('should make requests on addTeam with ID and teamID', function(done) {
       testSubseason.addTeam(1, function(err, subseason, resp) {
         assert(!err)
@@ -90,6 +91,7 @@ describe('Subseason Model', function() {
       })
     })
 
+    // this will be depricated
     it('should make requests on removeTeam with ID and teamID', function(done) {
       testSubseason.removeTeam(1, function(err, subseason, resp) {
         assert(!err)
@@ -140,6 +142,7 @@ describe('Subseason Model', function() {
       })
     })
 
+    // this will be depricated
     it('should make requests on teams with subseasonID', function(done) {
       testSubseason.teams(function(err, subseason, resp) {
         assert(!err)
