@@ -21,9 +21,10 @@ module.exports = function(ngin) {
       throw new Error('season_id or subseason_id and team_id required to make team instance api calls')
     if (options.season_id)
       return ngin.Season.urlRoot() + '/' + options.season_id + '/teams/' + options.team_id
-    else
+    else {
       console.warn('Fetching TeamInstances by subseason_id will be depricated')
       return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
+    }
   }
 
   /**
