@@ -33,11 +33,13 @@ module.exports = function(ngin) {
     },
 
     addTeam: function(teamId, callback) {
+      console.warn('Subseason#addTeam will be depricated')
       var url = Subseason.urlRoot() + '/' + this.id + '/add_team/' + teamId
       return Subseason.sync('update', null, { url:url }, this.callbackWithParse(callback))
     },
 
     removeTeam: function(teamId, callback) {
+      console.warn('Subseason#removeTeam will be depricated')
       var url = Subseason.urlRoot() + '/' + this.id + '/remove_team/' + teamId
       return Subseason.sync('delete', null, { url:url }, callback)
     },
@@ -61,6 +63,7 @@ module.exports = function(ngin) {
     },
 
     teams: function(callback) {
+      console.warn('Subseason#teams will be depricated')
       return ngin.TeamInstance.list({subseason_id: this.id}, callback)
     }
 

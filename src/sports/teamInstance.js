@@ -17,9 +17,14 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (!options.subseason_id || !options.team_id)
-      throw new Error('subseason_id and team_id required to make team instance api calls')
-    return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
+    if (!options.season_id && !options.subseason_id || !options.team_id)
+      throw new Error('season_id or subseason_id and team_id required to make team instance api calls')
+    if (options.season_id)
+      return ngin.Season.urlRoot() + '/' + options.season_id + '/teams/' + options.team_id
+    else {
+      console.warn('Fetching TeamInstances by subseason_id will be depricated')
+      return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
+    }
   }
 
   /**
@@ -56,10 +61,12 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.subseason_id && !options.team_id)
-        throw new Error('subseason_id or team_id required to list team instances')
+      if (!options.season_id && !options.subseason_id && !options.team_id)
+        throw new Error('season_id or subseason_id or team_id required to list team instances')
 
       var url
+      if (options.season_id)
+        url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
       if (options.subseason_id)
         url = ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams'
       if (options.team_id)

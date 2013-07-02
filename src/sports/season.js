@@ -30,6 +30,20 @@ module.exports = function(ngin) {
     destroy: function(options, callback) {
       var url = Season.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
+    },
+
+    addTeam: function(teamId, callback) {
+      var url = Season.urlRoot() + '/' + this.id + '/add_team/' + teamId
+      return Season.sync('update', null, { url:url }, this.callbackWithParse(callback))
+    },
+
+    removeTeam: function(teamId, callback) {
+      var url = Season.urlRoot() + '/' + this.id + '/remove_team/' + teamId
+      return Season.sync('delete', null, { url:url }, callback)
+    },
+
+    teams: function(callback) {
+      return ngin.TeamInstance.list({season_id: this.id}, callback)
     }
 
   },{
