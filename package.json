@@ -1,6 +1,6 @@
 {
   "name": "ngin_client",
-  "version": "0.2.24",
+  "version": "0.2.25",
   "description": "Node client for interacting with the NGIN API services",
   "main": "./index.js",
   "dependencies": {
