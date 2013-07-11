@@ -59,7 +59,7 @@ describe('TeamInstance Model', function() {
     var seasonTeamInstance
 
     beforeEach(function() {
-      subseasonTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
+      subseasonTeamInstance = ngin.TeamInstance.create({is_subseason_team_instance: true, subseason_id:1, team_id:2}, {fetched:true})
       seasonTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched: true})
     })
 
