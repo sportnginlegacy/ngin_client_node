@@ -19,7 +19,7 @@ module.exports = function(ngin) {
     options = _.extend(_.clone(options || {}), inst)
     if (!options.season_id && !options.subseason_id || !options.team_id)
       throw new Error('season_id or subseason_id and team_id required to make team instance api calls')
-    console.warn('Fetching TeamInstances by subseason_id will be depricated')
+    console.warn('Fetching TeamInstances by subseason_id will be deprecated')
     return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
   }
 
