@@ -11,8 +11,8 @@ var server
 
 describe('Reservation Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {

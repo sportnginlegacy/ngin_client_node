@@ -10,8 +10,8 @@ var server
 
 describe('Season Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
