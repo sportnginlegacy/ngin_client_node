@@ -167,6 +167,7 @@ module.exports = function(ngin) {
             function(page, callback) {
               var opts = _.clone(options)
               opts.page = page
+              opts.per_page = 100
               self.list(opts, callback)
             },
             function(err, results) {
