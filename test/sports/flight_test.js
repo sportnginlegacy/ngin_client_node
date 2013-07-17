@@ -11,8 +11,8 @@ var server
 describe('Flight Model', function() {
   var parseList = ngin.FlightStage.parseList
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
