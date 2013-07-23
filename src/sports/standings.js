@@ -20,7 +20,6 @@ module.exports = function(ngin) {
     options = _.extend(_.clone(options || {}), inst)
     var route = []
 
-    if (options.subseason_id) route.push('subseasons', options.subseason_id)
     if (options.flight_stage_id) route.push('flight_stages', options.flight_stage_id)
     else if (options.division_id) route.push('divisions', options.division_id)
     else if (options.pool_id) route.push('pools', options.pool_id)

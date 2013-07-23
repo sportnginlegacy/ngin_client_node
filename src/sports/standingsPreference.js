@@ -17,16 +17,10 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (!options || !options.subseason_id)
-      throw new Error('subseason_id required to make standings preference api calls')
-
-    var url = ngin.Subseason.urlRoot() + '/' + options.subseason_id
-    if (options.pool_id) {
-      url += '/pools/' + options.pool_id
-    } else if (options.division_id) {
-      url += '/divisions/' + options.division_id
-    }
-    return url + StandingsPreference.urlRoot()
+    if (!options || !options.division_id || !options.game_type)
+      throw new Error('division_id and game_type required to make standings preference api calls')
+    
+    return ngin.Division.urlRoot() + '/' + options.division_id + StandingsPreference.urlRoot() + '/' + options.game_type
   }
 
   /**

@@ -17,13 +17,14 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (!options.season_id && !options.subseason_id || !options.team_id)
-      throw new Error('season_id or subseason_id and team_id required to make team instance api calls')
-    if (options.season_id)
-      return ngin.Season.urlRoot() + '/' + options.season_id + '/teams/' + options.team_id
-    else {
-      console.warn('Fetching TeamInstances by subseason_id will be depricated')
-      return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
+    if (!options.season_id || !options.team_id)
+      throw new Error('season_id and/or team_id required to make team instance api calls')
+
+    if (options.season_id) {
+      var url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
+      return options.team_id ? url + '/' + options.team_id : url
+    } else {
+      return ngin.Team.urlRoot() + '/' + options.team_id + '/teams/' + ngin.TeamInstance.urlRoot()
     }
   }
 
