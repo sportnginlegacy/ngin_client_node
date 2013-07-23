@@ -61,14 +61,12 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.season_id && !options.subseason_id && !options.team_id)
-        throw new Error('season_id or subseason_id or team_id required to list team instances')
+      if (!options || !(options.season_id || options.team_id))
+        throw new Error('season_id or team_id are required to list team instances.')
 
       var url
       if (options.season_id)
         url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
-      if (options.subseason_id)
-        url = ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams'
       if (options.team_id)
         url = ngin.Team.urlRoot() + '/' + options.team_id + '/team_instances'
 
