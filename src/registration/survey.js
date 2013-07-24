@@ -8,6 +8,21 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to the tournament or flight
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst, action) {
+    var opts = _.extend({}, inst, options)
+    if (!opts.id && !opts.tournament_id && !opts.league_id && !opts.season_id)
+      throw new Error('id, season_id, tournament_id or league_id required to make survey api calls')
+    return Survey.urlRoot() + '/' + action + '/' + opts.id + '.json'
+  }
+
+  /**
    * Survey Class
    *
    * @param {Object} attr
@@ -18,7 +33,7 @@ module.exports = function(ngin) {
   var Survey = Model.extend({
 
     fetch: function(options, callback) {
-      var url = Survey.urlRoot() + '/show/' + (this.id || options.id) + '.json'
+      var url = scopeUrl(options, this, 'show')
       return Super.fetch.call(this, url, options, callback)
     }
 
