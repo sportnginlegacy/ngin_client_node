@@ -8,6 +8,22 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to the season
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend({}, options, inst)
+    if (!options.season_id)
+      throw new Error('season_id required to make division instance api calls')
+
+    return ngin.Season.urlRoot() + '/' + options.season_id + Division.urlRoot()
+  }
+
+  /**
    * Division Class
    *
    * @param {Object} attr
@@ -18,17 +34,17 @@ module.exports = function(ngin) {
   var Division = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = Division.urlRoot() + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = Division.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = scopeUrl(options, this) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = Division.urlRoot() + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     },
 
@@ -39,13 +55,12 @@ module.exports = function(ngin) {
 
   }, {
 
-    urlRoot: function() {
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/divisions')
+    urlRoot: function(seasonID) {
+      return '/divisions'
     },
 
     list: function(options, callback) {
-      var url = Division.urlRoot()
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 
