@@ -44,6 +44,10 @@ module.exports = function(ngin) {
 
     teams: function(callback) {
       return ngin.TeamInstance.list({season_id: this.id}, callback)
+    },
+
+    divisions: function(callback) {
+      return ngin.Division.list({season_id: this.id}, callback)
     }
 
   },{

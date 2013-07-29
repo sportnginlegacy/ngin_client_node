@@ -18,17 +18,17 @@ module.exports = function(ngin) {
   var Division = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = Division.urlRoot() + '/' + this.id
+      var url = Division.urlRoot(options) + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = Division.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = Division.urlRoot(options) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = Division.urlRoot() + '/' + this.id
+      var url = Division.urlRoot(options) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     },
 
@@ -38,13 +38,14 @@ module.exports = function(ngin) {
 
   }, {
 
-    urlRoot: function() {
+    urlRoot: function(options) {
+      options = options || {}
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/divisions')
+      return Url.resolve(base, '/seasons/' + options.season_id + '/divisions')
     },
 
     list: function(options, callback) {
-      var url = Division.urlRoot()
+      var url = Division.urlRoot(options)
       return SportsModel.list.call(this, url, options, callback)
     }
 
