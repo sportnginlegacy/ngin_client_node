@@ -24,6 +24,7 @@ module.exports = function(ngin) {
 
     initialize: function(attr, options) {
       this.isThirdNorth = _.memoize(this.isThirdNorth)
+      this.isThirdNorth.toJSON = function() { return this() }
     },
 
     fetch: function(options, callback) {

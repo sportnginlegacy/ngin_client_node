@@ -10,8 +10,8 @@ var server
 
 describe('TeamInstance Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
@@ -60,7 +60,6 @@ describe('TeamInstance Model', function() {
 
     beforeEach(function() {
       subseasonTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
-      seasonTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched: true})
     })
 
     it('should make requests on show with teamID', function(done) {
@@ -79,16 +78,6 @@ describe('TeamInstance Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/subseasons/1/teams/2')
-        done()
-      })
-    })
-
-    it('should make requests on save with teamID and seasonID', function(done) {
-      seasonTeamInstance.save(function(err, data, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/seasons/1/teams/2')
         done()
       })
     })
