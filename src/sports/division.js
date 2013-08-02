@@ -16,7 +16,7 @@ module.exports = function(ngin) {
    */
 
   function scopeUrl(options, inst) {
-    options = _.extend({}, options, inst)
+    options = _.extend({}, inst, options)
     if (!options.season_id)
       throw new Error('season_id required to make division instance api calls')
 
