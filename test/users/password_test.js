@@ -35,6 +35,7 @@ describe('Password Model', function() {
 
     before(function() {
       password = new ngin.Password({
+        id:1,
         current_password:"current_password",
         password:"password",
         password_confirmation:"password_confirmation"
@@ -46,7 +47,7 @@ describe('Password Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/users/password')
+        assert.equal(resp.req.path, '/users/password/1')
         done()
       })
     })
