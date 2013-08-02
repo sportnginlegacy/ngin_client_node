@@ -45,7 +45,7 @@ describe('Password Model', function() {
       password.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/users/password')
         done()
       })
