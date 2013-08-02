@@ -47,7 +47,7 @@ describe('Password Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/users/password/1')
+        assert.equal(resp.req.path, '/users/1/password')
         done()
       })
     })

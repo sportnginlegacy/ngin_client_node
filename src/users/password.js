@@ -17,7 +17,7 @@ module.exports = function(ngin) {
   var Password = Model.extend({
 
     save: function(options, callback) {
-      var url = Password.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = Password.urlRoot() + '/' + this.id + '/password'
       return Super.save.call(this, url, options, callback)
     }
 
@@ -25,7 +25,7 @@ module.exports = function(ngin) {
 
     urlRoot: function() {
       var base = config.urls && config.urls.users || config.url
-      return Url.resolve(base, '/users/password')
+      return Url.resolve(base, '/users')
     }
 
   })
