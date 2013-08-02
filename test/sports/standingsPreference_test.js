@@ -10,8 +10,8 @@ var server
 
 describe('StandingsPreference Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
@@ -41,35 +41,26 @@ describe('StandingsPreference Model', function() {
     var standingsPref
 
     beforeEach(function() {
-      standingsPref = new ngin.StandingsPreference({subseason_id:1}, {fetched:true})
+      standingsPref = new ngin.StandingsPreference({division_id:1, game_type:'regular_season'}, {fetched:true})
     })
 
-    it("should make a request on fetch with subseason_id", function(done) {
+    it("should make a request on fetch with division_id and game_type", function(done) {
       standingsPref.fetch(function(err, standingsPref, resp) {
+        console.error(err)
         assert(!err)
         assert(!!standingsPref)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/standings_preferences')
+        assert.equal(resp.req.path, '/divisions/1/standings_preferences/regular_season')
         done()
       })
     })
 
-    it("should make a request on fetch with subseason_id and pool_id", function(done) {
-      standingsPref.fetch({pool_id:2}, function(err, standingsPref, resp) {
+    it("should make a request on save with division_id and game_type", function(done) {
+      standingsPref.save(function(err, standingsPref, resp) {
         assert(!err)
         assert(!!standingsPref)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/pools/2/standings_preferences')
-        done()
-      })
-    })
-
-    it("should make a request on fetch with subseason_id and division_id", function(done) {
-      standingsPref.fetch({division_id:2}, function(err, standingsPref, resp) {
-        assert(!err)
-        assert(!!standingsPref)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/divisions/2/standings_preferences')
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/divisions/1/standings_preferences/regular_season')
         done()
       })
     })

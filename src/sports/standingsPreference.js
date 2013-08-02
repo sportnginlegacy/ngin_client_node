@@ -19,8 +19,10 @@ module.exports = function(ngin) {
     options = _.extend(_.clone(options || {}), inst)
     if (!options || !options.division_id || !options.game_type)
       throw new Error('division_id and game_type required to make standings preference api calls')
-    
-    return ngin.Division.urlRoot() + '/' + options.division_id + StandingsPreference.urlRoot() + '/' + options.game_type
+
+    var route = ngin.Division.urlRoot() + '/' + options.division_id + StandingsPreference.urlRoot() + '/' + options.game_type
+    var base = config.urls && config.urls.sports || config.url
+    return Url.resolve(base, route)
   }
 
   /**
@@ -50,8 +52,6 @@ module.exports = function(ngin) {
 
     destroy: function(options, callback) {
       options = _.extend(_.clone(options || {}), inst)
-      if (!options.pool_id && !options.division_id)
-        throw new Error('pool_id or division_id required to make standings preference destory calls')
       var url = scopeUrl(options)
       return Super.destory(this, url, options, callback)
     }

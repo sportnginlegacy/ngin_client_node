@@ -10,8 +10,8 @@ var server
 
 describe('Division Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
@@ -50,7 +50,7 @@ describe('Division Model', function() {
       testDivision = ngin.Division.create({season_id:1, id:2}, {fetched:true})
     })
 
-    it("should make a request for standings with ID and subseasonID ", function(done){
+    it("should make a request for standings with ID", function(done){
       testDivision.standings(1, function(err, division, resp) {
         assert(!err)
         assert(!!resp)

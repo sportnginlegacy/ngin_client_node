@@ -10,8 +10,8 @@ var server
 
 describe('TeamInstance Model', function() {
 
-  before(function() {
-    server = Server()
+  before(function(done) {
+    server = Server(done)
   })
 
   after(function(done) {
@@ -19,17 +19,6 @@ describe('TeamInstance Model', function() {
   })
 
   describe('TeamInstance Class', function() {
-
-    // this will be depricated
-    it('should make requests on list with subseason_id', function(done) {
-      ngin.TeamInstance.list({subseason_id:1}, function(err, data, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/teams')
-        done()
-      })
-    })
 
     it('should make requests on list with season_id', function(done) {
       ngin.TeamInstance.list({season_id:1}, function(err, data, resp) {
@@ -55,30 +44,19 @@ describe('TeamInstance Model', function() {
 
   describe('TeamInstance Instance', function() {
 
-    var subseasonTeamInstance
+    var seasonTeamInstance
     var seasonTeamInstance
 
     beforeEach(function() {
-      subseasonTeamInstance = ngin.TeamInstance.create({subseason_id:1, team_id:2}, {fetched:true})
-      seasonTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched: true})
+      seasonTeamInstance = ngin.TeamInstance.create({season_id:1, team_id:2}, {fetched:true})
     })
 
     it('should make requests on show with teamID', function(done) {
-      subseasonTeamInstance.fetch(function(err, ti, resp){
+      seasonTeamInstance.fetch(function(err, ti, resp){
         assert(!err)
         assert(!!ti)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/teams/2')
-        done()
-      })
-    })
-
-    it('should make requests on save with teamID and subseasonID', function(done) {
-      subseasonTeamInstance.save(function(err, data, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/subseasons/1/teams/2')
+        assert.equal(resp.req.path, '/seasons/1/teams/2')
         done()
       })
     })

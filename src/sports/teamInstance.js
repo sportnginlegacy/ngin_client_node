@@ -16,7 +16,7 @@ module.exports = function(ngin) {
    */
 
   function scopeUrl(options, inst) {
-    options = _.extend(_.clone(options || {}), inst)
+    options = _.extend({}, inst, options)
     if (!options.season_id || !options.team_id)
       throw new Error('season_id and/or team_id required to make team instance api calls')
 
