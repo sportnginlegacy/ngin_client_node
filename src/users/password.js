@@ -7,7 +7,7 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Roles Class
+   * Password Class
    *
    * @param {Object} attr
    * @param {Object} options
