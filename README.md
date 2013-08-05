@@ -7,6 +7,9 @@ ngin_client_node
 npm install ngin_client
 ```
 
+#Note:
+Ngin Client Node will not work with node version 0.6.x
+
 ## Contributing
 
 If you add code, please add tests. Pull requests will not be accepted without
