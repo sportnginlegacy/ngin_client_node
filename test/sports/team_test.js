@@ -47,7 +47,7 @@ describe('Team Model', function() {
     var testTeam
 
     beforeEach(function() {
-      testTeam = ngin.Team.create({id:1}, {fetched:true})
+      testTeam = ngin.Team.create({id:1, season_id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
@@ -77,16 +77,6 @@ describe('Team Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/teams/1')
-        done()
-      })
-    })
-
-    it("should make a request for standings with ID and subseasonID ", function(done){
-      testTeam.standings(1, function(err, team, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subseasons/1/teams/1/standings')
         done()
       })
     })
