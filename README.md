@@ -7,7 +7,7 @@ ngin_client_node [![Build Status](https://travis-ci.org/sportngin/ngin_client_no
 npm install ngin_client
 ```
 
-#Note:
+###Note:
 Ngin Client Node will not work with node version 0.6.x
 
 ## Contributing
