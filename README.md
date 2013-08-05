@@ -1,4 +1,4 @@
-ngin_client_node
+ngin_client_node [![Build Status](https://travis-ci.org/sportngin/ngin_client_node.png)](https://travis-ci.org/sportngin/ngin_client_node)
 ================
 
 ## Installation
