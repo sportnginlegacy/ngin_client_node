@@ -17,10 +17,18 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (typeof options !== 'object' && (!options.tournament_id || !options.flight_id))
+    if (typeof options !== 'object' && (!options.tournament_id || !options.flight_id || !options.league_id))
       throw new Error('tournament_id required to make StandingsDefault api calls')
 
-    return ngin.Tournament.urlRoot() + '/' + options.tournament_id + StandingsDefault.urlRoot()
+    return options.tournament_id ? tournamentUrl(options.tournament_id) : leagueUrl(options.league_id, options.game_type)
+  }
+
+  function tournamentUrl(tournament_id) {
+    return ngin.Tournament.urlRoot() + '/' + tournament_id + StandingsDefault.urlRoot()
+  }
+
+  function leagueUrl(league_id, game_type) {
+    return ngin.League.urlRoot() + '/' + league_id + StandingsDefault.urlRoot() + '/' + game_type
   }
 
   /**
