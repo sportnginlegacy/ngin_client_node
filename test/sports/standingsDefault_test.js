@@ -64,6 +64,17 @@ describe('StandingsDefault Model', function() {
       })
     })
 
+    it("should make a request on save with league_id", function(done) {
+      standingsDefault = new ngin.StandingsDefault({league_id:5,game_type:'some_game_type'}, {fetched:true})
+      standingsDefault.save(function(err, standingsDefault, resp) {
+        assert(!err)
+        assert(!!standingsDefault)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/leagues/5/standings_defaults/some_game_type')
+        done()
+      })
+    })
+
     it('should throw on delete', function(done) {
       assert.throws(function(){
         standingsDefault.delete(done)
