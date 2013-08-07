@@ -58,6 +58,11 @@ module.exports = function(ngin) {
 
   }, {
 
+    list: function(options, callback) {
+      var url = ngin.League.urlRoot() + '/' + options.id + this.urlRoot() + '/' + options.gameType
+      return SportsModel.list.call(this, url, options, callback)
+    },
+
     urlRoot: function(options) {
       return '/standings_defaults'
     }

@@ -35,8 +35,7 @@ module.exports = function(ngin) {
   },{
 
     standingsDefaults: function(options, callback) {
-      var url = League.urlRoot() + '/' + options.id + '/standings_defaults/' + options.gameType
-      return SportsModel.list.call(this, url, options, callback)
+      return ngin.StandingsDefault.list(options, callback)
     },
 
     urlRoot: function() {
