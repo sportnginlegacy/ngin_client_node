@@ -20,27 +20,27 @@ describe('Persona Model', function() {
 
   describe('list', function(){
 
-    it("should make a request on list with userID", function(done) {
+    it("should make a request to /users/:user_id/personas with user_id", function(done) {
       ngin.Persona.list({query:{user_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/personas?user_id=1')
+        assert.equal(resp.req.path, '/users/1/personas')
         done()
       })
     })
 
-    it("should make a request on list with userID", function(done) {
+    it("should make a request to /groups/:group_id/personas with group_id", function(done) {
       ngin.Persona.list({query:{group_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/personas?group_id=1')
+        assert.equal(resp.req.path, '/groups/1/personas')
         done()
       })
     })
 
-    it("should make a request on list with userID", function(done) {
+    it("should make a request to /personas with owner_type and owner_id", function(done) {
       ngin.Persona.list({query:{owner_type: 1, owner_id: 1}}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
