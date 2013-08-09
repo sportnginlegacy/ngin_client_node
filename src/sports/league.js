@@ -34,6 +34,10 @@ module.exports = function(ngin) {
 
   },{
 
+    standingsDefaults: function(options, callback) {
+      return ngin.StandingsDefault.list(options, callback)
+    },
+
     urlRoot: function() {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/leagues')

@@ -79,6 +79,15 @@ describe('League Model', function() {
       })
     })
 
+    it('should make requests to the standingsDefaults endpoint', function(done) {
+      ngin.League.standingsDefaults({id: 1, gameType: 'reg'}, function(err, standingsDefaults, resp) {
+        assert(!err)
+        assert(!!standingsDefaults)
+        assert.equal(resp.req.path, '/leagues/1/standings_defaults/reg')
+        done()
+      })
+    })
+
   })
 
 })
