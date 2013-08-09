@@ -9,7 +9,7 @@ module.exports = function(ngin) {
 
 
   /**
-   * Scopes the url to the tournament or flight
+   * Scopes the url to the tournament, league, or flight
    *
    * @param {Object} options
    * @returns {String}
