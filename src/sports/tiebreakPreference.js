@@ -18,18 +18,15 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (typeof options !== 'object' && (!options.tournament_id || !options.flight_id || !options.league_id))
-      throw new Error('tournament_id, league_id, or flight_id required to make tibreak preference api calls')
+    if (typeof options !== 'object' && (!options.tournament_id || !options.flight_id))
+      throw new Error('tournament_id or flight_id required to make tibreak preference api calls')
 
-    var url = null
+    var url = ''
     if (options.tournament_id) {
-      url = ngin.Tournament.urlRoot() + '/' + options.tournament_id
+      url += ngin.Tournament.urlRoot() + '/' + options.tournament_id
     } else if (options.flight_id) {
-      url = ngin.Flight.urlRoot() + '/' + options.flight_id
-    } else if (options.league_id) {
-      url = ngin.League.urlRoot() + '/' + options.league_id
+      url += ngin.Flight.urlRoot() + '/' + options.flight_id
     }
-
     return url + TiebreakPreference.urlRoot()
   }
 

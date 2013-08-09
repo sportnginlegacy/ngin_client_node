@@ -66,17 +66,6 @@ describe('TiebreakPreference Model', function() {
       })
     })
 
-    it('should make requests on fetch with league_id', function(done) {
-      tiebreakPref.league_id = 1
-      tiebreakPref.fetch(function(err, data, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/leagues/1/tiebreak_preference')
-        done()
-      })
-    })
-
     it('should make requests on save with tournament_id', function(done) {
       tiebreakPref.tournament_id = 1
       tiebreakPref.save(function(err, data, resp) {
@@ -84,17 +73,6 @@ describe('TiebreakPreference Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
         assert.equal(resp.req.path, '/tournaments/1/tiebreak_preference')
-        done()
-      })
-    })
-
-    it('should make requests on save with league_id', function(done) {
-      tiebreakPref.league_id = 1
-      tiebreakPref.save(function(err, data, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/leagues/1/tiebreak_preference')
         done()
       })
     })
