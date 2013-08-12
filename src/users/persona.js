@@ -17,21 +17,22 @@ module.exports = function(ngin) {
   function scopeUrl(options, inst) {
     options = _.extend(options || {}, inst)
     var query = options.query || {}
-    ;delete options.query // deleting query because we don't need it on requests for user and group personas
+
     if (!options.url && !query.user_id && !query.group_id && !(query.owner_type && query.owner_id)) {
       return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
     }
 
     if (query.user_id) {
+      ;delete options.query // deleting query because we don't need it on requests for user and group personas
       return ngin.User.urlRoot() + '/' + query.user_id + '/personas'
     }
 
     if (query.group_id) {
+      ;delete options.query // deleting query because we don't need it on requests for user and group personas
       return ngin.Group.urlRoot() + '/' + query.group_id + '/personas'
     }
 
     if (query.owner_type && query.owner_id) {
-      options.query = query
       return Persona.urlRoot()
     }
 
