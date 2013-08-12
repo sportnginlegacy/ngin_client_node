@@ -50,10 +50,11 @@ describe('Persona Model', function() {
       })
     })
 
-    it("should error on list without user_id or group_id or (owner_type and owner_id)", function(done) {
-      ngin.Persona.list({}, function(err, data, resp) {
-        assert(!!err)
-        done()
+    it("should error on list without user_id or group_id or (owner_type and owner_id)", function() {
+      assert.throws(function(){
+        ngin.Persona.list({}, function(err, data, resp) {
+          assert(!!err)
+        })
       })
     })
 
