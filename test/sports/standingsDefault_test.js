@@ -27,13 +27,6 @@ describe('StandingsDefault Model', function() {
       done()
     })
 
-    it("should throw on list", function(done) {
-      assert.throws(function() {
-        ngin.StandingsDefault.list({}, done)
-      }, Error)
-      done()
-    })
-
   })
 
   describe('StandingsDefault Instance', function() {
@@ -60,6 +53,17 @@ describe('StandingsDefault Model', function() {
         assert(!!standingsDefault)
         assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/tournaments/1/standings_defaults')
+        done()
+      })
+    })
+
+    it("should make a request on save with league_id", function(done) {
+      standingsDefault = new ngin.StandingsDefault({league_id:5,game_type:'some_game_type'}, {fetched:true})
+      standingsDefault.save(function(err, standingsDefault, resp) {
+        assert(!err)
+        assert(!!standingsDefault)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/leagues/5/standings_defaults/some_game_type')
         done()
       })
     })
