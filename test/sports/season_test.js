@@ -100,7 +100,7 @@ describe('Season Model', function() {
 
 
     it('should make requests on addTeam with ID and teamID', function(done) {
-      season.addTeam(1, function(err, subseason, resp) {
+      season.addTeam(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -110,7 +110,7 @@ describe('Season Model', function() {
     })
 
     it('should make requests on removeTeam with ID and teamID', function(done) {
-      season.removeTeam(1, function(err, subseason, resp) {
+      season.removeTeam(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
@@ -120,7 +120,7 @@ describe('Season Model', function() {
     })
 
     it('should make requests on teams with seasonID', function(done) {
-      season.teams(function(err, season, resp) {
+      season.teams(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
