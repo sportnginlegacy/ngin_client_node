@@ -16,23 +16,20 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(options || {}, inst)
-    var query = options.query || {}
 
-    if (!options.url && !query.user_id && !query.group_id && !(query.owner_type && query.owner_id)) {
+    if (!options.url && !options.user_id && !options.group_id && !(options.query || options.query.owner_type && options.query.owner_id)) {
       return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
     }
 
-    if (query.user_id) {
-      ;delete options.query // deleting query because we don't need it on requests for user and group personas
-      return ngin.User.urlRoot() + '/' + query.user_id + '/personas'
+    if (options.user_id) {
+      return ngin.User.urlRoot() + '/' + options.user_id + '/personas'
     }
 
-    if (query.group_id) {
-      ;delete options.query // deleting query because we don't need it on requests for user and group personas
-      return ngin.Group.urlRoot() + '/' + query.group_id + '/personas'
+    if (options.group_id) {
+      return ngin.Group.urlRoot() + '/' + options.group_id + '/personas'
     }
 
-    if (query.owner_type && query.owner_id) {
+    if (options.url || options.query.owner_type && options.query.owner_id) {
       return Persona.urlRoot()
     }
 
