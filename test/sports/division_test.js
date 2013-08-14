@@ -91,6 +91,16 @@ describe('Division Model', function() {
       })
     })
 
+    it('should make requests on standings with divisionID', function(done) {
+      testDivision.standings(1, function(err, division, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/divisions/1/standings')
+        done()
+      })
+    })
+
   })
 
 })

@@ -32,8 +32,8 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    standings: function(subseason_id, callback) {
-      return ngin.Standings.create({subseason_id: subseason_id, division_id: this.id}).fetch(callback)
+    standings: function(season_id, callback) {
+      return ngin.Standings.create({season_id: season_id, division_id: this.id}).fetch(callback)
     }
 
   }, {
