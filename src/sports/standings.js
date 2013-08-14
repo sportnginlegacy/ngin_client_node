@@ -21,11 +21,9 @@ module.exports = function(ngin) {
     var route = []
 
     if (options.season_id) route.push('seasons', options.season_id)
-    if (options.subseason_id) route.push('subseasons', options.subseason_id)
     if (options.flight_stage_id) route.push('flight_stages', options.flight_stage_id)
     else if (options.division_id) route.push('divisions', options.division_id)
     else if (options.pool_id) route.push('pools', options.pool_id)
-    else if (options.team_id) route.push('teams', options.team_id)
     route.push('standings')
 
     var base = config.urls && config.urls.sports || config.url

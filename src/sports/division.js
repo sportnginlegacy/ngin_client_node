@@ -8,6 +8,22 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to the season
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend({}, inst, options)
+    if (!options.season_id)
+      throw new Error('season_id required to make division instance api calls')
+
+    return ngin.Season.urlRoot() + '/' + options.season_id + Division.urlRoot()
+  }
+
+  /**
    * Division Class
    *
    * @param {Object} attr
@@ -18,34 +34,33 @@ module.exports = function(ngin) {
   var Division = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = Division.urlRoot(options) + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = Division.urlRoot(options) + (this.id ? '/' + this.id : '')
+      var url = scopeUrl(options, this) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = Division.urlRoot(options) + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     },
 
-    standings: function(season_id, callback) {
-      return ngin.Standings.create({season_id: season_id, division_id: this.id}).fetch(callback)
+    standings: function(options, callback) {
+      options = _.extend({division_id: this.id}, options)
+      return ngin.Standings.create(options).fetch(callback)
     }
 
   }, {
 
-    urlRoot: function(options) {
-      options = options || {}
-      var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/seasons/' + options.season_id + '/divisions')
+    urlRoot: function(seasonID) {
+      return '/divisions'
     },
 
     list: function(options, callback) {
-      var url = Division.urlRoot(options)
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 

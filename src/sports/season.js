@@ -54,10 +54,6 @@ module.exports = function(ngin) {
       return ngin.LeagueGameSlot.list({season_id: this.id}, callback)
     },
 
-    subseasons: function(callback) {
-      return ngin.Subseason.list({season_id: this.id}, callback)
-    },
-
     standings: function(callback) {
       return ngin.Standings.create({season_id: this.id}).fetch(callback)
     }

@@ -50,7 +50,7 @@ describe('Pool Model', function() {
       testPool = ngin.Pool.create({id:1}, {fetched:true})
     })
 
-    it("should make a request for standings with ID and subseasonID ", function(done){
+    it("should make a request for standings with ID", function(done){
       testPool.standings(function(err, pool, resp) {
         assert(!err)
         assert(!!resp)

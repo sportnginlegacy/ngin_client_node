@@ -1,4 +1,4 @@
-ngin_client_node
+ngin_client_node [![Build Status](https://travis-ci.org/sportngin/ngin_client_node.png)](https://travis-ci.org/sportngin/ngin_client_node)
 ================
 
 ## Installation
@@ -6,6 +6,9 @@ ngin_client_node
 ```
 npm install ngin_client
 ```
+
+###Note:
+Ngin Client Node will not work with node version 0.6.x
 
 ## Contributing
 
