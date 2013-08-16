@@ -7,6 +7,35 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to a user, group, or persona
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api private
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend(options || {}, inst)
+
+    if (!options.url && !options.user_id && !options.group_id && !(options.query || options.query.owner_type && options.query.owner_id)) {
+      return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
+    }
+
+    if (options.user_id) {
+      return ngin.User.urlRoot() + '/' + options.user_id + '/personas'
+    }
+
+    if (options.group_id) {
+      return ngin.Group.urlRoot() + '/' + options.group_id + '/personas'
+    }
+
+    if (options.url || options.query.owner_type && options.query.owner_id) {
+      return Persona.urlRoot()
+    }
+
+  }
+
+  /**
    * Persona Class
    *
    * @param {Object} attr
@@ -66,11 +95,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var query = options.query || {}
-      if (!options.url && !query.user_id && !query.group_id && !(query.owner_type && query.owner_id)) {
-        return callback(new Error('user_id or group_id or (owner_type and owner_id) are required'))
-      }
-      var url = Persona.urlRoot()
+      var url = scopeUrl(options)
       return Model.list.call(this, url, options, callback)
     }
 
