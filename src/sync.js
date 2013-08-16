@@ -46,7 +46,11 @@ module.exports = function(ngin) {
     })
 
     // Ensure that we have a URL.
-    if (!params.url) return callback(new Error('Url not present'))
+    if (!params.url) {
+      var error = new Error('Url not present')
+      if (callback) return callback(error)
+      throw error
+    }
 
     // request expects the `url` property to be a parsed Url object
     if (typeof params.url == 'string') {
@@ -91,19 +95,20 @@ module.exports = function(ngin) {
 
       if (err) {
         log.error('Request to ' + params.url + ' resulted in an error:', err)
-        return callback(err, body, resp)
+        return callback && callback(err, body, resp)
       }
 
       log.log('NGINClient:', req.nginID, 'Status:', resp.statusCode, 'Time:', t+'ms')
 
-      var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
-
       var parsedBody = body
-      if (contentType.match(/json/)) {
-        try {
-          parsedBody = JSON.parse(parsedBody)
-        } catch (e) {
-          log.error('API response not parsable JSON:', body)
+      if (callback) {
+        var contentType = resp.headers['content-type'] || resp.headers['Content-Type'] || ''
+        if (contentType.match(/json/)) {
+          try {
+            parsedBody = JSON.parse(parsedBody)
+          } catch (e) {
+            log.error('API response not parsable JSON:', body)
+          }
         }
       }
 
@@ -120,10 +125,10 @@ module.exports = function(ngin) {
           log.error('NGINClient: ' + req.nginID, parsedBody.errors)
         }
         log.error('NGINClient: ' + req.nginID, err)
-        return callback(err, body, resp)
+        return callback && callback(err, body, resp)
       }
 
-      callback(err, parsedBody, resp)
+      callback && callback(err, parsedBody, resp)
     })
 
     // identify the request and log the url

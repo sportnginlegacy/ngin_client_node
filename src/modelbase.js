@@ -27,21 +27,19 @@ module.exports = function(ngin) {
     },
 
     fetch: function(options, callback) {
-      var self = this
       if (typeof options == 'function') {
         callback = options
         options = {}
       }
       return this.sync('read', options, function(err, data, resp) {
-        if (err) return callback(err, self, resp)
-        data = self.parse(data, resp)
-        _.extend(self, data)
-        callback(err, self, resp)
-      })
+        if (err) return callback && callback(err, this, resp)
+        data = this.parse(data, resp)
+        _.extend(this, data)
+        callback && callback(err, this, resp)
+      }.bind(this))
     },
 
     save: function(options, callback) {
-      var self = this
       if (typeof options == 'function') {
         callback = options
         options = {}
@@ -49,12 +47,12 @@ module.exports = function(ngin) {
 
       if (!this.isValid()) return callback('Model is not in a valid state.')
       var method = options.method || !!this.id ? 'update' : 'create'
-      return this.sync(method, options, function(err, data, resp) {
-        if (err) return callback(err, data, resp)
-        data = self.parse(data, resp)
-        _.extend(self, data)
-        callback(err, data, resp)
-      })
+      return this.sync(method, options, function(err, body, resp) {
+        if (err) return callback && callback(err, body, resp)
+        var data = this.parse(body, resp)
+        _.extend(this, data)
+        callback && callback(err, data, resp, body)
+      }.bind(this))
     },
 
     destroy: function(options, callback) {
@@ -64,7 +62,7 @@ module.exports = function(ngin) {
       }
       if (!this.id) callback(null, true)
       return this.sync('delete', options, function(err, data, resp) {
-        return callback(err, data, resp)
+        return callback && callback(err, data, resp)
       })
     },
 
@@ -123,7 +121,6 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var self = this
       if (typeof options == 'function') {
         callback = options
         options = {}
@@ -152,8 +149,8 @@ module.exports = function(ngin) {
 
         var pagination = data.metadata && data.metadata.pagination
 
-        data = self.parseList(data, resp)
-        self.fromList(data, function(err, list) {
+        data = this.parseList(data, resp)
+        this.fromList(data, function(err, list) {
 
           // check for a single page request
           if (options.page || !pagination || (pagination && pagination.total_pages === 1)) {
@@ -168,17 +165,17 @@ module.exports = function(ngin) {
               var opts = _.clone(options)
               opts.page = page
               opts.per_page = 100
-              self.list(opts, callback)
-            },
+              this.list(opts, callback)
+            }.bind(this),
             function(err, results) {
               if (err) return callback(err)
               // using concat here should work with both strings and arrays
               list = list.concat.apply(list, results)
               callback(null, list, resp)
-            })
+            }.bind(this))
 
-        })
-      })
+        }.bind(this))
+      }.bind(this))
     },
 
     parseList: function(data, resp) {
