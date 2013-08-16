@@ -50,18 +50,9 @@ describe('Division Model', function() {
       testDivision = ngin.Division.create({season_id:1, id:2}, {fetched:true})
     })
 
-    it("should make a request for standings with ID", function(done){
-      testDivision.standings(1, function(err, division, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/divisions/2/standings')
-        done()
-      })
-    })
 
-    it('should make requests on save with ID', function(done) {
-      testDivision.save(function(err, data, resp) {
+    it('should make requests on save with ID and seasonID', function(done) {
+      testDivision.save({season_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -70,9 +61,9 @@ describe('Division Model', function() {
       })
     })
 
-    it('should make requests on save without ID', function(done) {
+    it('should make requests on save with seasonID and without ID', function(done) {
       delete testDivision.id
-      testDivision.save(function(err, data, resp) {
+      testDivision.save({season_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
@@ -81,12 +72,22 @@ describe('Division Model', function() {
       })
     })
 
-    it('should make requests on destroy with ID', function(done) {
-      testDivision.destroy(function(err, data, resp) {
+    it('should make requests on destroy with ID and seasonID', function(done) {
+      testDivision.destroy({season_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/seasons/1/divisions/2')
+        done()
+      })
+    })
+
+    it('should make requests on standings with divisionID', function(done) {
+      testDivision.standings({season_id:1}, function(err, division, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/divisions/2/standings')
         done()
       })
     })
