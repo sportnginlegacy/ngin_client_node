@@ -30,6 +30,10 @@ module.exports = function(ngin) {
     destroy: function(options, callback) {
       var url = League.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
+    }, 
+
+    seasons: function(options, callback) {
+      return ngin.Season.list({league_id: this.id}, callback)
     }
 
   },{

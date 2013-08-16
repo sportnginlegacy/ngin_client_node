@@ -129,6 +129,26 @@ describe('Season Model', function() {
       })
     })
 
+    it('should make requests on schedule with seasonID', function(done) {
+      season.schedule(function(err, season, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/league_schedules?season_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on standings with seasonID', function(done) {
+      season.standings(function(err, season, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/standings')
+        done()
+      })
+    })
+
   })
 
 })

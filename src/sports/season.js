@@ -44,6 +44,18 @@ module.exports = function(ngin) {
 
     teams: function(callback) {
       return ngin.TeamInstance.list({season_id: this.id}, callback)
+    },
+
+    divisions: function(callback) {
+      return ngin.Division.list({season_id: this.id}, callback)
+    },
+
+    schedule: function(callback) {
+      return ngin.LeagueGameSlot.list({season_id: this.id}, callback)
+    },
+
+    standings: function(callback) {
+      return ngin.Standings.create({season_id: this.id}).fetch(callback)
     }
 
   },{
