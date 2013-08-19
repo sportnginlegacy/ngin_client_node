@@ -67,7 +67,7 @@ module.exports = function(ngin) {
       return massUpdate.call(this, url, options, callback)
     },
 
-    generate: function(options, callback) {
+    generateMatchups: function(options, callback) {
       if (!options.season_id || !options.game_type)
         return callback(new Error('season_id and game_type are required'))
 
