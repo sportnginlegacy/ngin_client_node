@@ -72,7 +72,7 @@ module.exports = function(ngin) {
         return callback(new Error('season_id and game_type are required'))
 
       var url = ngin.Season.urlRoot() + '/' + options.season_id + '/divisions/matchups/' + options.game_type
-      var params = _.extend({}, { url: url })
+      var params = { url: url }
 
       if (!params.url) throw new Error('Url not present')
 
