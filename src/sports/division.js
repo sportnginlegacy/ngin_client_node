@@ -50,7 +50,7 @@ module.exports = function(ngin) {
 
     standings: function(options, callback) {
       options = _.extend({division_id: this.id}, options)
-      return ngin.Standings.create(options).fetch(callback)
+      return ngin.Standings.create(options).fetch(options, callback)
     }
 
   }, {
