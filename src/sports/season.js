@@ -56,7 +56,7 @@ module.exports = function(ngin) {
 
     standings: function(callback) {
       options = _.extend({season_id: this.id}, options)
-      return ngin.Standings.create({season_id: this.id}).fetch(otpions, callback)
+      return ngin.Standings.create(options).fetch(otpions, callback)
     }
 
   },{
