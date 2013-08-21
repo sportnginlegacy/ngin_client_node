@@ -140,7 +140,7 @@ describe('Season Model', function() {
     })
 
     it('should make requests on standings with seasonID', function(done) {
-      season.standings(null,function(err, season, resp) {
+      season.standings(function(err, season, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
