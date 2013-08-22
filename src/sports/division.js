@@ -54,9 +54,7 @@ module.exports = function(ngin) {
         options = {}
       }
 
-      options || (options = {})
-      var seasonID = options.season_id || this.season_id
-      options = _.extend({division_id: this.id, season_id: this.season_id}, options)
+      options = _.extend({division_id: this.id}, options)
       return ngin.Standings.create(options).fetch(options, callback)
     }
 
