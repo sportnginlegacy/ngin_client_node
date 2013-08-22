@@ -8,7 +8,7 @@ var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
-describe('Team Model', function() {
+describe('Platform Team Model', function() {
 
   before(function(done) {
     server = Server(done)
@@ -18,10 +18,10 @@ describe('Team Model', function() {
     server.close(done)
   })
 
-  describe('Team Class', function() {
+  describe('Platform Team Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.Team.create({id:1}, function(err, team, data, resp) {
+      ngin.PlatformTeam.create({id:1}, function(err, team, data, resp) {
         assert(!err)
         assert(!!team)
         assert.equal(resp.req.method, 'GET')
@@ -31,7 +31,7 @@ describe('Team Model', function() {
     })
 
     it('should make requests on list', function(done) {
-      ngin.Team.list(function(err, data, resp) {
+      ngin.PlatformTeam.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -42,16 +42,16 @@ describe('Team Model', function() {
 
   })
 
-  describe('Team Instance', function() {
+  describe('Platform Team Instance', function() {
 
-    var testTeam
+    var testPlatformTeam
 
     beforeEach(function() {
-      testTeam = ngin.Team.create({id:1, season_id:1}, {fetched:true})
+      testPlatformTeam = ngin.PlatformTeam.create({id:1, season_id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      testTeam.save(function(err, data, resp) {
+      testPlatformTeam.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -61,8 +61,8 @@ describe('Team Model', function() {
     })
 
     it('should make requests on save without ID', function(done) {
-      delete testTeam.id
-      testTeam.save(function(err, data, resp) {
+      delete testPlatformTeam.id
+      testPlatformTeam.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
@@ -72,7 +72,7 @@ describe('Team Model', function() {
     })
 
     it('should make requests on destroy with ID', function(done) {
-      testTeam.destroy(function(err, data, resp) {
+      testPlatformTeam.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
