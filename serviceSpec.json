@@ -1,0 +1,104 @@
+{
+  "services": {
+    "users": "https://user-service.stage.ngin-staging.com/",
+    "sports": "http://api-stat-ngin.stage.ngin-staging.com/",
+    "boss": "http://boss-service.stage.ngin-staging.com/",
+    "venues": "http://venue-service.stage.ngin-staging.com/",
+    "officials": "http://officials-service.stage.ngin-staging.com/",
+    "microsite": "http://tournament.stage.ngin-staging.com/"
+  },
+
+  "resources": {
+
+    "Bracket": {
+      "service": "sports",
+      "classOperations": {
+        "list": {
+          "method": "get",
+          "path": "/brackets",
+          "params": {
+            "flight_stage_id": "required"
+          }
+        }
+      },
+      "instanceOperations": {
+        "fetch": {
+          "method": "get",
+          "path": "/brackets/{{id}}",
+          "params": {
+            "id": "required"
+          }
+        },
+        "save": {
+          "method": "put",
+          "path": "/brackets(/{{id}})",
+          "payload": {
+            "label": "required"
+          }
+        },
+        "destroy": {
+          "method": "delete",
+          "path": "/brackets/{{id}}",
+          "params": {
+            "id": "required"
+          }
+        }
+      }
+    },
+
+    "Group": {
+      "service": "users",
+      "operations": {
+        "fetch": {
+          "method": "get",
+          "path": "/groups/{{id}}",
+          "params": {
+            "id": "required"
+          }
+        },
+        "list": {
+          "method": "get",
+          "path": "/groups",
+          "params": {
+            "owner_type": "required",
+            "owner_id": "required"
+          }
+        },
+        "save": {
+          "method": "put",
+          "path": "/groups(/{{id}})",
+          "params": { },
+          "payload": {
+            "owner_id": "required",
+            "owner_type": "required",
+            "name": "required"
+          }
+        },
+        "personas": {
+          "ref": "Persona.list",
+          "method": "get",
+          "path": "/groups/{{id}}/personas",
+          "params": {
+            "id": "required"
+          },
+        },
+        "addPersona": {
+          "method": "put",
+          "path": "/groups/{{id}}/add_persona/{{persona_id}}",
+          "params": {
+            "id": "required",
+            "persona_id": "required"
+          }
+        },
+        "removePersona": {
+          "method": "put",
+          "path": "/groups/{{id}}/remove_persona/{{persona_id}}",
+          "params": {
+            "id": "required",
+            "persona_id": "required"
+          }
+        }
+      }
+    }
+  }
+}
