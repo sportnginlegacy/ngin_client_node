@@ -54,8 +54,14 @@ module.exports = function(ngin) {
       return ngin.LeagueGameSlot.list({season_id: this.id}, callback)
     },
 
-    standings: function(callback) {
-      return ngin.Standings.create({season_id: this.id}).fetch(callback)
+    standings: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+      
+      options = _.extend({season_id: this.id}, options)
+      return ngin.Standings.create(options).fetch(options, callback)
     }
 
   },{
