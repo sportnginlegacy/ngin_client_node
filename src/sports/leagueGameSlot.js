@@ -65,6 +65,23 @@ module.exports = function(ngin) {
       options.query || (options.query = {})
       if (options.league_id) options.query.league_id = options.league_id
       return massUpdate.call(this, url, options, callback)
+    },
+
+    generateMatchups: function(options, callback) {
+      if (!options.season_id || !options.game_type)
+        return callback(new Error('season_id and game_type are required'))
+
+      var url = ngin.Season.urlRoot() + '/' + options.season_id + '/divisions/matchups/' + options.game_type
+      var params = { url: url }
+
+      if (!params.url) throw new Error('Url not present')
+
+      return this.sync('create', options, params, function(err, data, resp) {
+        if (err) return callback(err, data, resp)
+
+        data = this.parseList(data)
+        callback(err, data, resp)
+      }.bind(this))
     }
 
   })

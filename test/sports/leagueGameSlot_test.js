@@ -77,6 +77,32 @@ describe('LeagueGameSlot Model', function() {
       })
     })
 
+    it('should make requests on generateMatchups', function(done) {
+      ngin.LeagueGameSlot.generateMatchups({season_id:1, game_type:'reg'}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/seasons/1/divisions/matchups/reg')
+        done()
+      })
+    })
+
+    it('should fail on generateMatchups without season_id', function(done) {
+      ngin.LeagueGameSlot.generateMatchups({game_type:'reg'}, function(err, data, resp) {
+        assert(err)
+        assert(!resp)
+        done()
+      })
+    })
+
+    it('should fail on generateMatchups without game_type', function(done) {
+      ngin.LeagueGameSlot.generateMatchups({season_id:1}, function(err, data, resp) {
+        assert(err)
+        assert(!resp)
+        done()
+      })
+    })
+
   })
 
   describe('LeagueGameSlot Instance', function() {
