@@ -92,6 +92,36 @@ describe('Division Model', function() {
       })
     })
 
+    it('should make requests on teams with divisionID', function(done) {
+      testDivision.teams({season_id:1}, function(err, division, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/teams?division_id=2')
+        done()
+      })
+    })
+
+    it('should make requests on addTeam with seasonID, divisionID, and teamID', function(done) {
+      testDivision.addTeam(3, function(err, division, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/seasons/1/divisions/2/add_team/3')
+        done()
+      })
+    })
+
+    it('should make requests on removeTeam with seasonID, divisionID, and teamID', function(done) {
+      testDivision.removeTeam(3, function(err, division, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/seasons/1/divisions/2/remove_team/3')
+        done()
+      })
+    })
+
   })
 
 })

@@ -56,7 +56,27 @@ module.exports = function(ngin) {
 
       options = _.extend({division_id: this.id}, options)
       return ngin.Standings.create(options).fetch(options, callback)
+    },
+
+    teams: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options, options = {}
+      }
+      options.query = options.query || {}
+      options.query.division_id = this.id
+      return ngin.TeamInstance.list(options, callback)
+    },
+
+    addTeam: function(teamID, callback) {
+      var url = ngin.Season.urlRoot() + '/' + this.season_id + Division.urlRoot() + '/' + this.id + '/add_team/' + teamID
+      return Division.sync('update', null, { url:url }, this.callbackWithParse(callback))
+    },
+
+    removeTeam: function(teamID, callback) {
+      var url = ngin.Season.urlRoot() + '/' + this.season_id + Division.urlRoot() + '/' + this.id + '/remove_team/' + teamID
+      return Division.sync('delete', null, { url:url }, callback)
     }
+
 
   }, {
 
