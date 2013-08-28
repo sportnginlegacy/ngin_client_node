@@ -161,16 +161,6 @@ describe('Flight Model', function() {
       })
     })
 
-    it('should make requests on publish with flight_id', function(done) {
-      testFlight.publish(function(err, f, resp) {
-        assert(!err, 'err should be falsy')
-        assert(!!resp, 'resp should not be falsy')
-        assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/tournament_schedules/publish?flight_id=1')
-        done()
-      })
-    })
-
     it('should make requests on gameLimits with flightID', function(done) {
       testFlight.gameLimits(function(err, gameLimits, resp) {
         assert(!err)
