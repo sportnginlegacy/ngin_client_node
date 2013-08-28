@@ -65,12 +65,6 @@ module.exports = function(ngin) {
       return ngin.GameSlot.list({flight_id: this.id}, callback)
     },
 
-    publish: function(callback) {
-      var url = Flight.tournamentUrlRoot() + '/publish?flight_id=' + this.id
-      // semantically this is an update (PUT), but must technically be a POST
-      return ngin.GameSlot.sync('update', null, { url:url, method:'POST' }, this.callbackWithParse(callback))
-    },
-
     gameLimits: function(callback){
       return ngin.GameLimits.create({flight_id: this.id}).fetch(callback)
     },
