@@ -17,7 +17,7 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend({}, inst, options)
-    
+
     if (!options.season_id && !options.team_id)
       throw new Error('season_id and/or team_id required to make team instance api calls')
 
@@ -25,7 +25,7 @@ module.exports = function(ngin) {
       var url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
       return options.team_id ? url + '/' + options.team_id : url
     } else {
-      return ngin.Team.urlRoot() + '/' + options.team_id + '/' + ngin.TeamInstance.urlRoot()
+      return ngin.Team.urlRoot() + '/' + options.team_id + ngin.TeamInstance.urlRoot()
     }
   }
 
