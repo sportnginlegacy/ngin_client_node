@@ -17,14 +17,15 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend({}, inst, options)
-    if (!options.season_id || !options.team_id)
+    console.log("### OPTS\n\n", options)
+    if (!options.season_id && !options.team_id)
       throw new Error('season_id and/or team_id required to make team instance api calls')
 
     if (options.season_id) {
       var url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
       return options.team_id ? url + '/' + options.team_id : url
     } else {
-      return ngin.Team.urlRoot() + '/' + options.team_id + '/teams/' + ngin.TeamInstance.urlRoot()
+      return ngin.Team.urlRoot() + '/' + options.team_id + '/' + ngin.TeamInstance.urlRoot()
     }
   }
 
@@ -62,15 +63,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options || !(options.season_id || options.team_id))
-        throw new Error('season_id or team_id are required to list team instances.')
-
-      var url
-      if (options.season_id)
-        url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
-      if (options.team_id)
-        url = ngin.Team.urlRoot() + '/' + options.team_id + '/team_instances'
-
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 
