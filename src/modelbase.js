@@ -162,6 +162,7 @@ module.exports = function(ngin) {
           }
 
           // auto paginate
+          if (!pagination.current_page) pagination.current_page = 0
           var pages = _.range(pagination.current_page+1, pagination.total_pages+1)
           async.map(pages,
             function(page, callback) {
