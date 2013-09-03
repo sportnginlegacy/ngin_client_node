@@ -54,6 +54,16 @@ describe('Survey Model', function() {
       survey = new ngin.Survey({id:1}, {fetched:true})
     })
 
+    it("should make a request on fetch with seasonID", function(done) {
+      ngin.Survey.create({}).fetch({query:{season_id:1}}, function(err, survey, resp) {
+        assert(!err)
+        assert(!!survey)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(survey.metadata && survey.metadata.url, '/api2/registration/survey/show.json?season_id=1')
+        done()
+      })
+    })
+
     it('should throw on save', function(done) {
       assert.throws(function(){
         survey.save(done)
