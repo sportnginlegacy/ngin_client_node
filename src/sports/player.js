@@ -8,9 +8,9 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   function scopeUrl(options, inst) {
-    options = _.extend(_.clone(options || {}), inst)
-    var unrostered = options.league_id && options.season_id || options.tournament_id
-    return ngin.Player.urlRoot(unrostered)
+    var query = options && options.query || {}
+    var unrostered = query.league_id && query.season_id || query.tournament_id
+    return ngin.Player.urlRoot({unrostered: unrostered})
   }
 
   /**
@@ -29,12 +29,12 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      var url = scopeURL(options, this) + (this.id ? '/' + this.id : '')
+      var url = scopeUrl(options, this) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = scopeURL(options, this) + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     }
 
@@ -47,7 +47,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      var url = scopeURL(options, this)
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 

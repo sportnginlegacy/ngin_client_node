@@ -55,7 +55,7 @@ module.exports = function(ngin) {
       if (typeof options == 'function') {
         callback = options, options = {}
       }
-      options.url = Tournament.urlRoot() + '/' + this.id + '/players'
+      options.url = ngin.Player.urlRoot({unrostered: true}) + '?tournament_id=' + this.id
       return ngin.Player.list(options, callback)
     },
 
