@@ -52,7 +52,7 @@ module.exports = function(ngin) {
     },
 
     removePlayer: function(playerID, callback) {
-      var url = Season.urlRoot() + '/' + this.id + '/players/' + playerID
+      var url = Season.urlRoot() + '/' + this.id + '/players?player_id=' + playerID
       return Season.sync('delete', null, { url:url }, callback)
     },
 
