@@ -98,6 +98,35 @@ describe('Season Model', function() {
       })
     })
 
+    it('should make requests on players with ID', function(done) {
+      season.players(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/players')
+        done()
+      })
+    })
+
+    it('should make requests on addPlayer with ID and playerID', function(done) {
+      season.addPlayer(2, function(err, tournament, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/seasons/1/players?player_id=2')
+        done()
+      })
+    })
+
+    it('should make requests on removePlayer with ID and playerID', function(done) {
+      season.removePlayer(2, function(err, tournament, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/seasons/1/players?player_id=2')
+        done()
+      })
+    })
 
     it('should make requests on addTeam with ID and teamID', function(done) {
       season.addTeam(1, function(err, data, resp) {
