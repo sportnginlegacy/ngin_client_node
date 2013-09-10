@@ -51,24 +51,6 @@ module.exports = function(ngin) {
       return Tournament.sync('delete', null, { url:url }, callback)
     },
 
-    players: function(options, callback) {
-      if (typeof options == 'function') {
-        callback = options, options = {}
-      }
-      options.url = ngin.Player.urlRoot({unrostered: true}) + '?tournament_id=' + this.id
-      return ngin.Player.list(options, callback)
-    },
-
-    addPlayer: function(playerID, callback) {
-      var url = Tournament.urlRoot() + '/' + this.id + '/add_player/' + playerID
-      return Tournament.sync('update', null, { url:url }, this.callbackWithParse(callback))
-    },
-
-    removePlayer: function(playerID, callback) {
-      var url = Tournament.urlRoot() + '/' + this.id + '/remove_player/' + playerID
-      return Tournament.sync('delete', null, { url:url }, callback)
-    },
-
     flightDefaults: function(callback) {
       return ngin.FlightDefault.create({tournament_id: this.id}).fetch(callback)
     },
