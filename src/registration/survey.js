@@ -18,7 +18,8 @@ module.exports = function(ngin) {
   var Survey = Model.extend({
 
     fetch: function(options, callback) {
-      var url = Survey.urlRoot() + '/show/' + (this.id || options.id) + '.json'
+      var id = this.id || options.id
+      var url = Survey.urlRoot() + '/show' + (id ? '/'+id : '') + '.json'
       return Super.fetch.call(this, url, options, callback)
     }
 

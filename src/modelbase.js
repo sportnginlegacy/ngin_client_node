@@ -69,6 +69,7 @@ module.exports = function(ngin) {
     },
 
     parse: function(attributes) {
+      attributes = attributes || {}
       if (attributes.result) return attributes.result
       return attributes
     },
