@@ -65,11 +65,15 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.venue_id && !options.tournament_id && !options.org_id)
+      var opts = _.extend({}, options, options.query)
+
+      if (!opts.venue_id && !opts.tournament_id && !opts.org_id)
         throw new Error('venue_id, tournament_id, or org_id are required to make subvenue api calls')
-      var params = { query: _.pick(options, 'venue_id', 'tournament_id', 'org_id') }
-      _.extend(params.query, options.query)
+
+      var params = _.pick(opts, 'page', 'per_page')
+      params.query = _.omit(opts, 'page', 'per_page')
       var url = Subvenue.urlRoot()
+
       return Model.list.call(Subvenue, url, params, callback)
     }
 
