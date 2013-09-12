@@ -72,6 +72,9 @@ module.exports = function(ngin) {
 
       var params = _.pick(opts, 'page', 'per_page')
       params.query = _.omit(opts, 'page', 'per_page')
+      _.each(params.query, function(val, key, query){
+        if (val == null) delete query[key];
+      })
       var url = Subvenue.urlRoot()
 
       return Model.list.call(Subvenue, url, params, callback)
