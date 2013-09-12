@@ -20,7 +20,7 @@ describe('Subvenue Model', function() {
 
   describe('Subvenue Class', function() {
 
-    it('should make requests on create with ID', function(done) {
+    it('should make requests on create with `id` and `venue_id`', function(done) {
       ngin.Subvenue.create({id:2, venue_id:1}, function(err, subvenue, data, resp) {
         assert(!err)
         assert(!!subvenue)
@@ -30,12 +30,42 @@ describe('Subvenue Model', function() {
       })
     })
 
-    it('should make requests on list', function(done) {
-      ngin.Subvenue.list({venue_id: 1}, function(err, data, resp) {
+    it('should make requests on list with `venue_id`', function(done) {
+      ngin.Subvenue.list({venue_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/subvenues?venue_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on list with `tournament_id`', function(done) {
+      ngin.Subvenue.list({tournament_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subvenues?tournament_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on list with `tournament_id` and `venue_id`', function(done) {
+      ngin.Subvenue.list({tournament_id:1, venue_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subvenues?tournament_id=1&venue_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on list with `tournament_id` and undefined `venue_id`', function(done) {
+      ngin.Subvenue.list({tournament_id:1, venue_id:undefined}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/subvenues?tournament_id=1')
         done()
       })
     })
