@@ -52,12 +52,13 @@ describe('Modelbase', function() {
       ngin.Model.list.call(FakeModel, {
         url:'/test',
         query: {
+          zero:0,
           undef:undefined,
           nil:null
         }
       }, callback)
       assert(FakeModel.sync.calledOnce, 'FakeModel.sync not calledOnce')
-      assert.deepEqual(FakeModel.sync.getCall(0).args[2], { url:'/test', query:{} })
+      assert.deepEqual(FakeModel.sync.getCall(0).args[2], {url:'/test', query:{zero:0}})
       done()
     })
 
