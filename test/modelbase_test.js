@@ -45,5 +45,22 @@ describe('Modelbase', function() {
       assert(empty())
       done()
     })
+
+    it ('should remove undefined paramaters from query', function(done) {
+      var callback = sinon.spy()
+      var FakeModel = { sync : sinon.spy() }
+      ngin.Model.list.call(FakeModel, {
+        url:'/test',
+        query: {
+          zero:0,
+          undef:undefined,
+          nil:null
+        }
+      }, callback)
+      assert(FakeModel.sync.calledOnce, 'FakeModel.sync not calledOnce')
+      assert.deepEqual(FakeModel.sync.getCall(0).args[2], {url:'/test', query:{zero:0}})
+      done()
+    })
+
   })
 })
