@@ -145,6 +145,11 @@ module.exports = function(ngin) {
         options.query = _.extend({}, options.query, {per_page:options.per_page})
       }
 
+      // remove undefined parameters
+      _.each(options.query, function(val, key, list){
+        if (val == null) delete list[key];
+      })
+
       return this.sync('read', null, options, function(err, data, resp) {
         if (err) return callback(err, data, resp)
 
