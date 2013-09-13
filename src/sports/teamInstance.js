@@ -18,10 +18,13 @@ module.exports = function(ngin) {
   function scopeUrl(options, inst) {
     options = _.extend({}, inst, options)
 
-    if (!options.season_id && !options.team_id)
-      throw new Error('season_id and/or team_id required to make team instance api calls')
+    if (!options.season_id && !options.team_id && !options.flight_stage_id)
+      throw new Error('flight_stage_id, season_id and/or team_id required to make team instance api calls')
 
-    if (options.season_id) {
+    if (options.flight_stage_id) {
+      var url = ngin.Flight.urlRoot() + '/idNotNeeded/flight_stages/' + options.flight_stage_id + '/teams'
+      return options.team_id ? url + '/' + options.team_id : url
+    } else if (options.season_id) {
       var url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
       return options.team_id ? url + '/' + options.team_id : url
     } else {
