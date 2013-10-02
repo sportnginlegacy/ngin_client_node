@@ -16,11 +16,20 @@ module.exports = function(ngin) {
    */
 
   function scopeUrl(options, inst) {
-    options = _.extend(_.clone(options || {}), inst)
-    if (!options.season_id && !options.subseason_id || !options.team_id)
-      throw new Error('season_id or subseason_id and team_id required to make team instance api calls')
-    console.warn('Fetching TeamInstances by subseason_id will be deprecated')
-    return ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams/' + options.team_id
+    options = _.extend({}, inst, options)
+
+    if (!options.season_id && !options.team_id && !options.flight_stage_id)
+      throw new Error('flight_stage_id, season_id and/or team_id required to make team instance api calls')
+
+    if (options.flight_stage_id) {
+      var url = ngin.Flight.urlRoot() + '/idNotNeeded/flight_stages/' + options.flight_stage_id + '/teams'
+      return options.team_id ? url + '/' + options.team_id : url
+    } else if (options.season_id) {
+      var url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
+      return options.team_id ? url + '/' + options.team_id : url
+    } else {
+      return ngin.Team.urlRoot() + '/' + options.team_id + ngin.TeamInstance.urlRoot()
+    }
   }
 
   /**
@@ -57,17 +66,7 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.season_id && !options.subseason_id && !options.team_id)
-        throw new Error('season_id or subseason_id or team_id required to list team instances')
-
-      var url
-      if (options.season_id)
-        url = ngin.Season.urlRoot() + '/' + options.season_id + '/teams'
-      if (options.subseason_id)
-        url = ngin.Subseason.urlRoot() + '/' + options.subseason_id + '/teams'
-      if (options.team_id)
-        url = ngin.Team.urlRoot() + '/' + options.team_id + '/team_instances'
-
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 

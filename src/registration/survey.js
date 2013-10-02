@@ -19,7 +19,7 @@ module.exports = function(ngin) {
     var opts = _.extend({}, inst, options)
     if (!opts.id && !opts.tournament_id && !opts.league_id && !opts.season_id)
       throw new Error('id, season_id, tournament_id or league_id required to make survey api calls')
-    return Survey.urlRoot() + '/' + action + '/' + opts.id + '.json'
+    return Survey.urlRoot() + '/' + action + (opts.id ? '/' + opts.id : '') + '.json'
   }
 
   /**
@@ -33,7 +33,11 @@ module.exports = function(ngin) {
   var Survey = Model.extend({
 
     fetch: function(options, callback) {
+      options || (options = {})
+      if (typeof options == 'function') callback = options, options = {}
+
       var url = scopeUrl(options, this, 'show')
+      options.query = _.extend(_.pick(options, 'season_id', 'tournament_id', 'league_id'), options.query)
       return Super.fetch.call(this, url, options, callback)
     }
 

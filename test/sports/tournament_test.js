@@ -111,36 +111,6 @@ describe('Tournament Model', function() {
       })
     })
 
-    it('should make requests on players with ID', function(done) {
-      testTournament.players(function(err, tournament, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/tournaments/1/players')
-        done()
-      })
-    })
-
-    it('should make requests on addPlayer with ID and playerID', function(done) {
-      testTournament.addPlayer(1, function(err, tournament, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/tournaments/1/add_player/1')
-        done()
-      })
-    })
-
-    it('should make requests on removePlayer with ID and playerID', function(done) {
-      testTournament.removePlayer(1, function(err, tournament, resp) {
-        assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/tournaments/1/remove_player/1')
-        done()
-      })
-    })
-
     it('should make requests on flightDefaults with tournamentID', function(done) {
       testTournament.flightDefaults(function(err, flightDefaults, resp) {
         assert(!err)
@@ -236,7 +206,8 @@ describe('Tournament Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/subvenues?venue_id=1&tournament_id=1')
+        assert.equal(resp.req.path.match(/^\/subvenues/g).length, 1)
+        assert.equal(resp.req.path.match(/tournament_id=1{1}|venue_id=1{1}/g).length, 2)
         done()
       })
     })

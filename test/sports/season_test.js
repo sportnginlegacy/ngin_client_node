@@ -98,9 +98,38 @@ describe('Season Model', function() {
       })
     })
 
+    it('should make requests on players with ID', function(done) {
+      season.players(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/players')
+        done()
+      })
+    })
+
+    it('should make requests on addPlayer with ID and playerID', function(done) {
+      season.addPlayer(2, function(err, tournament, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/seasons/1/players?player_id=2')
+        done()
+      })
+    })
+
+    it('should make requests on removePlayer with ID and playerID', function(done) {
+      season.removePlayer(2, function(err, tournament, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/seasons/1/players?player_id=2')
+        done()
+      })
+    })
 
     it('should make requests on addTeam with ID and teamID', function(done) {
-      season.addTeam(1, function(err, subseason, resp) {
+      season.addTeam(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -110,7 +139,7 @@ describe('Season Model', function() {
     })
 
     it('should make requests on removeTeam with ID and teamID', function(done) {
-      season.removeTeam(1, function(err, subseason, resp) {
+      season.removeTeam(1, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
@@ -120,11 +149,31 @@ describe('Season Model', function() {
     })
 
     it('should make requests on teams with seasonID', function(done) {
-      season.teams(function(err, season, resp) {
+      season.teams(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/seasons/1/teams')
+        done()
+      })
+    })
+
+    it('should make requests on schedule with seasonID', function(done) {
+      season.schedule(function(err, season, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/league_schedules?season_id=1')
+        done()
+      })
+    })
+
+    it('should make requests on standings with seasonID', function(done) {
+      season.standings(function(err, season, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/seasons/1/standings')
         done()
       })
     })

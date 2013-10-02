@@ -44,6 +44,42 @@ module.exports = function(ngin) {
 
     teams: function(callback) {
       return ngin.TeamInstance.list({season_id: this.id}, callback)
+    },
+
+    addPlayer: function(playerID, callback) {
+      var url = Season.urlRoot() + '/' + this.id + '/players?player_id=' + playerID
+      return Season.sync('update', null, { url:url }, this.callbackWithParse(callback))
+    },
+
+    removePlayer: function(playerID, callback) {
+      var url = Season.urlRoot() + '/' + this.id + '/players?player_id=' + playerID
+      return Season.sync('delete', null, { url:url }, callback)
+    },
+
+    players: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options, options = {}
+      }
+      options.url = Season.urlRoot() + '/' + this.id + '/players'
+      return ngin.Player.list(options, callback)
+    },
+
+    divisions: function(callback) {
+      return ngin.Division.list({season_id: this.id}, callback)
+    },
+
+    schedule: function(callback) {
+      return ngin.LeagueGameSlot.list({season_id: this.id}, callback)
+    },
+
+    standings: function(options, callback) {
+      if (typeof options == 'function') {
+        callback = options
+        options = {}
+      }
+      
+      options = _.extend({season_id: this.id}, options)
+      return ngin.Standings.create(options).fetch(options, callback)
     }
 
   },{
