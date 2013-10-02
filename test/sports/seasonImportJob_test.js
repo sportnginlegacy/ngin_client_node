@@ -20,8 +20,8 @@ describe('SeasonImportJob Model', function() {
 
   describe('SeasonImportJob Class', function() {
 
-    it('should make requests on list with seasonID', function(done) {
-      ngin.SeasonImportJob.list({ seasonID: 1 }, function(err, data, resp) {
+    it('should make requests on list with season_id', function(done) {
+      ngin.SeasonImportJob.list({ season_id: 1 }, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -37,15 +37,50 @@ describe('SeasonImportJob Model', function() {
       })
     })
 
+  })
+
+  describe('SeasonImportJob Instance', function() {
+
+    var seasonImportJob
+
+    beforeEach(function() {
+      seasonImportJob = ngin.SeasonImportJob.create({ season_id: 1, type: 'team', csv_string: 'asdf' }, { fetched: true })
+    })
+
+    it('should fail to make requests on save without season_id', function(done) {
+      seasonImportJob.season_id = null
+      seasonImportJob.save(function(err, data, resp) {
+        assert(!!err)
+        done()
+      })
+    })
+
+    it('should fail to make requests on save without type', function(done) {
+      seasonImportJob.type = null
+      seasonImportJob.save(function(err, data, resp) {
+        assert(!!err)
+        done()
+      })
+    })
+
+    it('should fail to make requests on save without csv_string', function(done) {
+      seasonImportJob.csv_string = null
+      seasonImportJob.save(function(err, data, resp) {
+        assert(!!err)
+        done()
+      })
+    })
+
     it('should fail to make requests on save with ID', function(done) {
-      ngin.SeasonImportJob.create({ id: 1, seasonID: 1 }, { fetched: true }).save(function(err, data, resp) {
+      seasonImportJob.id = 1
+      seasonImportJob.save(function(err, data, resp) {
         assert(!!err)
         done()
       })
     })
 
     it('should make requests on save without ID', function(done) {
-      ngin.SeasonImportJob.create({ seasonID: 1 }, { fetched: true }).save(function(err, data, resp) {
+      seasonImportJob.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
