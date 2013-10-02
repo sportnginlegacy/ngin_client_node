@@ -55,13 +55,20 @@ describe('Survey Model', function() {
     })
 
     it("should make a request on fetch with seasonID", function(done) {
-      ngin.Survey.create({}).fetch({query:{season_id:1}}, function(err, survey, resp) {
+      ngin.Survey.create({}).fetch({season_id:1}, function(err, survey, resp) {
         assert(!err)
         assert(!!survey)
         assert.equal(resp.req.method, 'GET')
         assert.equal(survey.metadata && survey.metadata.url, '/api2/registration/survey/show.json?season_id=1')
         done()
       })
+    })
+
+    it('should throw on fetch without req fields', function(done) {
+      assert.throws(function(){
+        ngin.Survey.create({}).fetch(done)
+      }, Error)
+      done()
     })
 
     it('should throw on save', function(done) {
