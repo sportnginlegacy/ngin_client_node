@@ -8,44 +8,44 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
-   * Player Class
+   * PlatformTeamPlayer Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var Player = SportsModel.extend({
+  var PlatformTeamPlayer = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = Player.urlRoot() + '/' + this.id
+      var url = PlatformTeamPlayer.urlRoot() + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = Player.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = PlatformTeamPlayer.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = Player.urlRoot() + '/' + this.id
+      var url = PlatformTeamPlayer.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     }
 
-  },{
+  }, {
 
     urlRoot: function() {
-      var base = config.urls && config.urls.sports || config.url
+      var base = config.urls && config.urls.platformTeam || config.url
       return Url.resolve(base, '/players')
     },
 
     list: function(options, callback) {
-      var url = Player.urlRoot()
+      var url = PlatformTeamPlayer.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     }
 
   })
 
-  return Player
+  return PlatformTeamPlayer
 
 }
