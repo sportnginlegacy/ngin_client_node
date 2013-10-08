@@ -8,7 +8,7 @@ var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
-describe('Platform Team Player Model', function() {
+describe('Team Center Member Model', function() {
 
   before(function(done) {
     server = Server(done)
@@ -18,64 +18,64 @@ describe('Platform Team Player Model', function() {
     server.close(done)
   })
 
-  describe('Platform Team Player Class', function() {
+  describe('Team Center Member Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.PlatformTeamPlayer.create({id:1}, function(err, player, data, resp) {
+      ngin.TeamCenterMember.create({id:1}, function(err, member, data, resp) {
         assert(!err)
-        assert(!!player)
+        assert(!!member)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/members/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.PlatformTeamPlayer.list(function(err, data, resp) {
+      ngin.TeamCenterMember.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/players')
+        assert.equal(resp.req.path, '/members')
         done()
       })
     })
   })
 
-  describe('Platform Team Player Instance', function() {
+  describe('Team Center Player Instance', function() {
 
-    var player
+    var member
 
     beforeEach(function() {
-      player = ngin.PlatformTeamPlayer.create({id:1}, {fetched:true})
+      member = ngin.TeamCenterMember.create({id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      player.save(function(err, data, resp) {
+      member.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/members/1')
         done()
       })
     })
 
     it('should make requests on save without ID', function(done) {
-      delete player.id
-      player.save(function(err, data, resp) {
+      delete member.id
+      member.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/players')
+        assert.equal(resp.req.path, '/members')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      player.destroy(function(err, data, resp) {
+      member.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/members/1')
         done()
       })
     })
