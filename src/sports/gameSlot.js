@@ -43,12 +43,15 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
-      if (!options.flight_id && !options.flight_stage_id && !options.game_slot_id)
-        return callback(new Error('flight_id, flight_stage_id, or game_slot_id is required'))
+      if (!options.tournament_id && !options.flight_id && !options.flight_stage_id && !options.game_slot_id)
+        return callback(new Error('tournament_id, flight_id, flight_stage_id, or game_slot_id is required'))
       options.query || (options.query = {})
+
+      if (options.tournament_id) options.query.tournament_id = options.tournament_id
       if (options.flight_id) options.query.flight_id = options.flight_id
       if (options.flight_stage_id) options.query.flight_stage_id = options.flight_stage_id
       if (options.game_slot_id) options.query.game_slot_id = options.game_slot_id
+        
       var url = options.url || GameSlot.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     },

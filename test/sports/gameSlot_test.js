@@ -20,6 +20,16 @@ describe('GameSlot Model', function() {
 
   describe('GameSlot Class', function() {
 
+    it('should make requests on list with tournament_id', function(done) {
+      ngin.GameSlot.list({tournament_id:9}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/tournament_schedules?tournament_id=9')
+        done()
+      })
+    })
+
     it('should make requests on list with flight_id', function(done) {
       ngin.GameSlot.list({flight_id:1}, function(err, data, resp) {
         assert(!err)
