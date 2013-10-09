@@ -8,7 +8,7 @@ var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
-describe('Platform Team Model', function() {
+describe('Team Center Team Model', function() {
 
   before(function(done) {
     server = Server(done)
@@ -18,10 +18,10 @@ describe('Platform Team Model', function() {
     server.close(done)
   })
 
-  describe('Platform Team Class', function() {
+  describe('Team Center Team Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.PlatformTeam.create({id:1}, function(err, team, data, resp) {
+      ngin.TeamCenterTeam.create({id:1}, function(err, team, data, resp) {
         assert(!err)
         assert(!!team)
         assert.equal(resp.req.method, 'GET')
@@ -31,7 +31,7 @@ describe('Platform Team Model', function() {
     })
 
     it('should make requests on list', function(done) {
-      ngin.PlatformTeam.list(function(err, data, resp) {
+      ngin.TeamCenterTeam.list(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -42,16 +42,16 @@ describe('Platform Team Model', function() {
 
   })
 
-  describe('Platform Team Instance', function() {
+  describe('Team Center Team Instance', function() {
 
-    var testPlatformTeam
+    var testTeamCenterTeam
 
     beforeEach(function() {
-      testPlatformTeam = ngin.PlatformTeam.create({id:1, season_id:1}, {fetched:true})
+      testTeamCenterTeam = ngin.TeamCenterTeam.create({id:1, season_id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      testPlatformTeam.save(function(err, data, resp) {
+      testTeamCenterTeam.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -61,8 +61,8 @@ describe('Platform Team Model', function() {
     })
 
     it('should make requests on save without ID', function(done) {
-      delete testPlatformTeam.id
-      testPlatformTeam.save(function(err, data, resp) {
+      delete testTeamCenterTeam.id
+      testTeamCenterTeam.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
@@ -72,7 +72,7 @@ describe('Platform Team Model', function() {
     })
 
     it('should make requests on destroy with ID', function(done) {
-      testPlatformTeam.destroy(function(err, data, resp) {
+      testTeamCenterTeam.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
