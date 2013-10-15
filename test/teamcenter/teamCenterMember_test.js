@@ -31,7 +31,7 @@ describe('Team Center Member Model', function() {
     })
 
     it('should make requests on list with teamcenter_team_id', function(done) {
-      ngin.TeamCenterMember.list(function(err, data, resp) {
+      ngin.TeamCenterMember.list({teamcenter_team_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -40,7 +40,7 @@ describe('Team Center Member Model', function() {
       })
     })
 
-    it('should make error on list without teamcenter_team_id', function(done) {
+    it('should error on list without teamcenter_team_id', function(done) {
       ngin.TeamCenterMember.list({}, function(err, data, resp) {
         assert(err)
         assert(!data)
@@ -51,7 +51,7 @@ describe('Team Center Member Model', function() {
 
   })
 
-  describe('Team Center Player Instance', function() {
+  describe('Team Center Member Instance', function() {
 
     var member
 

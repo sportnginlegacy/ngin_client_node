@@ -40,6 +40,11 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
+      if (!options.teamcenter_team_id) {
+        return callback(new Error('teamcenter_team_id is required to list teamcenter members'))
+      }
+      options.query || (options.query = {})
+      options.query.teamcenter_team_id = options.teamcenter_team_id
       var url = TeamCenterMember.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     }
