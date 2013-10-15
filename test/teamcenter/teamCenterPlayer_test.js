@@ -21,9 +21,9 @@ describe('Team Center Player Model', function() {
   describe('Team Center Player Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.TeamCenterPlayer.create({id:1}, function(err, member, data, resp) {
+      ngin.TeamCenterPlayer.create({id:1}, function(err, player, data, resp) {
         assert(!err)
-        assert(!!member)
+        assert(!!player)
         assert.equal(resp.req.method, 'GET')
         assert.equal(resp.req.path, '/players/1')
         done()
