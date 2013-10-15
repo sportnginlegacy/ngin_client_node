@@ -81,6 +81,16 @@ describe('Team Center Team Model', function() {
       })
     })
 
+    it('should make requests for members with ID', function(done) {
+      testTeamCenterTeam.members(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert(resp.req.path.match(/\?teamcenter_team_id=1/g))
+        done()
+      })
+    })
+
   })
 
 })

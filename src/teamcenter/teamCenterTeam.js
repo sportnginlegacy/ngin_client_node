@@ -30,6 +30,10 @@ module.exports = function(ngin) {
     destroy: function(options, callback) {
       var url = TeamCenterTeam.urlRoot() + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
+    },
+
+    members: function(callback) {
+      return ngin.TeamCenterMember.list({ teamcenter_team_id: this.id }, callback)
     }
 
   }, {
