@@ -30,15 +30,25 @@ describe('Team Center Player Model', function() {
       })
     })
 
-    it('should make requests on list', function(done) {
-      ngin.TeamCenterPlayer.list(function(err, data, resp) {
+    it('should make requests on list with teamcenter_team_id', function(done) {
+      ngin.TeamCenterPlayer.list({teamcenter_team_id:1}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/players')
+        assert.equal(resp.req.path, '/players?teamcenter_team_id=1')
         done()
       })
     })
+
+    it('should error on list without teamcenter_team_id', function(done) {
+      ngin.TeamCenterPlayer.list({}, function(err, data, resp) {
+        assert(err)
+        assert(!data)
+        assert(!resp)
+        done()
+      })
+    })
+
   })
 
   describe('Team Center Player Instance', function() {
