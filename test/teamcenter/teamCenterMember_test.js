@@ -87,7 +87,7 @@ describe('Team Center Member Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/invite/123')
+        assert.equal(resp.req.path, '/editor_invite/123')
         done()
       })
     })

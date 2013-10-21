@@ -48,7 +48,7 @@ module.exports = function(ngin) {
 
     editorUrlRoot: function() {
       var base = config.urls && config.urls.teamCenterTeam || config.url
-      return Url.resolve(base, '/invite')
+      return Url.resolve(base, '/editor_invite')
     },
 
     list: function(options, callback) {
