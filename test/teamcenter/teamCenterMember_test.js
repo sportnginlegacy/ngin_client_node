@@ -46,7 +46,7 @@ describe('Team Center Member Model', function() {
     var member
 
     beforeEach(function() {
-      member = ngin.TeamCenterMember.create({id:1}, {fetched:true})
+      member = ngin.TeamCenterMember.create({id:1, inviteToken:123}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
@@ -76,6 +76,16 @@ describe('Team Center Member Model', function() {
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
         assert.equal(resp.req.path, '/members/1')
+        done()
+      })
+    })
+
+    it('should make requests to invite a member with an inviteToken', function(done) {
+      member.acceptInvite({inviteToken: '123'}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/invite/123')
         done()
       })
     })
