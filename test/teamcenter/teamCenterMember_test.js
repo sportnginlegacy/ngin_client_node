@@ -39,6 +39,7 @@ describe('Team Center Member Model', function() {
         done()
       })
     })
+
   })
 
   describe('Team Center Player Instance', function() {
@@ -46,7 +47,7 @@ describe('Team Center Member Model', function() {
     var member
 
     beforeEach(function() {
-      member = ngin.TeamCenterMember.create({id:1, inviteToken:123}, {fetched:true})
+      member = ngin.TeamCenterMember.create({id:1}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
@@ -80,7 +81,8 @@ describe('Team Center Member Model', function() {
       })
     })
 
-    it('should make requests to invite a member with an inviteToken', function(done) {
+    it('should make requests to claim a new Editor with an inviteToken', function(done) {
+      delete member.id
       member.acceptInvite({inviteToken: '123'}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
