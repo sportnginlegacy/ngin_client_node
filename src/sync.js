@@ -130,9 +130,7 @@ module.exports = function(ngin) {
     req.nginID = crypto.randomBytes(4).toString('hex')
     log.log('NGINClient:',
       req.nginID, params.method,
-      req.uri.host.substring(0, req.uri.host.indexOf('.')),
-      req.uri.path)
-
+      Url.format(req.uri || {}))
 
     return req
   }
