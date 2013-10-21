@@ -83,7 +83,7 @@ describe('Team Center Member Model', function() {
 
     it('should make requests to claim a new Editor with an inviteToken', function(done) {
       delete member.id
-      member.acceptInvite({inviteToken: '123'}, function(err, data, resp) {
+      member.acceptEditor({inviteToken: '123'}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')

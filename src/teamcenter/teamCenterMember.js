@@ -32,10 +32,10 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    acceptInvite: function(options, callback) {
+    acceptEditor: function(options, callback) {
       if (options && !options.inviteToken)
-        throw new Error('Invite token is required for acceptInvite')
-      var url = TeamCenterMember.inviteUrlRoot() + '/' + options.inviteToken
+        throw new Error('Invite token is required to accept a new Editor')
+      var url = TeamCenterMember.editorUrlRoot() + '/' + options.inviteToken
       return Super.save.call(this, url, options, callback)
     }
 
@@ -46,7 +46,7 @@ module.exports = function(ngin) {
       return Url.resolve(base, '/members')
     },
 
-    inviteUrlRoot: function() {
+    editorUrlRoot: function() {
       var base = config.urls && config.urls.teamCenterTeam || config.url
       return Url.resolve(base, '/invite')
     },
