@@ -21,21 +21,21 @@ describe('Team Center Member Model', function() {
   describe('Team Center Member Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.TeamCenterMember.create({id:1}, function(err, member, data, resp) {
+      ngin.TeamCenterMember.create({id:1, teamcenter_team_id: 2}, function(err, member, data, resp) {
         assert(!err)
         assert(!!member)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.TeamCenterMember.list(function(err, data, resp) {
+      ngin.TeamCenterMember.list({teamcenter_team_id: 2}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/members')
+        assert.equal(resp.req.path, '/teams/2/members')
         done()
       })
     })
@@ -46,7 +46,7 @@ describe('Team Center Member Model', function() {
     var member
 
     beforeEach(function() {
-      member = ngin.TeamCenterMember.create({id:1}, {fetched:true})
+      member = ngin.TeamCenterMember.create({id:1, teamcenter_team_id:2}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
@@ -54,7 +54,7 @@ describe('Team Center Member Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/1')
         done()
       })
     })
@@ -65,7 +65,7 @@ describe('Team Center Member Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/members')
+        assert.equal(resp.req.path, '/teams/2/members')
         done()
       })
     })
@@ -75,7 +75,7 @@ describe('Team Center Member Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/1')
         done()
       })
     })

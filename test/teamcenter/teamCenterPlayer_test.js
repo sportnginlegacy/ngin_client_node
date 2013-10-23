@@ -21,21 +21,21 @@ describe('Team Center Player Model', function() {
   describe('Team Center Player Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.TeamCenterPlayer.create({id:1}, function(err, player, data, resp) {
+      ngin.TeamCenterPlayer.create({id:1, teamcenter_team_id: 2}, function(err, player, data, resp) {
         assert(!err)
         assert(!!player)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/teams/2/players/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.TeamCenterPlayer.list(function(err, data, resp) {
+      ngin.TeamCenterPlayer.list({teamcenter_team_id: 2}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/players')
+        assert.equal(resp.req.path, '/teams/2/players')
         done()
       })
     })
@@ -46,7 +46,7 @@ describe('Team Center Player Model', function() {
     var player
 
     beforeEach(function() {
-      player = ngin.TeamCenterPlayer.create({id:1}, {fetched:true})
+      player = ngin.TeamCenterPlayer.create({id:1, teamcenter_team_id:2}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
@@ -54,7 +54,7 @@ describe('Team Center Player Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/teams/2/players/1')
         done()
       })
     })
@@ -65,7 +65,7 @@ describe('Team Center Player Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/players')
+        assert.equal(resp.req.path, '/teams/2/players')
         done()
       })
     })
@@ -75,7 +75,7 @@ describe('Team Center Player Model', function() {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/players/1')
+        assert.equal(resp.req.path, '/teams/2/players/1')
         done()
       })
     })

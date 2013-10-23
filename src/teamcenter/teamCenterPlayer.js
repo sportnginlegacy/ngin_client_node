@@ -8,6 +8,22 @@ module.exports = function(ngin) {
   var config = ngin.config
 
   /**
+   * Scopes the url to the team
+   *
+   * @param {Object} options
+   * @returns {String}
+   * @api public
+   */
+
+  function scopeUrl(options, inst) {
+    options = _.extend({}, inst, options)
+    if (!options.teamcenter_team_id)
+      throw new Error('teamcenter_team_id required to make TeamCenterPlayer instance api calls')
+
+    return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + TeamCenterPlayer.urlRoot()
+  }
+
+  /**
    * TeamCenterPlayer Class
    *
    * @param {Object} attr
@@ -18,29 +34,28 @@ module.exports = function(ngin) {
   var TeamCenterPlayer = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = TeamCenterPlayer.urlRoot() + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
     },
 
     save: function(options, callback) {
-      var url = TeamCenterPlayer.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = scopeUrl(options, this) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 
     destroy: function(options, callback) {
-      var url = TeamCenterPlayer.urlRoot() + '/' + this.id
+      var url = scopeUrl(options, this) + '/' + this.id
       return Super.destroy.call(this, url, options, callback)
     }
 
   }, {
 
     urlRoot: function() {
-      var base = config.urls && config.urls.teamCenterTeam || config.url
-      return Url.resolve(base, '/players')
+      return '/players'
     },
 
     list: function(options, callback) {
-      var url = TeamCenterPlayer.urlRoot()
+      var url = scopeUrl(options, this)
       return SportsModel.list.call(this, url, options, callback)
     }
 
