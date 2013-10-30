@@ -27,7 +27,7 @@ module.exports = function(ngin) {
 
       if (this.id) return callback(new Error('Update not supported'))
       if (!this.season_id) return callback(new Error('"season_id" required'))
-      if ((['team', 'player']).indexOf(this.type) === -1) return callback(new Error('"type" has an invalid value'))
+      if ((['team', 'player', 'game']).indexOf(this.type) === -1) return callback(new Error('"type" has an invalid value'))
       if (!this.csv_string) return callback(new Error('"csv_string" required'))
 
       var url = SeasonImportJob.urlRoot({ season_id: this.season_id })
