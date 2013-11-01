@@ -84,11 +84,8 @@ module.exports = function(ngin) {
         payload.password = options.password
       }
 
-      return request.post(url, { json:payload }, function(err, res, data) {
-        if (!err && typeof data !== 'object')
-          err = new Error('Response from /oauth/token not parsable JSON')
-        callback(err, data, res)
-      })
+      var model = new Model(payload)
+      return model.save(url, callback)
     },
 
     me: function(options, callback) {
