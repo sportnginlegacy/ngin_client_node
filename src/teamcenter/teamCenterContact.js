@@ -22,7 +22,7 @@ module.exports = function(ngin) {
     if (!options.teamcenter_member_id)
       throw new Error('teamcenter_member_id require to make TeamCenterContact instance api calls')
 
-    return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + '/' + ngin.TeamCenterMember.urlroot() + '/' + options.teamcenter_member_id + '/' + TeamCenterContact.urlRoot()
+    return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + ngin.TeamCenterMember.urlRoot() + '/' + options.teamcenter_member_id + TeamCenterContact.urlRoot()
   }
 
   /**
