@@ -41,7 +41,7 @@ describe('Team Center Member Model', function() {
     })
   })
 
-  describe('Team Center Player Instance', function() {
+  describe('Team Center Member Instance', function() {
 
     var member
 
