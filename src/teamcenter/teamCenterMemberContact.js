@@ -19,8 +19,8 @@ module.exports = function(ngin) {
     options = _.extend({}, inst, options)
     if (!options.teamcenter_team_id)
       throw new Error('teamcenter_team_id required to make TeamCenterContact instance api calls')
-    if (!options.member_id)
-      throw new Error('teamcenter_team_id require to make TeamCenterContact instance api calls')
+    if (!options.teamcenter_member_id)
+      throw new Error('teamcenter_member_id require to make TeamCenterContact instance api calls')
 
     return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + '/' + ngin.TeamCenterMember.urlroot() + '/' + options.teamcenter_member_id + '/' + TeamCenterContact.urlRoot()
   }
