@@ -18,22 +18,22 @@ module.exports = function(ngin) {
   function scopeUrl(options, inst) {
     options = _.extend({}, inst, options)
     if (!options.teamcenter_team_id)
-      throw new Error('teamcenter_team_id required to make TeamCenterMemberContact instance api calls')
+      throw new Error('teamcenter_team_id required to make TeamCenterContact instance api calls')
     if (!options.member_id)
-      throw new Error('teamcenter_team_id require to make TeamCenterMemberContact instance api calls')
+      throw new Error('teamcenter_team_id require to make TeamCenterContact instance api calls')
 
-    return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + '/' + ngin.TeamCenterMember.urlroot() + '/' + TeamCenterMember.urlRoot()
+    return ngin.TeamCenterTeam.urlRoot() + '/' + options.teamcenter_team_id + '/' + ngin.TeamCenterMember.urlroot() + '/' + options.teamcenter_member_id + '/' + TeamCenterContact.urlRoot()
   }
 
   /**
-   * TeamCenterMemberContact Class
+   * TeamCenterContact Class
    *
    * @param {Object} attr
    * @param {Object} options
    * @api public
    */
 
-  var TeamCenterMemberContact = SportsModel.extend({
+  var TeamCenterContact = SportsModel.extend({
 
     fetch: function(options, callback) {
       var url = scopeUrl(options, this) + '/' + this.id
@@ -63,6 +63,6 @@ module.exports = function(ngin) {
 
   })
 
-  return TeamCenterMemberContact
+  return TeamCenterContact
 
 }
