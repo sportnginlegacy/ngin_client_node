@@ -8,7 +8,7 @@ var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
-describe('Team Center Member Model', function() {
+describe('Team Center Contact Model', function() {
 
   before(function(done) {
     server = Server(done)
@@ -18,64 +18,64 @@ describe('Team Center Member Model', function() {
     server.close(done)
   })
 
-  describe('Team Center Member Class', function() {
+  describe('Team Center Contact Class', function() {
 
     it('should make requests on create with ID', function(done) {
-      ngin.TeamCenterMember.create({id:1, teamcenter_team_id: 2}, function(err, member, data, resp) {
+      ngin.TeamCenterContact.create({id:1, teamcenter_team_id: 2, teamcenter_member_id: 3}, function(err, contact, data, resp) {
         assert(!err)
-        assert(!!member)
+        assert(!!contact)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/teams/2/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/3/contacts/1')
         done()
       })
     })
 
     it('should make requests on list', function(done) {
-      ngin.TeamCenterMember.list({teamcenter_team_id: 2}, function(err, data, resp) {
+      ngin.TeamCenterContact.list({teamcenter_team_id: 2, teamcenter_member_id: 3}, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/teams/2/members')
+        assert.equal(resp.req.path, '/teams/2/members/3/contacts')
         done()
       })
     })
   })
 
-  describe('Team Center Member Instance', function() {
+  describe('Team Center Contact Instance', function() {
 
-    var member
+    var contact
 
     beforeEach(function() {
-      member = ngin.TeamCenterMember.create({id:1, teamcenter_team_id:2}, {fetched:true})
+      contact = ngin.TeamCenterContact.create({id:1, teamcenter_team_id:2, teamcenter_member_id: 3}, {fetched:true})
     })
 
     it('should make requests on save with ID', function(done) {
-      member.save(function(err, data, resp) {
+      contact.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
-        assert.equal(resp.req.path, '/teams/2/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/3/contacts/1')
         done()
       })
     })
 
     it('should make requests on save without ID', function(done) {
-      delete member.id
-      member.save(function(err, data, resp) {
+      delete contact.id
+      contact.save(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/teams/2/members')
+        assert.equal(resp.req.path, '/teams/2/members/3/contacts')
         done()
       })
     })
 
     it('should make requests on destroy with ID', function(done) {
-      member.destroy(function(err, data, resp) {
+      contact.destroy(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
-        assert.equal(resp.req.path, '/teams/2/members/1')
+        assert.equal(resp.req.path, '/teams/2/members/3/contacts/1')
         done()
       })
     })
