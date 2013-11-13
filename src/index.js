@@ -1,7 +1,5 @@
 "use strict"
 
-module.exports = ApiClient
-
 var glob = require('glob')
 var _ = require('underscore')
 
@@ -73,3 +71,5 @@ _.extend(ApiClient.prototype, {
   }
 
 })
+
+module.exports = ApiClient

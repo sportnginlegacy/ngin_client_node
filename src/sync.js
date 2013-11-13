@@ -85,9 +85,9 @@ module.exports = function(ngin) {
       params.headers['auth-key'] = auth.auth_key
     }
 
-    var t = +new Date
+    var t = +new Date()
     var req = request(params, function(err, resp, body) {
-      t = (+new Date - t)
+      t = (+new Date() - t)
 
       if (err) {
         log.error('Request to ' + params.url + ' resulted in an error:', err)
@@ -110,7 +110,7 @@ module.exports = function(ngin) {
       // if the response wasn't in the 2XX status
       // code block then we treat it as an error
       if (resp.statusCode >= 300) {
-        var err = new Error('NGIN Request failed with ' + resp.statusCode)
+        err = new Error('NGIN Request failed with ' + resp.statusCode)
         err.url = params.url
         err.statusCode = resp.statusCode
         err.body = parsedBody

@@ -2,7 +2,6 @@
 var _ = require('underscore')
 
 module.exports = function(ngin) {
-  var config = ngin.config
   var Model = ngin.Model
 
   function normalizeParams(url, options, callback) {

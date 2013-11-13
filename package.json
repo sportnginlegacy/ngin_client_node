@@ -13,7 +13,9 @@
   "devDependencies": {
     "mocha": "*",
     "sinon": "*",
-    "blanket": "*"
+    "blanket": "*",
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "0.7.x"
   },
   "engines": {
     "node": ">=0.8.0"

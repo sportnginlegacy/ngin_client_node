@@ -51,7 +51,7 @@ module.exports = function(ngin) {
     },
 
     destroy: function(options, callback) {
-      options = _.extend(_.clone(options || {}), inst)
+      options = _.extend({}, options)
       var url = scopeUrl(options)
       return Super.destory(this, url, options, callback)
     }

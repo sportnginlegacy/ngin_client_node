@@ -29,10 +29,11 @@ module.exports = function(ngin) {
       if (!(options.tournament_id || options.league_id))
         return callback(new Error('tournament_id or league_id is required'))
       var url = this.urlRoot()
-      if (options.tournament_id){
-        var query_params = {tournament_id: options.tournament_id}
-      }else{
-        var query_params = {league_id: options.league_id}
+      var query_params
+      if (options.tournament_id) {
+        query_params = {tournament_id: options.tournament_id}
+      } else {
+        query_params = {league_id: options.league_id}
       }
       var params = {
         query: query_params

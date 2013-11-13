@@ -33,7 +33,7 @@ module.exports = function(ngin) {
     },
 
     parse: function(attr) {
-      var attr = Super.parse.call(this, attr)
+      attr = Super.parse.call(this, attr)
       return _.extend({}, attr.user, { permissions: attr.permissions })
     },
 

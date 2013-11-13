@@ -10,8 +10,9 @@
   "undef": true,
   "boss": true,
   "eqnull": true,
-  "browser": true,
+  "browser": false,
   "asi": true,
   "devel": true,
-  "predef" : [ "module", "__dirname" ]
+  "-W033": true,
+  "-W030": true
 }
