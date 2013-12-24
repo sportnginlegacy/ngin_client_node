@@ -69,8 +69,8 @@ module.exports = function(ngin) {
       return ngin.GameLimits.create({tournament_id: this.id}).fetch(callback)
     },
 
-    addVenue: function(venueID, callback){
-      return ngin.Venue.create({id: venueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id}}, callback)
+    addVenue: function(venueID, skip_children, callback){
+      return ngin.Venue.create({id: venueID}, {fetched:true}).addReservation({query: {reserver_type: 'Tournament', reserver_id: this.id, skip_children: skip_children}}, callback)
     },
 
     removeVenue: function(venueID, callback){
