@@ -152,8 +152,9 @@ describe('Tournament Model', function() {
     })
 
     it('should make requests on add_reservation with a ID and query params', function(done) {
-      var skipChildren = true
-      testTournament.addVenue(1, skipChildren, function(err, data, resp) {
+      var options = {query: {skip_children: true}}
+
+      testTournament.addVenue(1, options, function(err, data, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
