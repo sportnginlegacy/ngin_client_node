@@ -1,4 +1,5 @@
 "use strict"
+var _ = require('underscore')
 var assert = require('assert')
 var sinon = require('sinon')
 
@@ -26,6 +27,18 @@ describe('Flight Stage Model', function() {
         assert(!!flightStage)
         assert.equal(flightStage.metadata.url, '/flights/1/flight_stages/1')
         done()
+      })
+    })
+
+    _.each(['pool','single_elim','double_elim','round_robin','free'], function(type) {
+      it('should make requests on create with ID and type = ' + type, function(done) {
+        ngin.FlightStage.create({id:1, flight_id:1, type:type}, function(err, flightStage) {
+          assert(!err)
+          assert(!!flightStage)
+          assert.equal(flightStage.metadata.url, '/flights/1/flight_stages/1')
+          assert.equal(flightStage.type, type)
+          done()
+        })
       })
     })
 

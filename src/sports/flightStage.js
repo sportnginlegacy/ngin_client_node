@@ -49,7 +49,7 @@ module.exports = function(ngin) {
     },
 
     validate: function() {
-      return ~['pool','single_elim','double_elim','round_robin'].indexOf(this.type) ? false : 'Property "type" has an invalid value'
+      return ~['pool','single_elim','double_elim','round_robin','free'].indexOf(this.type) ? false : 'Property "type" has an invalid value'
     },
 
     addTeam: function(teamID, callback) {
