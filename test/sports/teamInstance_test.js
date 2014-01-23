@@ -40,11 +40,41 @@ describe('TeamInstance Model', function() {
       })
     })
 
+    it('should make requests on list with flight_stage_id and flight_id', function(done) {
+      ngin.TeamInstance.list({flight_id:1, flight_stage_id:1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/flights/1/flight_stages/1/teams')
+        done()
+      })
+    })
+
+    it('should throw on list with flight_stage_id without flight_id', function(done) {
+      assert.throws(function() {
+        ngin.TeamInstance.list({flight_stage_id:1})
+      })
+      done()
+    })
+
+    it('should throw on list with flight_id without flight_stage_id', function(done) {
+      assert.throws(function() {
+        ngin.TeamInstance.list({flight_id:1})
+      })
+      done()
+    })
+
+    it('should throw on list without season_id. team_id, or flight_stage_id+flight_id', function(done) {
+      assert.throws(function() {
+        ngin.TeamInstance.list({})
+      })
+      done()
+    })
+
   })
 
   describe('TeamInstance Instance', function() {
 
-    var seasonTeamInstance
     var seasonTeamInstance
 
     beforeEach(function() {
