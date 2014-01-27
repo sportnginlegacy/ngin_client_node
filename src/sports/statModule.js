@@ -19,6 +19,8 @@ module.exports = function(ngin) {
 
     fetch: function(options, callback) {
       var url = StatModule.urlRoot()
+      options.query = {}
+      options.query.sport_id = options.sport_id
       return Super.fetch.call(this, url, options, callback)
     }
 

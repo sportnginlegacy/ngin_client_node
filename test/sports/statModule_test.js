@@ -42,7 +42,7 @@ describe('StatModule Model', function() {
         assert(!err)
         assert(!!statModule)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/stat_modules')
+        assert.equal(resp.req.path, '/stat_modules?sport_id=1')
         done()
       })
     })
