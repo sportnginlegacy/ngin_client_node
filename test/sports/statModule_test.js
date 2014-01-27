@@ -20,11 +20,14 @@ describe('StatModule Model', function() {
 
   describe('StatModule Class', function() {
 
-    it("should throw on list", function(done) {
-      assert.throws(function() {
-        ngin.StatModule.list({}, done)
-      }, Error)
-      done()
+    it('should make requests on list', function(done) {
+      ngin.StatModule.list({sport_id: 1}, function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.path, '/stat_modules?sport_id=1')
+        done()
+      })
     })
 
   })
@@ -37,14 +40,11 @@ describe('StatModule Model', function() {
       statModule = new ngin.StatModule({sport_id:1}, {fetched:true})
     })
 
-    it("should make a request on fetch", function(done) {
-      statModule.fetch(function(err, statModule, resp) {
-        assert(!err)
-        assert(!!statModule)
-        assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/stat_modules?sport_id=1')
-        done()
-      })
+    it('should throw on fetch', function(done) {
+      assert.throws(function(){
+        statModule.fetch(done)
+      }, Error)
+      done()
     })
 
     it('should throw on save', function(done) {

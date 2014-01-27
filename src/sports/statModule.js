@@ -17,19 +17,20 @@ module.exports = function(ngin) {
 
   var StatModule = SportsModel.extend({
 
-    fetch: function(options, callback) {
-      var url = StatModule.urlRoot()
-      options.query = {}
-      options.query.sport_id = options.sport_id
-      return Super.fetch.call(this, url, options, callback)
-    }
-
   }, {
 
     urlRoot: function(options) {
       var base = config.urls && config.urls.sports || config.url
       return Url.resolve(base, '/stat_modules')
-    }
+    },
+
+    list: function(options, callback) {
+      var url = StatModule.urlRoot()
+      if (typeof options == 'function') callback = options, options = {}
+      options.query = {}
+      options.query.sport_id = options.sport_id
+      return SportsModel.list.call(this, url, options, callback)
+    },
 
   })
 
