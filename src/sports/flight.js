@@ -69,6 +69,10 @@ module.exports = function(ngin) {
       return ngin.GameLimits.create({flight_id: this.id}).fetch(callback)
     },
 
+    standingsDefaults: function(callback) {
+      return ngin.StandingsDefault.create({flight_id: this.id}).fetch(callback)
+    },
+
     // Commenting this out for now. It may be needed later, however,
     // it probably shouldn't be using `list`.
     // tiebreakPreference: function(callback){
