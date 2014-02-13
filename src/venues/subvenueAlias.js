@@ -43,7 +43,6 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       var base = config.urls && config.urls.venues || config.url
-      var aliases = '/subvenue_aliases'
       return Url.resolve(base, '/subvenue_aliases')
     },
 
