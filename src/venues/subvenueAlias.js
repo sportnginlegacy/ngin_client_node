@@ -10,10 +10,11 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (options.subvenue_id)
+    if (options.subvenue_id) {
       return ngin.Subvenue.urlRoot() + '/' + options.subvenue_id + '/subvenue_aliases'
-    else
+    } else {
       return SubvenueAlias.urlRoot()
+    }
   }
 
   /**
