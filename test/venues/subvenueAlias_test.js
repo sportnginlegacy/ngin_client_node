@@ -55,6 +55,16 @@ describe('Subvenue Alias Model', function() {
         done()
       })
     })
+
+    it('should make requests on destroy with ID', function(done) {
+      subvenueAlias.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/subvenues/1/subvenue_aliases/2')
+        done()
+      })
+    })
   })
 
 })
