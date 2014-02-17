@@ -69,7 +69,7 @@ describe('Persona Model', function() {
     })
 
     it("should make a request for personas with personaId ", function(done){
-      testPersona.fetch(function(err, role_assignments, resp) {
+      testPersona.fetch(function(err, roleAssignments, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
@@ -79,7 +79,7 @@ describe('Persona Model', function() {
     })
 
     it("should make a put requests on save with personaId", function(done){
-      testPersona.save(function(err, role_assignments, resp) {
+      testPersona.save(function(err, roleAssignments, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'PUT')
@@ -90,7 +90,7 @@ describe('Persona Model', function() {
 
     it("should make a post requests on save without personaId", function(done){
       delete testPersona.id
-      testPersona.save(function(err, role_assignments, resp) {
+      testPersona.save(function(err, roleAssignments, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'POST')
@@ -100,7 +100,7 @@ describe('Persona Model', function() {
     })
 
     it("should make a requests on destroy with personaId", function(done){
-      testPersona.destroy(function(err, role_assignments, resp) {
+      testPersona.destroy(function(err, roleAssignments, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'DELETE')
@@ -109,8 +109,8 @@ describe('Persona Model', function() {
       })
     })
 
-    it("should make a request for role_assignments with personaId ", function(done){
-      testPersona.role_assignments(function(err, role_assignments, resp) {
+    it("should make a request for roleAssignments with personaId ", function(done){
+      testPersona.roleAssignments(function(err, roleAssignments, resp) {
         assert(!err)
         assert(!!resp)
         assert.equal(resp.req.method, 'GET')
