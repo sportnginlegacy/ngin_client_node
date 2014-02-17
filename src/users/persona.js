@@ -60,13 +60,13 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    permissions: function(options, callback) {
+    role_assignments: function(options, callback) {
       if (typeof options === 'function') {
         callback = options, options = {}
       }
       options || (options = {})
-      var url = Persona.urlRoot() + '/' + this.id + '/permissions'
-      return ngin.Permission.list(_.extend({}, options, {url:url}), callback)
+      var url = Persona.urlRoot() + '/' + this.id + '/role_assignments'
+      return ngin.RoleAssignment.list(_.extend({}, options, {url:url}), callback)
     },
 
     groups: function(options, callback) {
