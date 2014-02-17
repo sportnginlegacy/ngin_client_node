@@ -69,10 +69,6 @@ module.exports = function(ngin) {
       return ngin.GameLimits.create({flight_id: this.id}).fetch(callback)
     },
 
-    standingsDefaults: function(callback) {
-      return ngin.StandingsDefault.create({flight_id: this.id}).fetch(callback)
-    },
-
     standingsPreference: function(callback) {
       return ngin.StandingsPreference.create({flight_id: this.id}).fetch(callback)
     },
