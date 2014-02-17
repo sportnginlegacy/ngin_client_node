@@ -75,7 +75,7 @@ module.exports = function(ngin) {
       }
       options || (options = {})
       var url = Persona.urlRoot() + '/' + this.id + '/groups'
-      return ngin.Permission.list(_.extend({}, options, {url:url}), callback)
+      return ngin.RoleAssignment.list(_.extend({}, options, {url:url}), callback)
     },
 
     removeFromOrg: function(orgID, callback) {
