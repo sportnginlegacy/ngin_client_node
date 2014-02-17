@@ -60,7 +60,7 @@ module.exports = function(ngin) {
       return Super.destroy.call(this, url, options, callback)
     },
 
-    role_assignments: function(options, callback) {
+    roleAssignments: function(options, callback) {
       if (typeof options === 'function') {
         callback = options, options = {}
       }
