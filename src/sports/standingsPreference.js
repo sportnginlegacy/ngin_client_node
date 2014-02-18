@@ -17,10 +17,15 @@ module.exports = function(ngin) {
 
   function scopeUrl(options, inst) {
     options = _.extend(_.clone(options || {}), inst)
-    if (!options || !options.division_id || !options.game_type)
-      throw new Error('division_id and game_type required to make standings preference api calls')
 
-    var route = ngin.Division.urlRoot() + '/' + options.division_id + StandingsPreference.urlRoot() + '/' + options.game_type
+    if (options && options.flight_id) {
+      var route = ngin.Flight.urlRoot() + '/' + options.flight_id + StandingsPreference.urlRoot()
+    } else if (options && (options.division_id && options.game_type)) {
+      var route = ngin.Division.urlRoot() + '/' + options.division_id + StandingsPreference.urlRoot() + '/' + options.game_type
+    } else {
+      throw new Error('flight_id or division_id and game_type required to make standings preference api calls')
+    }
+
     var base = config.urls && config.urls.sports || config.url
     return Url.resolve(base, route)
   }
