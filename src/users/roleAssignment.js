@@ -14,23 +14,23 @@ module.exports = function(ngin) {
    * @api public
    */
 
-  var Permission = Model.extend({
+  var RoleAssignment = Model.extend({
 
   },{
 
     urlRoot: function() {
       var base = config.urls && config.urls.users || config.url
-      return Url.resolve(base, '/permissions')
+      return Url.resolve(base, '/role_assignments')
     },
 
     list: function(options, callback) {
       if (!options.url)
-        return callback(new Error('No url provided for Permission list'))
+        return callback(new Error('No url provided for Role Assignment list'))
       return Model.list.call(this, null, options, callback)
     }
 
   })
 
-  return Permission
+  return RoleAssignment
 
 }

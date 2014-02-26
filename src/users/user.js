@@ -34,11 +34,11 @@ module.exports = function(ngin) {
 
     parse: function(attr) {
       var attr = Super.parse.call(this, attr)
-      return _.extend({}, attr.user, { permissions: attr.permissions })
+      return _.extend({}, attr.user)
     },
 
     isThirdNorth: function() {
-      return this.permissions && this.permissions.some(isThirdNorth)
+      return this.role_assignments && this.role_assignments.some(isThirdNorth)
     },
 
     personas: function(callback) {

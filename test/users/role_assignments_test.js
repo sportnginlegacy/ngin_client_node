@@ -8,7 +8,7 @@ var ngin = new NginClient(require('../fixtures/config.js'))
 
 var server
 
-describe('Permission Model', function() {
+describe('Role Assignment Model', function() {
 
   before(function(done) {
     server = Server(done)
@@ -18,15 +18,15 @@ describe('Permission Model', function() {
     server.close(done)
   })
 
-  describe('Permission Class', function() {
+  describe('RoleAssignment Class', function() {
 
     it("should make a request on list with url", function(done) {
-      var url = 'http://localhost:1337/permissions/1'
-      ngin.Permission.list({url:url}, function(err, data, resp) {
+      var url = 'http://localhost:1337/role_assignments/1'
+      ngin.RoleAssignment.list({url:url}, function(err, data, resp) {
         assert(!err)
         assert(!!data)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(resp.req.path, '/permissions/1')
+        assert.equal(resp.req.path, '/role_assignments/1')
         done()
       })
     })
@@ -40,12 +40,12 @@ describe('Permission Model', function() {
 
   })
 
-  describe('Permission Instance', function() {
+  describe('RoleAssignment Instance', function() {
 
     var permisison
 
     before(function() {
-      permisison = new ngin.Permission({id:1}, {fetched:true})
+      permisison = new ngin.RoleAssignment({id:1}, {fetched:true})
     })
 
     it('should throw on fetch', function(done) {
