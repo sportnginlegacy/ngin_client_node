@@ -88,6 +88,16 @@ describe('Flight Stage Model', function() {
       })
     })
 
+    it('should make requests on advancement_slots with flight_stage_id and flight_id', function(done) {
+      testFlightStage.advancement_slots(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.method, 'GET')
+        assert.equal(opts.req.path, '/flights/1/flight_stages/1/advancement_slots')
+        done()
+      })
+    })
+
     it('should make requests on teams_advancing with flight_stage_id and flight_id', function(done) {
       testFlightStage.teams_advancing(function(err, f, opts) {
         assert(!err)

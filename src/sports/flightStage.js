@@ -70,6 +70,11 @@ module.exports = function(ngin) {
       return ngin.Standings.create({ flight_stage_id:this.id }).fetch(callback)
     },
 
+    advancement_slots: function(callback) {
+      var url = scopeUrl({}, this) + '/' + this.id + '/advancement_slots'
+      return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
+    },
+
     teams_advancing: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
