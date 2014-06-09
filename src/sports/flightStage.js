@@ -75,12 +75,12 @@ module.exports = function(ngin) {
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
-    teams_advancing: function(callback) {
+    teamsAdvancing: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
-    advance_teams: function(callback) {
+    advanceTeams: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       // please pardon the temporary ugliness until 1 pool 2 brackets is done
       // I simply can't assume next_stage_id exists yet
