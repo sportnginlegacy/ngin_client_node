@@ -129,10 +129,10 @@ describe('Flight Stage Model', function() {
     })
 
     it('OLD advance_teams method should still work', function(done) {
-      testFlightStage.teams_advancing(function(err, f, opts) {
+      testFlightStage.advance_teams(function(err, f, opts) {
         assert(!err)
         assert(!!opts)
-        assert.equal(opts.req.method, 'GET')
+        assert.equal(opts.req.method, 'POST')
         assert.equal(opts.req.path, '/flights/1/flight_stages/1/teams_advancing')
         done()
       })
