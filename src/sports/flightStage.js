@@ -82,6 +82,9 @@ module.exports = function(ngin) {
 
     // Old snake_case method
     teams_advancing: function() {
+      console.warn('Code is using deprecated teams_advancing, switch to teamsAdvancing')
+      var where = (new Error().stack || '').split('\n', 3)[2]
+      console.warn(where)
       this.teamsAdvancing.apply(this, arguments)
     },
 
@@ -96,6 +99,9 @@ module.exports = function(ngin) {
 
     // Old snake_case method
     advance_teams: function() {
+      console.warn('Code is using deprecated advance_teams, switch to advanceTeams')
+      var where = (new Error().stack || '').split('\n', 3)[2]
+      console.warn(where)
       this.advanceTeams.apply(this, arguments)
     },
 
