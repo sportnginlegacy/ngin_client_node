@@ -108,11 +108,31 @@ describe('Flight Stage Model', function() {
       })
     })
 
+    it('OLD teams_advancing method should still work', function(done) {
+      testFlightStage.teams_advancing(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.method, 'GET')
+        assert.equal(opts.req.path, '/flights/1/flight_stages/1/teams_advancing')
+        done()
+      })
+    })
+
     it('should make requests on advance_teams with flight_stage_id and flight_id', function(done) {
       testFlightStage.advanceTeams(function(err, f, opts) {
         assert(!err)
         assert(!!opts)
         assert.equal(opts.req.method, 'POST')
+        assert.equal(opts.req.path, '/flights/1/flight_stages/1/teams_advancing')
+        done()
+      })
+    })
+
+    it('OLD advance_teams method should still work', function(done) {
+      testFlightStage.teams_advancing(function(err, f, opts) {
+        assert(!err)
+        assert(!!opts)
+        assert.equal(opts.req.method, 'GET')
         assert.equal(opts.req.path, '/flights/1/flight_stages/1/teams_advancing')
         done()
       })

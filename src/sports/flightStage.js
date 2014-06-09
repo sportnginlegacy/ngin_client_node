@@ -80,6 +80,11 @@ module.exports = function(ngin) {
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
+    // Old snake_case method
+    teams_advancing: function() {
+      this.teamsAdvancing.apply(this, arguments)
+    },
+
     advanceTeams: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       // please pardon the temporary ugliness until 1 pool 2 brackets is done
@@ -87,6 +92,11 @@ module.exports = function(ngin) {
       var data = { teams:this.teams }
       if (this.next_stage_id) { data.next_stage_id = this.next_stage_id }
       return FlightStage.sync('create', data, { url:url }, this.callbackWithParse(callback)) // Stat Ngin expects a POST
+    },
+
+    // Old snake_case method
+    advance_teams: function() {
+      this.advanceTeams.apply(this, arguments)
     },
 
     brackets: function(callback) {
