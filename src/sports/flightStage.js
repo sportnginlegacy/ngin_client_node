@@ -75,18 +75,34 @@ module.exports = function(ngin) {
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
-    teams_advancing: function(callback) {
+    teamsAdvancing: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
-    advance_teams: function(callback) {
+    // Old snake_case method
+    teams_advancing: function() {
+      console.warn('Code is using deprecated teams_advancing, switch to teamsAdvancing')
+      var where = (new Error().stack || '').split('\n', 3)[2]
+      if (where) console.warn(where)
+      this.teamsAdvancing.apply(this, arguments)
+    },
+
+    advanceTeams: function(callback) {
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
       // please pardon the temporary ugliness until 1 pool 2 brackets is done
       // I simply can't assume next_stage_id exists yet
       var data = { teams:this.teams }
       if (this.next_stage_id) { data.next_stage_id = this.next_stage_id }
       return FlightStage.sync('create', data, { url:url }, this.callbackWithParse(callback)) // Stat Ngin expects a POST
+    },
+
+    // Old snake_case method
+    advance_teams: function() {
+      console.warn('Code is using deprecated advance_teams, switch to advanceTeams')
+      var where = (new Error().stack || '').split('\n', 3)[2]
+      if (where) console.warn(where)
+      this.advanceTeams.apply(this, arguments)
     },
 
     brackets: function(callback) {
