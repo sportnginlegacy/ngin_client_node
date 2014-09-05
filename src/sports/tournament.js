@@ -52,7 +52,7 @@ module.exports = function(ngin) {
     },
 
     swapTeams: function(teamIDs, callback) {
-      var url = Tournament.urlRoot() + '/' + this.id + '/swap_teams/'
+      var url = Tournament.urlRoot() + '/' + this.id + '/swap_teams'
       var data = {team_ids: teamIDs}
       return Tournament.sync('update', data, { url:url }, callback)
     },
