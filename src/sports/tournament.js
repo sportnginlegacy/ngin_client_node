@@ -51,6 +51,12 @@ module.exports = function(ngin) {
       return Tournament.sync('delete', null, { url:url }, callback)
     },
 
+    swapTeams: function(teamIDs, callback) {
+      var url = Tournament.urlRoot() + '/' + this.id + '/swap_teams/'
+      var data = {team_ids: teamIDs}
+      return Tournament.sync('update', data, { url:url }, callback)
+    },
+
     flightDefaults: function(callback) {
       return ngin.FlightDefault.create({tournament_id: this.id}).fetch(callback)
     },
