@@ -111,6 +111,16 @@ describe('Tournament Model', function() {
       })
     })
 
+    it('should make requests on swapTeams with teamIDs', function(done) {
+      testTournament.swapTeams([1,2], function(err, tournament, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/tournaments/1/swap_teams')
+        done()
+      })
+    })
+
     it('should make requests on flightDefaults with tournamentID', function(done) {
       testTournament.flightDefaults(function(err, flightDefaults, resp) {
         assert(!err)
