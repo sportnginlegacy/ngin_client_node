@@ -75,9 +75,12 @@ module.exports = function(ngin) {
       return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
     },
 
-    teamsAdvancing: function(callback) {
+    teamsAdvancing: function(query, callback) {
+      if (_.isFunction(query) && callback === undefined) {
+        callback = query, query = undefined
+      }
       var url = scopeUrl({}, this) + '/' + this.id + '/teams_advancing'
-      return FlightStage.sync('fetch', null, { url:url }, this.callbackWithParse(callback))
+      return FlightStage.sync('fetch', null, { url:url, query: query }, this.callbackWithParse(callback))
     },
 
     // Old snake_case method
