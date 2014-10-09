@@ -163,7 +163,7 @@ module.exports = function(ngin) {
 
           // check for a single page request
           if (options.page || !pagination || (pagination && pagination.total_pages === 1)) {
-            list._pagination = pagination
+            if (options.page !== 0) list._pagination = pagination
             return callback(err, list, resp)
           }
 
