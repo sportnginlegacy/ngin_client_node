@@ -22,6 +22,8 @@ module.exports = function(ngin) {
 
   var TeamStats = SportsModel.extend({
 
+  }, {
+
     urlRoot: function(options) {
       return '/team_stats'
     }
