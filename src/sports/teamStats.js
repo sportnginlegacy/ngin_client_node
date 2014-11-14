@@ -22,13 +22,42 @@ module.exports = function(ngin) {
 
   var TeamStats = SportsModel.extend({
 
+    fetch: function(options, callback) {
+      var url = TeamStats.urlRoot() + '/' + this.id
+      return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = TeamStats.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      var url = TeamStats.urlRoot() + '/' + this.id
+      return Super.destroy.call(this, url, options, callback)
+    },
+
+    aggregateFromPlayers: function(options, callback) {
+      var url = TeamStats.urlRoot() + '/aggregate_from_players'
+      return TeamStats.sync('create', options, { url: url }, this.callbackWithParse(callback))
+    },
+
+    setGameResult: function(options, callback) {
+      var url = TeamStats.urlRoot() + '/' + this.id + '/set_game_result'
+      return TeamStats.sync('create', options, { url: url }, this.callbackWithParse(callback))
+    }
+
   }, {
 
     urlRoot: function(options) {
-      return '/team_stats'
-    }
+      var base = config.urls && config.urls.sports || config.url
+      return Url.resolve(base, '/team_stats')
+    },
 
-    // TODO: add list/show/save methods?
+    list: function(options, callback) {
+      var url = TeamStats.urlRoot()
+      return SportsModel.list.call(this, url, options, callback)
+    }
 
   })
 
