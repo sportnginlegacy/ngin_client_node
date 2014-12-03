@@ -17,9 +17,8 @@ module.exports = function(ngin) {
    */
 
   function formatQuery(options) {
-    console.log("VALIDATE:", options)
     var requiredParams
-    if (typeof options !== 'function') {
+    if (options && typeof options !== 'function') {
       options.query = requiredParams = _.pick(_.extend({}, options, options.query), 'tournament_id', 'league_id', 'flight_id', 'division_id')
     }
     if (_.isEmpty(requiredParams)) throw new Error('tournament_id, league_id, flight_id or division_id are required.')
@@ -34,7 +33,7 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      formatQuery()
+      formatQuery(options)
       options.method = options.method || 'PUT'
       var url = GameDefaults.urlRoot()
       return Super.save.call(this, url, options, callback)
