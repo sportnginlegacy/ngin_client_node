@@ -51,7 +51,7 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       var base = config.urls && config.urls.sports || config.url
-      return Url.resolve(base, '/team_stats')
+      return Url.resolve(base, '/game_team_stats')
     },
 
     list: function(options, callback) {
