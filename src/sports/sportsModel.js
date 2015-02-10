@@ -1,5 +1,6 @@
 "use strict"
 var _ = require('underscore')
+var Url = require('url')
 
 module.exports = function(ngin) {
   var config = ngin.config
@@ -35,6 +36,11 @@ module.exports = function(ngin) {
 
     baseUrl: function() {
       return config.urls && config.urls.sports || config.url
+    },
+
+    resolve: function() {
+      var args = [SportsModel.baseUrl()].concat(Array.prototype.slice.call(arguments, 0))
+      return Url.resolve.apply(this, args)
     }
 
   })
