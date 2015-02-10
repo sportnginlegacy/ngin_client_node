@@ -31,6 +31,10 @@ module.exports = function(ngin) {
       options || (options = {})
       options.headers = _.extend({}, headers, options.headers)
       return Model.sync(method, model, options, callback)
+    },
+
+    baseUrl: function() {
+      return config.urls && config.urls.sports || config.url
     }
 
   })
