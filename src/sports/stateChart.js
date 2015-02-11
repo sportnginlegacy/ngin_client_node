@@ -16,8 +16,7 @@ module.exports = function(ngin) {
   var StateChart = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = StateChart.urlRoot() + '/' + this.id
-      return Super.fetch.call(this, url, options, callback)
+      return Super.fetch.call(this, this.urlById(), options, callback)
     }
 
   }, {
