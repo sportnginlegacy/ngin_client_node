@@ -4,6 +4,7 @@ var crypto = require('crypto')
 var Url = require('url')
 var request = require('request')
 var _ = require('underscore')
+var Auth = require('./auth')
 
 
 // Map from CRUD to HTTP for the default `sync` implementation.
@@ -13,6 +14,7 @@ var methodMap = {
   'delete': 'DELETE',
   'read':   'GET'
 }
+
 
 module.exports = function(ngin) {
   var config = ngin.config
@@ -76,13 +78,8 @@ module.exports = function(ngin) {
     }
 
     // setup authorization
-    if (auth && auth.access_token) {
-      params.headers.Authorization = 'Bearer ' + auth.access_token
-    }
-    else if (auth && auth.auth_key) {
-      params.headers['auth-client-id'] = config.clientID
-      params.headers['auth-timestamp'] = auth.auth_timestamp
-      params.headers['auth-key'] = auth.auth_key
+    if (auth) {
+      _.extend(params.headers, Auth.getAuthHeaders(config.clientID, auth))
     }
 
     var t = +new Date
