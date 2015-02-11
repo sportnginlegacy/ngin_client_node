@@ -33,8 +33,10 @@ module.exports = function(ngin) {
 
   var NginModel = Model.extend({
 
-    urlById: function() {
-      return this.constructor.urlRoot() + '/' + this.id
+    urlById: function(optional) {
+      var url = this.constructor.urlRoot()
+      if (this.id || !optional) url += '/'+ this.id
+      return url
     },
 
     fetch: function(url, options, callback) {
