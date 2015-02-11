@@ -79,6 +79,15 @@ describe('Play Model', function() {
       })
     })
 
+    it('should make requests on destroy with ID', function(done) {
+      testPlay.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/plays/1')
+        done()
+      })
+    })
   })
 
 })

@@ -22,6 +22,10 @@ module.exports = function(ngin) {
     save: function(options, callback) {
       var url = Play.urlRoot() + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      return Super.destroy.call(this, this.urlById(), options, callback)
     }
 
   }, {
