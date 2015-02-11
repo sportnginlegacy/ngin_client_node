@@ -16,8 +16,7 @@ module.exports = function(ngin) {
   var Play = SportsModel.extend({
 
     fetch: function(options, callback) {
-      var url = Play.urlRoot() + '/' + this.id
-      return Super.fetch.call(this, url, options, callback)
+      return Super.fetch.call(this, this.urlById(), options, callback)
     },
 
     save: function(options, callback) {
