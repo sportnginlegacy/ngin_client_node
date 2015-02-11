@@ -50,4 +50,36 @@ describe('Play Model', function() {
 
   })
 
+  describe('Play Instance', function() {
+
+    var testPlay
+
+    beforeEach(function() {
+      testPlay = ngin.Play.create({ id: 1 }, { fetched: true })
+    })
+
+    it('should make requests on save with ID', function(done) {
+      testPlay.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/plays/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testPlay.id
+      testPlay.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/plays')
+        done()
+      })
+    })
+
+  })
+
 })
+
