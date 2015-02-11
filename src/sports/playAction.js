@@ -17,6 +17,15 @@ module.exports = function(ngin) {
 
     fetch: function(options, callback) {
       return Super.fetch.call(this, this.urlById(), options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = PlayAction.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
+    },
+
+    destroy: function(options, callback) {
+      return Super.destroy.call(this, this.urlById(), options, callback)
     }
 
   }, {
