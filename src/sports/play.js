@@ -20,8 +20,7 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      var url = this.urlById(true)
-      return Super.save.call(this, url, options, callback)
+      return Super.save.call(this, this.urlById(true), options, callback)
     },
 
     destroy: function(options, callback) {
