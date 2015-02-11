@@ -33,6 +33,12 @@ module.exports = function(ngin) {
 
   var NginModel = Model.extend({
 
+    urlById: function(optional) {
+      var url = this.constructor.urlRoot()
+      if (this.id || !optional) url += '/'+ this.id
+      return url
+    },
+
     fetch: function(url, options, callback) {
       var args = normalizeParams(url, options, callback)
       if (!args[0].url) throw new Error('Url not present or fetch not implemented.')
