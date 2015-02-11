@@ -20,7 +20,7 @@ module.exports = function(ngin) {
     },
 
     save: function(options, callback) {
-      var url = Play.urlRoot() + (this.id ? '/' + this.id : '')
+      var url = this.urlById(true)
       return Super.save.call(this, url, options, callback)
     },
 
