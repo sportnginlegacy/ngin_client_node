@@ -32,6 +32,11 @@ module.exports = function(ngin) {
     },
 
     list: function(options, callback) {
+      if (!options.game_id)
+        return callback(new Error('game_id is required to list plays'))
+      options.query = options.query || {}
+      options.query.game_id = options.game_id
+
       var url = Play.urlRoot()
       return SportsModel.list.call(this, url, options, callback)
     }
