@@ -18,6 +18,11 @@ module.exports = function(ngin) {
     fetch: function(options, callback) {
       var url = Play.urlRoot() + '/' + this.id
       return Super.fetch.call(this, url, options, callback)
+    },
+
+    save: function(options, callback) {
+      var url = Play.urlRoot() + (this.id ? '/' + this.id : '')
+      return Super.save.call(this, url, options, callback)
     }
 
   }, {
