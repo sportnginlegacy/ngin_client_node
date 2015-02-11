@@ -51,4 +51,45 @@ describe('PlayAction Model', function() {
 
   })
 
+  describe('PlayAction Instance', function() {
+
+    var testPlayAction
+
+    beforeEach(function() {
+      testPlayAction = ngin.PlayAction.create({ id: 1 }, { fetched: true })
+    })
+
+    it('should make requests on save with ID', function(done) {
+      testPlayAction.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/play_actions/1')
+        done()
+      })
+    })
+
+    it('should make requests on save without ID', function(done) {
+      delete testPlayAction.id
+      testPlayAction.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'POST')
+        assert.equal(resp.req.path, '/play_actions')
+        done()
+      })
+    })
+
+    it('should make requests on destroy with ID', function(done) {
+      testPlayAction.destroy(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'DELETE')
+        assert.equal(resp.req.path, '/play_actions/1')
+        done()
+      })
+    })
+
+  })
+
 })
