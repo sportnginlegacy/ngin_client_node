@@ -35,7 +35,7 @@ module.exports = function(ngin) {
 
     list: function(options, callback) {
       if (!options.play_id)
-        return callback(new Error('play_id is required to list plays'))
+        return callback(new Error('play_id is required'))
       options.query = options.query || {}
       options.query.play_id = options.play_id
 
