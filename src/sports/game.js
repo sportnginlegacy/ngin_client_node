@@ -35,6 +35,11 @@ module.exports = function(ngin) {
     gameSheet: function(options, callback) {
       var url = Game.urlRoot() + '/' + this.id + '/game_sheet'
       return ngin.GameSheet.create({}).fetch(url, options, callback)
+    },
+
+    rebuildFromPlayActions: function(options, callback) {
+      var url = Game.urlRoot() + '/' + this.id + '/rebuild_from_play_actions'
+      return Super.save.call(this, url, options, callback)
     }
 
   },{
