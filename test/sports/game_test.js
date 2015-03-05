@@ -94,7 +94,7 @@ describe('Game Model', function() {
       game.rebuildFromPlayActions(function(err, data, resp) {
         assert(!err)
         assert(!!resp)
-        assert.equal(resp.req.method, 'GET')
+        assert.equal(resp.req.method, 'PUT')
         assert.equal(resp.req.path, '/games/1/rebuildFromPlayActions')
         done()
       })
