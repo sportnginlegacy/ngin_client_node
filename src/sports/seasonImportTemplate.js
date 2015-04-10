@@ -14,20 +14,23 @@ module.exports = function(ngin) {
    * @param {Object} options
    * @api public
    */
-  // - test fetch throws error
-  // - everthing blows up
-
   var SeasonImportTemplate = SportsModel.extend({
 
-    fetch: function(options, callback) {
-      return Super.fetch.call(this, this.urlById(), options, callback)
+    fetch: function(callback) {
+      if (!this.season_id) return callback(new Error('"season_id" required'))
+      if (!this.type) return callback(new Error('"type" is required'))
+
+      return Super.fetch.call(this, SeasonImportTemplate.urlRoot(this), this, callback)
     }
 
   },{
 
     urlRoot: function(options) {
-      var base = config.urls && config.urls.sports || config.url
-      var url = '/seasons/' + options.season_id + '/import_templates'
+      var format = options.format || 'csv'
+      var url = '/seasons/' + options.season_id + '/import_templates.' + format
+      url += '?type=' + options.type
+
+      var base = _.result(config.urls, 'sports') || config.url
       return Url.resolve(base, url)
     }
 
