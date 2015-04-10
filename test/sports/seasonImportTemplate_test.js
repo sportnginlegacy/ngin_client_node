@@ -19,7 +19,12 @@ describe('SeasonImportTemplate Model', function() {
   })
 
   describe('SeasonImportTemplate Class', function() {
-    // No methods (besides urlRoot())
+
+    it('should build a proper base url', function() {
+      var urlRoot = ngin.SeasonImportTemplate.urlRoot({ season_id: 1, type: 'player' })
+      assert.equal('http://localhost:1337/seasons/1/import_templates.csv?type=player', urlRoot)
+    })
+
   })
 
   describe('SeasonImportTemplate Instance', function() {
@@ -27,47 +32,28 @@ describe('SeasonImportTemplate Model', function() {
     var seasonImportTemplate
 
     beforeEach(function() {
-      seasonImportTemplate = ngin.SeasonImportTemplate.create({ season_id: 1, type: 'team', csv_string: 'asdf' }, { fetched: true })
+      seasonImportTemplate = ngin.SeasonImportTemplate.create({ season_id: 1, type: 'player' }, { fetched: true })
     })
 
-    it('should fail to make requests on save without season_id', function(done) {
-      seasonImportTemplate.season_id = null
-      seasonImportTemplate.save(function(err, data, resp) {
-        assert(!!err)
-        done()
-      })
-    })
-
-    it('should fail to make requests on save without type', function(done) {
-      seasonImportTemplate.type = null
-      seasonImportTemplate.save(function(err, data, resp) {
-        assert(!!err)
-        done()
-      })
-    })
-
-    it('should fail to make requests on save without csv_string', function(done) {
-      seasonImportTemplate.csv_string = null
-      seasonImportTemplate.save(function(err, data, resp) {
-        assert(!!err)
-        done()
-      })
-    })
-
-    it('should fail to make requests on save with ID', function(done) {
-      seasonImportTemplate.id = 1
-      seasonImportTemplate.save(function(err, data, resp) {
-        assert(!!err)
-        done()
-      })
-    })
-
-    it('should make requests on save without ID', function(done) {
-      seasonImportTemplate.save(function(err, data, resp) {
+    it('should make requests with valid parameters', function(done) {
+      seasonImportTemplate.fetch(function(err, data, resp) {
         assert(!err)
-        assert(!!resp)
-        assert.equal(resp.req.method, 'POST')
-        assert.equal(resp.req.path, '/seasons/1/import_jobs')
+        done()
+      })
+    })
+
+    it('should fail to make requests on fetch without season_id', function(done) {
+      seasonImportTemplate.season_id = null
+      seasonImportTemplate.fetch(function(err, data, resp) {
+        assert(!!err)
+        done()
+      })
+    })
+
+    it('should fail to make requests on fetch without type', function(done) {
+      seasonImportTemplate.type = null
+      seasonImportTemplate.fetch(function(err, data, resp) {
+        assert(!!err)
         done()
       })
     })
