@@ -22,7 +22,7 @@ describe('SeasonImportTemplate Model', function() {
 
     it('should build a proper base url', function() {
       var urlRoot = ngin.SeasonImportTemplate.urlRoot({ season_id: 1, type: 'player' })
-      assert.equal('http://localhost:1337/seasons/1/import_templates.csv?type=player', urlRoot)
+      assert.equal('http://localhost:1337/seasons/1/import_templates/player.csv', urlRoot)
     })
 
   })
