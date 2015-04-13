@@ -29,8 +29,7 @@ module.exports = function(ngin) {
 
     urlRoot: function(options) {
       var format = options.format || 'csv'
-      var url = '/seasons/' + options.season_id + '/import_templates.' + format
-      url += '?type=' + options.type
+      var url = '/seasons/' + options.season_id + '/import_templates/' + options.type + '.' + format
 
       var base = _.result(config.urls, 'sports') || config.url
       return Url.resolve(base, url)
