@@ -16,6 +16,8 @@ module.exports = function(ngin) {
    */
   var SeasonImportTemplate = SportsModel.extend({
 
+    extendSelf: false,
+
     fetch: function(callback) {
       if (!this.season_id) return callback(new Error('"season_id" required'))
       if (!this.type) return callback(new Error('"type" is required'))
