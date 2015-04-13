@@ -22,6 +22,8 @@ module.exports = function(ngin) {
 
     initialize: function() {},
 
+    extendSelf: true, // Only used by fetch (should probably be used by others)
+
     isValid: function(options) {
       return !this.validate || !this.validate(options)
     },
@@ -35,8 +37,10 @@ module.exports = function(ngin) {
       return this.sync('read', options, function(err, data, resp) {
         if (err) return callback(err, self, resp)
         data = self.parse(data, resp)
-        _.extend(self, data)
-        callback(err, self, resp)
+        if (self.extendSelf) {
+          data = _.extend(self, data)
+        }
+        callback(err, data, resp)
       })
     },
 
