@@ -166,7 +166,7 @@ module.exports = function(ngin) {
         self.fromList(data, function(err, list) {
 
           // check for a single page request
-          if (options.page || !pagination || (pagination && pagination.total_pages === 1)) {
+          if (options.page || _.result(options.query, 'page') || !pagination || (pagination && pagination.total_pages === 1)) {
             if (options.page !== 0) list._pagination = pagination
             return callback(err, list, resp)
           }
