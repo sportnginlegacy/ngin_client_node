@@ -28,7 +28,7 @@ module.exports = function(ngin) {
   var SubvenueAlias = Model.extend({
 
     save: function(options, callback) {
-      var url = scopeUrl(options)
+      var url = scopeUrl(options) + (this.id ? '/' + this.id : '')
       return Super.save.call(this, url, options, callback)
     },
 

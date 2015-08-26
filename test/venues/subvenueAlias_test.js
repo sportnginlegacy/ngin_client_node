@@ -56,6 +56,16 @@ describe('Subvenue Alias Model', function() {
       })
     })
 
+    it('should make requests on update with ID', function(done) {
+      subvenueAlias.save(function(err, data, resp) {
+        assert(!err)
+        assert(!!resp)
+        assert.equal(resp.req.method, 'PUT')
+        assert.equal(resp.req.path, '/subvenue_aliases/2')
+        done()
+      })
+    })
+
     it('should make requests on destroy with ID', function(done) {
       subvenueAlias.destroy(function(err, data, resp) {
         assert(!err)
