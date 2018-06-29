@@ -62,7 +62,6 @@ module.exports = function(ngin) {
     // translate from query to qs for request
     if (params.query) {
       params.qs = _.extend({}, params.query)
-      params.qsStringifyOptions = { arrayFormat: 'brackets' }
     }
 
     // put the org id on the query string
