@@ -45,7 +45,7 @@ describe('Organization Model', function() {
         assert(!err)
         assert(!!org)
         assert.equal(resp.req.method, 'GET')
-        assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/mine')
+        assert.equal(JSON.parse(resp.body).metadata.url, '/organizations/my_admin_access')
         done()
       })
     })

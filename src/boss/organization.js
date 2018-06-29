@@ -37,7 +37,8 @@ module.exports = function(ngin) {
 
     mine: function(options, callback) {
       if (typeof options == 'function') callback = options, options = {}
-      var url = Organization.urlRoot() + '/mine'
+      if(config.my_admin_access_roles) options.query = _.extend({}, options.query, {roles:config.my_admin_access_roles})
+      var url = Organization.urlRoot() + '/my_admin_access'
       return Model.list.call(this, url, options, callback)
     }
 
