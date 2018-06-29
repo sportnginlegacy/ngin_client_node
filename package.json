@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "0.2.x",
     "glob": "*",
-    "request": "2.16.6",
+    "request": "^2.72.0",
     "underscore": "*",
     "extendable": "git://github.com/mikefrey/extendable-1"
   },
