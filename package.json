@@ -5,15 +5,15 @@
   "main": "./index.js",
   "dependencies": {
     "async": "0.2.x",
-    "glob": "*",
+    "glob": "4.4.x",
     "request": "^2.72.0",
-    "underscore": "*",
+    "underscore": "1.8.x",
     "extendable": "git://github.com/mikefrey/extendable-1"
   },
   "devDependencies": {
-    "mocha": "*",
-    "sinon": "*",
-    "blanket": "*"
+    "mocha": "2.1.x",
+    "sinon": "1.13.x",
+    "blanket": "1.1.x"
   },
   "engines": {
     "node": ">=0.8.0 <0.11"
