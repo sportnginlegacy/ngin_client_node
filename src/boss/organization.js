@@ -35,13 +35,19 @@ module.exports = function(ngin) {
       return Model.list.call(this, url, options, callback)
     },
 
-    mine: function(options, callback) {
+    my_admin_access: function(options, callback) {
       if (typeof options == 'function') callback = options, options = {}
       if (config.my_admin_access_roles) {
         options.query = _.extend({}, options.query, { roles: config.my_admin_access_roles })
         options.qsStringifyOptions = _.extend({}, options.qsStringifyOptions, { arrayFormat: 'brackets' })
       }
       var url = Organization.urlRoot() + '/my_admin_access'
+      return Model.list.call(this, url, options, callback)
+    },
+
+    mine: function(options, callback) {
+      if (typeof options == 'function') callback = options, options = {}
+      var url = Organization.urlRoot() + '/mine'
       return Model.list.call(this, url, options, callback)
     }
 
